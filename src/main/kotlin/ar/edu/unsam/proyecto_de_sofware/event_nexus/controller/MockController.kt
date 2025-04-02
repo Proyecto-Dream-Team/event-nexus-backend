@@ -1,5 +1,8 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.controller
 
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.CreateEvent
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.EventModule
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.User
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
@@ -9,6 +12,13 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class MockController {
     @GetMapping("/mock")
-    fun mock() : String = "mock"
+    fun createEvent():String{
+        val user = User()
+        user.allowedModuleCommand.add(CreateEvent())
+        val createEventCommand = CreateEvent()
+        user.setModuleAction(createEventCommand)
+        user.executeModuleAction()
+        return "Ejecucion exitora"
+    }
 }
 
