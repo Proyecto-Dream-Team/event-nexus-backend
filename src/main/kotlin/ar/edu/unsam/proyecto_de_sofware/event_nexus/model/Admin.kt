@@ -10,10 +10,11 @@ class Admin():Person {
     override var active: Boolean = true
     override var permissions: MutableSet<ModuleCommand> = Role.EMPLOYEE_WATCHER.permissions.toMutableSet()
 
-    fun createAccount(username:String, password:String, role:Role): Authentication{
+    fun createAccount(username:String, password:String, email:String,  role:Role): Authentication{
         val account = Authentication()
         account.username = username
         account.password = password
+        account.email = email
         account.role = role.jobName
         return account
     }
