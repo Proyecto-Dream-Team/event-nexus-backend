@@ -1,5 +1,7 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.model
 
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.ModuleCommand
+
 open class User(var name: String, var lastname: String, role: Role){
     var userId: Long? = null
     var active: Boolean = true

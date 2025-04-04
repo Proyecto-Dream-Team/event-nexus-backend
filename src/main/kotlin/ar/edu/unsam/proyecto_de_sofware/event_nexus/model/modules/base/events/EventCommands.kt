@@ -1,30 +1,8 @@
-package ar.edu.unsam.proyecto_de_sofware.event_nexus.model
+package ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events
 
-// ////////////////////////////////////////////////////////////
-// MODULES
-// ////////////////////////////////////////////////////////////
-interface AppModule
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.ModuleCommand
 
-class EventModule: AppModule{
-
-    fun notifyEvent(){}
-
-    fun cancelEvent(){}
-
-    fun scheduleEvent(){}
-
-}
-
-// ////////////////////////////////////////////////////////////
-//  MODULE COMMANDS
-// ////////////////////////////////////////////////////////////
-
-
-interface ModuleCommand{
-    fun execute(userAllowedCommands: MutableSet<ModuleCommand>)
-}
-
-abstract class EventModuleCommand(val module:EventModule = EventModule()): ModuleCommand{
+abstract class EventModuleCommand(val module: EventModule = EventModule()): ModuleCommand {
     abstract fun doExecute()
 
     abstract fun check(userAllowedCommands: MutableSet<ModuleCommand>)
@@ -47,7 +25,6 @@ class CreateEvent: EventModuleCommand() {
     }
 }
 
-
 //class CancelEvent(): EventModuleCommand() {
 //    override fun doExecute() {
 //        module.cancelEvent()
@@ -59,4 +36,3 @@ class CreateEvent: EventModuleCommand() {
 //        module.scheduleEvent()
 //    }
 //}
-
