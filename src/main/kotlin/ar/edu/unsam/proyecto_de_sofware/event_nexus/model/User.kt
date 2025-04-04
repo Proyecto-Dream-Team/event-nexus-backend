@@ -1,10 +1,8 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.model
 
-class User{
-    var userId:Int = 1
-    var name:String = "Adrian"
-    var lastname:String = "Perez"
-    var active:Boolean = true
+open class User(var name: String, var lastname: String, role: Role){
+    var userId: Long? = null
+    var active: Boolean = true
 
     public var allowedModuleCommand = mutableSetOf<ModuleCommand>()
 

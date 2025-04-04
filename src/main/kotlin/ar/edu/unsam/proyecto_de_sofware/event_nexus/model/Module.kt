@@ -12,6 +12,7 @@ class EventModule: AppModule{
     fun cancelEvent(){}
 
     fun scheduleEvent(){}
+
 }
 
 // ////////////////////////////////////////////////////////////
@@ -45,6 +46,7 @@ class CreateEvent: EventModuleCommand() {
         }
     }
 }
+
 
 //class CancelEvent(): EventModuleCommand() {
 //    override fun doExecute() {

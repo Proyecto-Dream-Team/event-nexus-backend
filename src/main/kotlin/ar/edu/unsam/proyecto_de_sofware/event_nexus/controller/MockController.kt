@@ -14,8 +14,8 @@ class MockController {
     @GetMapping("/mock")
     fun createEvent():String{
         val user = User()
-        user.allowedModuleCommand.add(CreateEvent())
         val createEventCommand = CreateEvent()
+        user.allowedModuleCommand.add(createEventCommand)
         user.setModuleAction(createEventCommand)
         user.executeModuleAction()
         return "Ejecucion exitora"
