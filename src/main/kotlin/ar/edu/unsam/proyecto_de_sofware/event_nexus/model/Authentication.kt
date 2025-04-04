@@ -4,6 +4,6 @@ class Authentication{
     var id: Long? = null
     var username: String = ""
     var password: String = ""
-    var roleName: String = ""
+    var role: String = ""
 }
 
