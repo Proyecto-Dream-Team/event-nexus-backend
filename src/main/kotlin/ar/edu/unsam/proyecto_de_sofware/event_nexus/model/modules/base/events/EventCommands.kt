@@ -25,14 +25,26 @@ class CreateEvent: EventModuleCommand() {
     }
 }
 
-//class CancelEvent(): EventModuleCommand() {
-//    override fun doExecute() {
-//        module.cancelEvent()
-//    }
-//}
-//
-//class ScheduleEvent(): EventModuleCommand() {
-//    override fun doExecute() {
-//        module.scheduleEvent()
-//    }
-//}
+class CancelEvent: EventModuleCommand() {
+    override fun doExecute() {
+        module.cancelEvent()
+    }
+
+    override fun check(userAllowedCommands: MutableSet<ModuleCommand>) {
+        if(userAllowedCommands.filterIsInstance<CancelEvent>().isEmpty()){
+            throw Exception("FALLIDO")
+        }
+    }
+}
+
+class ScheduleEvent: EventModuleCommand() {
+    override fun doExecute() {
+        module.scheduleEvent()
+    }
+
+    override fun check(userAllowedCommands: MutableSet<ModuleCommand>) {
+        if(userAllowedCommands.filterIsInstance<ScheduleEvent>().isEmpty()){
+            throw Exception("FALLIDO")
+        }
+    }
+}
