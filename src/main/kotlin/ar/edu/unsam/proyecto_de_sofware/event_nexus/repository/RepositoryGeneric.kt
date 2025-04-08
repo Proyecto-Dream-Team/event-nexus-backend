@@ -1,6 +1,7 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.repository
 
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Authentication
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.User
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 
@@ -59,5 +60,10 @@ class AuthRepository(): Repository<Authentication>() {
         return instances.find { it.username == username }
     }
 
+
+}
+
+@Component
+class UserRepository(): Repository<User>() {
 
 }
