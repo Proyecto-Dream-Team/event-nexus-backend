@@ -1,6 +1,7 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.model
 
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.ModuleCommand
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.AvaliableInstance
 
 class Admin():Person {
 
@@ -9,7 +10,10 @@ class Admin():Person {
     override val job: String = Role.ADMIN.jobName
     override var active: Boolean = true
     override var permissions: MutableSet<ModuleCommand> = Role.EMPLOYEE_WATCHER.permissions.toMutableSet()
-
+    override var address: String = ""
+    override var phone: String = ""
+    override var email: String = ""
+    var id: Int? = null
     fun createAccount(username:String, password:String, email:String,  role:Role): Authentication{
         val account = Authentication()
         account.username = username

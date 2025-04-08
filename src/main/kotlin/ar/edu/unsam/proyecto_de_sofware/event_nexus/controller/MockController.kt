@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RestController
 class MockController {
     @GetMapping("/mock")
     fun createEvent():String{
-        val admin = Admin()
-        val user = User()
-        admin.addPermission(user, CreateEvent())
-        user.executeModuleAction(CreateEvent())
-        return "Ejecucion exitora"
+//        val admin = Admin()
+//        val user = User()
+//        admin.addPermission(user, CreateEvent())
+//        user.executeModuleAction(CreateEvent())
+          return "Ejecucion exitora"
     }
 }
 

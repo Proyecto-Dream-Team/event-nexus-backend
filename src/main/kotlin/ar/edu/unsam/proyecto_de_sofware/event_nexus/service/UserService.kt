@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service
 @Service
 class UserService(val repoUser: UserRepository) {
 
-    fun getDataHome(id : Int): User {
+    fun getUser(id : Int): User {
         val user = repoUser.getByID(id)
         return user
     }
+
 }
