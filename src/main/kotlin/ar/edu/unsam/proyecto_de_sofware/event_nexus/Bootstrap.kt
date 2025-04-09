@@ -29,7 +29,7 @@ class Bootstrap(
             username = "simple",
             password = "simple",
             email = "simple@simple",
-            role = Role.EMPLOYEE_SIMPlE
+            role = Role.EMPLOYEE_SIMPLE
         )
         val account02:Authentication = admin.createAccount(
             username = "full",
@@ -44,9 +44,7 @@ class Bootstrap(
             role = Role.ADMIN
         )
         val accounts: List<Authentication> = listOf(account01, account02, account03)
-        accounts.forEach {
-            authRepo.create(it)
-        }
+        authRepo.saveAll(accounts)
     }
 
     fun createUsers () {
