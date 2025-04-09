@@ -8,6 +8,9 @@ interface Person {
     val job:String
     var permissions: MutableSet<ModuleCommand>
     var active:Boolean
+    var address: String
+    var phone: String
+    var email: String
 
     fun executeModuleAction(command: ModuleCommand)
 }
