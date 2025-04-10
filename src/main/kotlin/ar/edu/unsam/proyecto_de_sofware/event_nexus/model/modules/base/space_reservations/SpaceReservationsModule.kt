@@ -5,6 +5,6 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.AppModu
 class SpaceReservationsModule: AppModule {
 
     override val id: Int = 4
-    override val name: String = "Reservación de espacio"
+    override val name: String = "Reserva de espacio"
     override val image: String = "reservarEspacio.png"
 }
