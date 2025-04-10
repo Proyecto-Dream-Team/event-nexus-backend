@@ -6,7 +6,7 @@ class RepportModule: AppModule {
 
     override val id: Int = 2
     override val name: String = "Reporte de faltantes"
-    override val image: String = ""
+    override val image: String = "objetosPerdidos.png"
 
     fun shortageNotification(){}
 

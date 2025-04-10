@@ -6,7 +6,7 @@ class EventModule: AppModule {
 
     override val id: Int = 1
     override val name: String = "Eventos"
-    override val image: String = ""
+    override val image: String = "fotoEventosSinFondo.png"
 
     fun notifyEvent(){}
 
