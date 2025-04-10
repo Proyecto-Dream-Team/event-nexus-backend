@@ -9,7 +9,7 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.AppModu
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.AuthService
 import org.springframework.web.bind.annotation.*
 
-//@CrossOrigin(origins = ["http://localhost:4200", "http://localhost:5173"])
+@CrossOrigin(origins = ["http://localhost:4200", "http://localhost:5173"])
 @RestController
 @RequestMapping("/module")
 class ModuleController(val authService: AuthService) {
