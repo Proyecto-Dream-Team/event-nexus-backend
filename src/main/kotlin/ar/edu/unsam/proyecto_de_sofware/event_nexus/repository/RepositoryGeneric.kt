@@ -52,16 +52,16 @@ abstract class Repository<T : AvaliableInstance> {
     }
 
 }
-
-@Component
-class AuthRepository(): Repository<Authentication>() {
-
-    fun findByUsername(username:String): Authentication?{
-        return instances.find { it.username == username }
-    }
-
-
-}
+//
+//@Component
+//class AuthRepository(): Repository<Authentication>() {
+//
+//    fun findByUsername(username:String): Authentication?{
+//        return instances.find { it.username == username }
+//    }
+//
+//
+//}
 
 @Component
 class UserRepository(): Repository<User>() {

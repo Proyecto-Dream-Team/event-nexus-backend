@@ -1,12 +1,25 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.model
 
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.AvaliableInstance
+import jakarta.persistence.*
 
-class Authentication: AvaliableInstance{
-    override var id: Int = 0
-    var email:String = ""
-    var username: String = ""
-    var password: String = ""
-    var role: String = ""
+@Entity
+class Authentication{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Long? = null
+
+    @Column(length = 100)
+    lateinit var email:String
+
+    @Column(length = 100)
+    lateinit var username: String
+
+    @Column(length = 100)
+    lateinit var password: String
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 100)
+    lateinit var role: Role
 }
 

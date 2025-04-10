@@ -19,7 +19,7 @@ class Admin():Person {
         account.username = username
         account.password = password
         account.email = email
-        account.role = role.jobName
+        account.role = role
         return account
     }
 

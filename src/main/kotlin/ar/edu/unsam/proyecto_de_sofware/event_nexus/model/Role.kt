@@ -10,7 +10,7 @@ enum class Role(val jobName: String, val permissions:Set<ModuleCommand>){
         jobName = "Employee noob",
         permissions = setOf()
     ),
-    EMPLOYEE_SIMPlE(
+    EMPLOYEE_SIMPLE(
         jobName = "Employee simple",
         permissions = setOf(CreateEvent())
     ),
