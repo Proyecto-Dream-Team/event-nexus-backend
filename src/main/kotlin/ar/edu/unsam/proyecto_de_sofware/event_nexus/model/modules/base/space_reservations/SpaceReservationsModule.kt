@@ -3,6 +3,8 @@ package ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.space_re
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.AppModule
 
 class SpaceReservationsModule: AppModule {
-    override val name: String = "Eventos"
+
+    override val id: Int = 4
+    override val name: String = "Space reservation"
     override val image: String = ""
 }
