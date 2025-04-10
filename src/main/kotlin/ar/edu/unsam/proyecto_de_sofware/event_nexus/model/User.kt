@@ -1,5 +1,6 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.model
 
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.AppModule
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.ModuleCommand
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.AvaliableInstance
 
@@ -13,6 +14,7 @@ class User():Person, AvaliableInstance {
     override var phone: String = ""
     override var email: String = ""
     override var permissions: MutableSet<ModuleCommand> = Role.EMPLOYEE_WATCHER.permissions.toMutableSet()
+    var modules: List<AppModule> = listOf()
 
 
     override fun executeModuleAction(command: ModuleCommand) {

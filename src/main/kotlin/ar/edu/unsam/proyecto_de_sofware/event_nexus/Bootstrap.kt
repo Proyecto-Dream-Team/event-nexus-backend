@@ -5,6 +5,10 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Admin
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Authentication
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Role
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.User
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.directive.DirectiveModule
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.EventModule
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.repports.RepportModule
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.space_reservations.SpaceReservationsModule
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.AuthRepository
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -61,6 +65,7 @@ class Bootstrap(
             phone = "12341234"
             email = "diego.lentz@gmail.com"
             address = "calle falsa 123"
+            modules = listOf(EventModule(), DirectiveModule())
         }
 
         val userPedro = User().apply {
@@ -69,6 +74,7 @@ class Bootstrap(
             phone = "12341234"
             email = "pedrito@gmail.com"
             address = "Tambien calle falsa 123"
+            modules = listOf(EventModule(), DirectiveModule(), RepportModule(), SpaceReservationsModule())
         }
 
         val users : List<User> = listOf( userPedro, userDiego)
