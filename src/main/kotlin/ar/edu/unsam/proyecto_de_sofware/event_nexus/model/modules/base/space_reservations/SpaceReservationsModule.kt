@@ -6,5 +6,5 @@ class SpaceReservationsModule: AppModule {
 
     override val id: Int = 4
     override val name: String = "Space reservation"
-    override val image: String = ""
+    override val image: String = "reservarEspacio.png"
 }
