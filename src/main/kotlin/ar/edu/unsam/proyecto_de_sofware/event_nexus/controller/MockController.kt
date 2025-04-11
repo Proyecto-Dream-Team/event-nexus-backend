@@ -2,6 +2,7 @@ package ar.edu.unsam.proyecto_de_sofware.event_nexus.controller
 
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Admin
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.User
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.CancelEvent
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.CreateEvent
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
@@ -16,7 +17,7 @@ class MockController {
         val user = User()
         admin.addPermission(user, CreateEvent())
         user.executeModuleAction(CreateEvent())
-        return "Ejecucion exitora"
+          return "Ejecucion exitora"
     }
 }
 

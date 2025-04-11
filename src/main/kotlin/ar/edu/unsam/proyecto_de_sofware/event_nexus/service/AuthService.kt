@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service
 class AuthService(val authRepository: AuthRepository) {
 
     fun mockGetAll():List<Authentication>{
-        return authRepository.getAll()
+        return authRepository.findAll().toList()
     }
 
     fun createAccount(newAccountData: NewAccountRequest){
@@ -29,14 +29,14 @@ class AuthService(val authRepository: AuthRepository) {
             email = newAccountData.email,
             role = Role.values().first { it.jobName == newAccountData.jobName }
         )
-        authRepository.create(newAccount)
+        authRepository.save(newAccount)
     }
 
     fun login(loginRequest: LoginRequest):LoginResponse{
-        val existingUser = authRepository.findByUsername(loginRequest.username) ?: throw BusinessException("Invalid credentials")
+        val existingUser = authRepository.findByUsername(loginRequest.username)
         if(existingUser.password != loginRequest.password){
             throw BusinessException("Invalid credentials")
         }
-        return LoginResponse(existingUser.id, existingUser.role)
+        return LoginResponse(existingUser.id!!, existingUser.role.jobName)
     }
 }

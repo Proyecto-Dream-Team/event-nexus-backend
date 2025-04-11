@@ -1,6 +1,7 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.repository
 
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Authentication
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.User
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 
@@ -51,13 +52,18 @@ abstract class Repository<T : AvaliableInstance> {
     }
 
 }
+//
+//@Component
+//class AuthRepository(): Repository<Authentication>() {
+//
+//    fun findByUsername(username:String): Authentication?{
+//        return instances.find { it.username == username }
+//    }
+//
+//
+//}
 
 @Component
-class AuthRepository(): Repository<Authentication>() {
-
-    fun findByUsername(username:String): Authentication?{
-        return instances.find { it.username == username }
-    }
-
+class UserRepository(): Repository<User>() {
 
 }

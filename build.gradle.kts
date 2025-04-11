@@ -21,26 +21,29 @@ repositories {
 	mavenCentral()
 }
 
-dependencies {
-	val kotestVersion = "5.8.0"
+val mockkVersion = "1.13.9"
+val kotestVersion = "5.8.0"
 
-	// básicos de cualquier proyecto Spring Boot
-	implementation("org.springframework.boot:spring-boot-starter-web")
-	implementation("org.springframework.boot:spring-boot-starter-hateoas")
+dependencies {
+	developmentOnly("org.springframework.boot:spring-boot-devtools")
+
+//	basic spring boot
+	implementation("org.springframework.boot:spring-boot-starter-data-rest")
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
+	implementation("org.springframework.boot:spring-boot-starter-web")
+
+//	DB CONNECTION
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	runtimeOnly("org.postgresql:postgresql")
+
+//	TESTING
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
-	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
-	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8")
-	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
-
-	// testing
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testImplementation("io.mockk:mockk:1.13.9")
+	testImplementation("io.mockk:mockk:${mockkVersion}")
 	testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
 	testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
-	testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
+	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 kotlin {
