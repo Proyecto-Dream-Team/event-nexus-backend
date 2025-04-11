@@ -14,6 +14,7 @@ class User():Person, AvaliableInstance {
     override var phone: String = ""
     override var email: String = ""
     override var permissions: MutableSet<ModuleCommand> = Role.EMPLOYEE_WATCHER.permissions.toMutableSet()
+    override var img: String = ""
     var modules: List<AppModule> = listOf()
 
 

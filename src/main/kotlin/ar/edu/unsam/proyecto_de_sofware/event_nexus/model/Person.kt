@@ -11,6 +11,7 @@ interface Person {
     var address: String
     var phone: String
     var email: String
+    val img: String
 
     fun executeModuleAction(command: ModuleCommand)
 }

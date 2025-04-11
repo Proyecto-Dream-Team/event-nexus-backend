@@ -13,6 +13,7 @@ class Admin():Person {
     override var address: String = ""
     override var phone: String = ""
     override var email: String = ""
+    override var img: String = ""
     var id: Int? = null
     fun createAccount(username:String, password:String, email:String,  role:Role): Authentication{
         val account = Authentication()
