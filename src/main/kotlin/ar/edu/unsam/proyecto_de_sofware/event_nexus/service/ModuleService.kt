@@ -10,6 +10,7 @@ class ModuleService(
 ) {
     fun getAll(id: Int): List<AppModule> {
         val user = userService.getUser(id)
-        return user.modules
+        val modules: List<AppModule> = listOf()
+        return modules
     }
 }

@@ -1,10 +1,7 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus
 
 
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Admin
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Authentication
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Role
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.User
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.*
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.directive.DirectiveModule
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.EventModule
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.repports.RepportModule
@@ -30,21 +27,21 @@ class Bootstrap(
     fun createAccounts(){
         val admin:Admin = Admin()
         val account01:Authentication = admin.createAccount(
-            username = "simple",
-            password = "simple",
-            email = "simple@simple",
+            username = "adrian",
+            password = "adrian",
+            email = "adrian@mail.com",
             role = Role.EMPLOYEE_SIMPLE
         )
         val account02:Authentication = admin.createAccount(
-            username = "full",
-            password = "full",
-            email = "full@full",
+            username = "diego",
+            password = "diego",
+            email = "diego@mail.com",
             role = Role.EMPLOYEE_FULL
         )
         val account03:Authentication = admin.createAccount(
-            username = "admin",
-            password = "admin",
-            email = "admin@admin",
+            username = "matias",
+            password = "matias",
+            email = "matias@mail.com",
             role = Role.ADMIN
         )
         val accounts: List<Authentication> = listOf(account01, account02, account03)
@@ -52,40 +49,31 @@ class Bootstrap(
     }
 
     fun createUsers () {
-        val admin = Admin().apply {
-            name = "Adrian"
-            lastname = "Perez"
+//        ADMINS
+        val admin = AdminNew().apply {
             phone = "12341234"
             email = "perez.A@gmail.com"
             address = "calle posta 123"
-            img = "https://discord.com/channels/968129182246789160/1349492293639340074/1360075904742719659"
-
         }
-        val userDiego = User().apply {
-            name = "Diego"
-            lastname = "Lentz"
+
+
+//        USERS
+        val diego = UserNew().apply {
             phone = "12341234"
             email = "diego.lentz@gmail.com"
             address = "calle falsa 123"
-            modules = listOf(EventModule(), DirectiveModule())
-            img = "https://discord.com/channels/968129182246789160/1349492293639340074/1360075904742719659"
-
+//            modules = listOf(EventModule(), DirectiveModule())
         }
 
-        val userPedro = User().apply {
-            name = "Pedro"
-            lastname = "Mc Gregor"
+        val pedro = UserNew().apply {
             phone = "12341234"
             email = "pedrito@gmail.com"
             address = "Tambien calle falsa 123"
-            modules = listOf(EventModule(), DirectiveModule(), RepportModule(), SpaceReservationsModule())
-            img = "https://discord.com/channels/968129182246789160/1349492293639340074/1360075904742719659"
+//            modules = listOf(EventModule(), DirectiveModule(), RepportModule(), SpaceReservationsModule())
         }
 
-        val users : List<User> = listOf( userPedro, userDiego)
-        users.forEach{
-                userRepo.create(it)
-            }
+        val users : List<UserNew> = listOf( pedro, diego, admin)
+        userRepo.saveAll(users)
     }
 
 }

@@ -2,6 +2,7 @@ package ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common
 
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.CommandNotAllowedException
 
+
 abstract class ModuleCommand{
 
     abstract fun doExecute()

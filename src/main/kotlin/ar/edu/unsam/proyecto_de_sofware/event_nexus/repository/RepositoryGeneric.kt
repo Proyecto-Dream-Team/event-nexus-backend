@@ -63,7 +63,7 @@ abstract class Repository<T : AvaliableInstance> {
 //
 //}
 
-@Component
-class UserRepository(): Repository<User>() {
-
-}
+//@Component
+//class UserRepository(): Repository<User>() {
+//
+//}
