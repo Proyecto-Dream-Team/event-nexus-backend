@@ -4,12 +4,8 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.LoginRequest
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.LoginResponse
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.NewAccountRequest
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.BusinessException
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Admin
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Authentication
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.User
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.CreateEvent
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.AuthService
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
