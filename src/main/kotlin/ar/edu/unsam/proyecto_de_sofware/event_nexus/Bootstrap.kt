@@ -58,7 +58,7 @@ class Bootstrap(
             phone = "12341234"
             email = "perez.A@gmail.com"
             address = "calle posta 123"
-            img = "https://discord.com/channels/968129182246789160/1349492293639340074/1360075904742719659"
+            img = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5gv6VVdtAGLqBK9MXIBOUGJ-hWeVdiiN-3Q&s"
 
         }
         val userDiego = User().apply {
@@ -68,7 +68,7 @@ class Bootstrap(
             email = "diego.lentz@gmail.com"
             address = "calle falsa 123"
             modules = listOf(EventModule(), DirectiveModule(), RepportModule(), SpaceReservationsModule())
-            img = "https://discord.com/channels/968129182246789160/1349492293639340074/1360075904742719659"
+            img = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5gv6VVdtAGLqBK9MXIBOUGJ-hWeVdiiN-3Q&s"
 
         }
 
@@ -79,7 +79,7 @@ class Bootstrap(
             email = "pedrito@gmail.com"
             address = "Tambien calle falsa 123"
             modules = listOf(EventModule(), DirectiveModule())
-            img = "https://discord.com/channels/968129182246789160/1349492293639340074/1360075904742719659"
+            img = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5gv6VVdtAGLqBK9MXIBOUGJ-hWeVdiiN-3Q&s"
         }
 
         val users : List<User> = listOf( userPedro, userDiego)
