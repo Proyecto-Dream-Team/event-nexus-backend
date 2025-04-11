@@ -1,9 +1,7 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.repository
 
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Authentication
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.User
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.ModuleCommand
 import org.springframework.stereotype.Component
-import java.time.LocalDateTime
 
 interface AvaliableInstance {
     var id: Int
@@ -63,7 +61,4 @@ abstract class Repository<T : AvaliableInstance> {
 //
 //}
 
-//@Component
-//class UserRepository(): Repository<User>() {
-//
-//}
+
