@@ -1,9 +1,18 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common
 
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.CommandNotAllowedException
+import com.fasterxml.jackson.annotation.JsonTypeInfo
+import jakarta.persistence.*
 
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+abstract class ModuleCommand {
 
-abstract class ModuleCommand{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id:Long? = null
+
 
     abstract fun doExecute()
     abstract fun getClassName():String

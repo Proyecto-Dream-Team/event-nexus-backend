@@ -1,26 +1,9 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events
 
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.ModuleCommand
-import com.fasterxml.jackson.annotation.JsonIgnore
-import jakarta.persistence.Column
-import jakarta.persistence.DiscriminatorValue
 import jakarta.persistence.Entity
 
 @Entity
-abstract class EventModuleCommand(
-    @Transient
-    @JsonIgnore
-    val module: EventModule = EventModule()
-): ModuleCommand() {
-
-    @Column
-    val moduleName = this.module::class.simpleName
-
-    abstract override fun doExecute()
-}
-
-@Entity
-class CreateEvent: EventModuleCommand() {
+class CreateEvent: EventCommand() {
     override fun doExecute() {
         module.notifyEvent()
     }
@@ -30,7 +13,7 @@ class CreateEvent: EventModuleCommand() {
 }
 
 @Entity
-class CancelEvent: EventModuleCommand() {
+class CancelEvent: EventCommand() {
     override fun doExecute() {
         module.cancelEvent()
     }
@@ -40,7 +23,7 @@ class CancelEvent: EventModuleCommand() {
 }
 
 @Entity
-class ScheduleEvent: EventModuleCommand() {
+class ScheduleEvent: EventCommand() {
     override fun doExecute() {
         module.scheduleEvent()
     }
