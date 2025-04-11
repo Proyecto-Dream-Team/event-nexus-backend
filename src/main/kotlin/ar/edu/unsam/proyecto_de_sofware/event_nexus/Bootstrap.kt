@@ -67,7 +67,7 @@ class Bootstrap(
             phone = "12341234"
             email = "diego.lentz@gmail.com"
             address = "calle falsa 123"
-            modules = listOf(EventModule(), DirectiveModule())
+            modules = listOf(EventModule(), DirectiveModule(), RepportModule(), SpaceReservationsModule())
             img = "https://discord.com/channels/968129182246789160/1349492293639340074/1360075904742719659"
 
         }
@@ -78,7 +78,7 @@ class Bootstrap(
             phone = "12341234"
             email = "pedrito@gmail.com"
             address = "Tambien calle falsa 123"
-            modules = listOf(EventModule(), DirectiveModule(), RepportModule(), SpaceReservationsModule())
+            modules = listOf(EventModule(), DirectiveModule())
             img = "https://discord.com/channels/968129182246789160/1349492293639340074/1360075904742719659"
         }
 
