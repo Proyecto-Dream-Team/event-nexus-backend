@@ -1,9 +1,9 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.dto
 
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.User
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 
 data class ProfileDTO(
-    val id: Int,
+    val id: Long,
     val name: String,
     val lastName: String,
     val phone: String,
@@ -11,11 +11,17 @@ data class ProfileDTO(
     val address: String
 ){}
 
-fun User.toProfileDTO() = ProfileDTO(
-    id = id,
-    name = name,
-    lastName = lastname,
-    phone = phone,
-    email = email,
-    address = address
-)
+
+fun Employee.toProfileDTO():ProfileDTO{
+
+    val notNullId = requireNotNull(id)
+
+    return ProfileDTO(
+        id = notNullId,
+        name = name,
+        lastName = lastname,
+        phone = phone,
+        email = email,
+        address = address
+    )
+}
