@@ -7,4 +7,6 @@ class DirectiveModule: AppModule {
     override val id: Int = 3
     override val name: String = "Información y preguntas frecuentes"
     override val image: String = "preguntasFrecuentes.png"
+
+    fun mock(){}
 }

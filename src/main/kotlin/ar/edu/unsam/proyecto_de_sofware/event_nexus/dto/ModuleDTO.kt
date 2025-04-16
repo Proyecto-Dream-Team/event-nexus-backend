@@ -6,13 +6,4 @@ data class ModuleDTO (
     val id: Int,
     val name: String,
     val image:String
-){}
-
-
-fun toModuleDTO(module: AppModule): ModuleDTO{
-    return ModuleDTO(
-        id = module.id,
-        name = module.name,
-        image = module.image
-    )
-}
+)

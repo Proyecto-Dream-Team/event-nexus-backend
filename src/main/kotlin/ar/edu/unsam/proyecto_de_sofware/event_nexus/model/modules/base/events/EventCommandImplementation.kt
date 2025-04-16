@@ -1,13 +1,9 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events
 
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.ModuleCommand
+import jakarta.persistence.Entity
 
-abstract class EventModuleCommand: ModuleCommand() {
-    val module = EventModule()
-    abstract override fun doExecute()
-}
-
-class CreateEvent: EventModuleCommand() {
+@Entity
+class CreateEvent: EventCommand() {
     override fun doExecute() {
         module.notifyEvent()
     }
@@ -16,7 +12,8 @@ class CreateEvent: EventModuleCommand() {
 
 }
 
-class CancelEvent: EventModuleCommand() {
+@Entity
+class CancelEvent: EventCommand() {
     override fun doExecute() {
         module.cancelEvent()
     }
@@ -25,7 +22,8 @@ class CancelEvent: EventModuleCommand() {
 
 }
 
-class ScheduleEvent: EventModuleCommand() {
+@Entity
+class ScheduleEvent: EventCommand() {
     override fun doExecute() {
         module.scheduleEvent()
     }

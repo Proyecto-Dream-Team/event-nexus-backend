@@ -6,6 +6,7 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Ev
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.repports.RepportModule
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.space_reservations.SpaceReservationsModule
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.AppModule
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.ModuleCommand
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.AuthService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.ModuleService
 import org.springframework.web.bind.annotation.*
@@ -15,8 +16,9 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/module")
 class ModuleController(val moduleService: ModuleService) {
     @GetMapping("/{id}/all")
-    fun get(@PathVariable id: Int): List<ModuleDTO>{
-        return moduleService.getAll(id).map{toModuleDTO(it)}
+    fun get(@PathVariable id: Long): Set<ModuleDTO>{
+        val employeeCommands:List<ModuleCommand> = moduleService.mock(id)
+        return employeeCommands.map { ModuleDTO(it.module.id, it.module.name, it.module.image) }.toSet()
     }
 
 }

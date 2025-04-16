@@ -1,20 +1,10 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.model
 
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.ModuleCommand
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.AvaliableInstance
+import jakarta.persistence.Entity
 
-class Admin():Person {
-
-    override var name: String = ""
-    override var lastname: String = ""
-    override val job: String = Role.ADMIN.jobName
-    override var active: Boolean = true
-    override var permissions: MutableSet<ModuleCommand> = Role.EMPLOYEE_WATCHER.permissions.toMutableSet()
-    override var address: String = ""
-    override var phone: String = ""
-    override var email: String = ""
-    override var img: String = ""
-    var id: Int? = null
+@Entity
+class Admin():Employee() {
     fun createAccount(username:String, password:String, email:String,  role:Role): Authentication{
         val account = Authentication()
         account.username = username
@@ -24,23 +14,19 @@ class Admin():Person {
         return account
     }
 
-    fun addPermission(person: Person, permission: ModuleCommand){
-        person.permissions.add(permission)
+    fun addPermission(employee: Employee, permission: ModuleCommand){
+        employee.permissions.add(permission)
     }
 
-    fun addPermissions(person: Person, permissions: Set<ModuleCommand>){
-        person.permissions.addAll(permissions)
+    fun addPermissions(employee: Employee, permissions: Set<ModuleCommand>){
+        employee.permissions.addAll(permissions)
     }
 
-    fun deletePermission(person: Person, permission: ModuleCommand){
-        person.permissions.remove(permission)
+    fun deletePermission(employee: Employee, permission: ModuleCommand){
+        employee.permissions.remove(permission)
     }
 
-    fun deletePermissions(person: Person, permissions: Set<ModuleCommand>){
-        person.permissions.removeAll(permissions)
-    }
-
-    override fun executeModuleAction(command: ModuleCommand) {
-        command.execute(this.permissions)
+    fun deletePermissions(employee: Employee, permissions: Set<ModuleCommand>){
+        employee.permissions.removeAll(permissions)
     }
 }
