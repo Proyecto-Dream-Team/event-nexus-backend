@@ -6,11 +6,12 @@ import jakarta.persistence.Column
 import jakarta.persistence.Entity
 
 @Entity
-abstract class EventCommand(
+abstract class EventCommand: ModuleCommand() {
+
     @Transient
     @JsonIgnore
-    val module: EventModule = EventModule()
-): ModuleCommand() {
+    override val module: EventModule = EventModule()
+
 
     @Column
     val moduleName = this.module::class.simpleName

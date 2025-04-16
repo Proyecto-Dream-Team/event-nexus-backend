@@ -7,8 +7,9 @@ import jakarta.persistence.*
 import kotlin.jvm.Transient
 
 @Entity
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type") // PARA DATABASE
 @JsonSubTypes(
+    //PARA SERIALIZACION
     JsonSubTypes.Type(value = Admin::class, name = "Administrador"),
     JsonSubTypes.Type(value = Employee::class, name = "Empleado")
 )
@@ -18,7 +19,7 @@ open class Employee(){
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(referencedColumnName = "id")
     var credentials: Authentication? = null
 
@@ -47,7 +48,7 @@ open class Employee(){
     var email: String = ""
 
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name="employee_module_command",
         joinColumns=
@@ -56,6 +57,10 @@ open class Employee(){
             [JoinColumn(name="module_command_id", referencedColumnName="id")]
     )
     lateinit var permissions: MutableSet<ModuleCommand>
+
+    fun modules():Set<String>{
+        return permissions.map{ it.module.name }.toSet()
+    }
 
 
 //

@@ -10,7 +10,7 @@ import jakarta.persistence.Entity
 abstract class DirectiveCommand(
     @Transient
     @JsonIgnore
-    val module: DirectiveModule = DirectiveModule()
+    override val module: DirectiveModule = DirectiveModule()
 ): ModuleCommand() {
 
     @Column

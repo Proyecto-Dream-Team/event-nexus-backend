@@ -7,7 +7,9 @@ import jakarta.persistence.*
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
-abstract class ModuleCommand {
+abstract class ModuleCommand{
+
+    abstract val module:AppModule
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

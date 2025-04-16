@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController
 class UserController(private val userService: UserService) {
 
     @GetMapping("/home/{id}")
-    fun homeModules(@PathVariable id: Int): Employee {
-        return userService.getUser(id)
+    fun homeModules(@PathVariable id: Long): Employee {
+        return userService.getByID(id)
     }
 //
 //    @GetMapping("/profile/{id}")
