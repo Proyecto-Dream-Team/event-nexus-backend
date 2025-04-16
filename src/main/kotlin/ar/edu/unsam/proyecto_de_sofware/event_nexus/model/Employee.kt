@@ -1,5 +1,6 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.model
 
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.DataUpdateProfileDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.ModuleCommand
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
@@ -60,6 +61,12 @@ open class Employee(){
 
     fun modules():Set<String>{
         return permissions.map{ it.module.name }.toSet()
+    }
+
+    fun updateProfile(data: DataUpdateProfileDTO) {
+        email = data.email
+        phone = data.phone
+        address = data.address
     }
 
 
