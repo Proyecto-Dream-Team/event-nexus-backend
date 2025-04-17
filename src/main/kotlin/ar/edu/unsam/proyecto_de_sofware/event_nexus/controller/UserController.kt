@@ -25,17 +25,23 @@ class UserController(private val userService: UserService) {
     }
 
     @GetMapping("/header/{id}")
-    fun dataHome(@PathVariable id: Int): HeaderDTO {
-        return userService.getUser(id).toHeaderDTO()
+    fun dataHome(@PathVariable id: Long): HeaderDTO {
+        return userService.getByID(id).toHeaderDTO()
     }
 
     @GetMapping("/profile/{id}")
-    fun dataProfile(@PathVariable id: Int): ProfileDTO {
-        return userService.getUser(id).toProfileDTO()
+    fun dataProfile(@PathVariable id: Long): ProfileDTO {
+        return userService.getByID(id).toProfileDTO()
     }
 
     @PutMapping("profile")
     fun profileUpdate(@RequestBody dataUpdateProfileDTO: DataUpdateProfileDTO): ResponseEntity<String>{
         return userService.updateProfile(dataUpdateProfileDTO)
+    }
+
+    @PutMapping("/img")
+    fun changeImg(@RequestBody imgDTO: ImgDTO): ResponseEntity<String>{
+        val user = userService.getByID(imgDTO.id)
+        return userService.changeImg(user, imgDTO.img)
     }
 }

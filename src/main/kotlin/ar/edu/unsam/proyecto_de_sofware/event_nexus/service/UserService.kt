@@ -1,6 +1,7 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.service
 
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.DataUpdateProfileDTO
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.ImgDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.DataBaseNotModifiedException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.UserRepository
@@ -18,11 +19,6 @@ class UserService(val repoUser: UserRepository) {
         return user.get()
     }
 
-    fun getUser(id : Int): Employee {
-        val user = repoUser.findById(id.toLong())
-        return user.get()
-    }
-
     @Transactional
     fun updateProfile(dataUpdateProfileDTO: DataUpdateProfileDTO) : ResponseEntity<String> {
         val user = repoUser.findById(dataUpdateProfileDTO.id).get()
@@ -30,6 +26,19 @@ class UserService(val repoUser: UserRepository) {
         try {
             repoUser.save(user)
         }catch (e: DataAccessException){
+            throw DataBaseNotModifiedException("No se pudo actualizar el perfil")
+        }
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body("Actualizacion exitosa!")
+    }
+
+    @Transactional
+    fun changeImg(user: Employee, img: String): ResponseEntity<String> {
+        user.image = img
+        try {
+            repoUser.save(user)
+        }catch (error: DataAccessException){
             throw DataBaseNotModifiedException("No se pudo actualizar el perfil")
         }
         return ResponseEntity

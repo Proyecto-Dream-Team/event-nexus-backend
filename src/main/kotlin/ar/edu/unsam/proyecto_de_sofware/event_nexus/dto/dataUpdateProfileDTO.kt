@@ -9,9 +9,4 @@ data class DataUpdateProfileDTO(
     var email: String
 )
 
-//fun Employee.toDataUpdateProfileDTO() = DataUpdateProfileDTO(
-//    address = address,
-//    phone = phone,
-//    email = email,
-//    id = id
-//)
+
