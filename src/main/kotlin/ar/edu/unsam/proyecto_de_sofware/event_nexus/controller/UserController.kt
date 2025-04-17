@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.util.*
 
 @CrossOrigin(origins = ["http://localhost:4200", "http://localhost:5173"])
 @RestController
@@ -41,7 +42,9 @@ class UserController(private val userService: UserService) {
 
     @PutMapping("/img")
     fun changeImg(@RequestBody imgDTO: ImgDTO): ResponseEntity<String>{
+        val base64Data = imgDTO.img.removePrefix("data:image/jpeg;base64,")
+        val imageBytes = Base64.getDecoder().decode(base64Data)
         val user = userService.getByID(imgDTO.id)
-        return userService.changeImg(user, imgDTO.img)
+        return userService.changeImg(user, imageBytes)
     }
 }

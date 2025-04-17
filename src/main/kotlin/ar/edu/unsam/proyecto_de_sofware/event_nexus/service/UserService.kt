@@ -35,7 +35,7 @@ class UserService(val repoUser: UserRepository) {
 
     @Transactional
     fun changeImg(user: Employee, img: ByteArray): ResponseEntity<String> {
-        user.image = img
+
         try {
             repoUser.save(user)
         }catch (error: DataAccessException){
