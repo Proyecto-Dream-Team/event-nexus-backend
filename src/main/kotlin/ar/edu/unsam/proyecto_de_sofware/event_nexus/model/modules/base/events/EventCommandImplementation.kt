@@ -1,6 +1,7 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events
 
 import jakarta.persistence.Entity
+import jakarta.persistence.ManyToOne
 
 @Entity
 class CreateEvent: EventCommand() {
@@ -23,9 +24,11 @@ class CancelEvent: EventCommand() {
 }
 
 @Entity
-class ScheduleEvent: EventCommand() {
+class ScheduleEvent(): EventCommand() {
+    @ManyToOne
+    lateinit var event: Event
     override fun doExecute() {
-        module.scheduleEvent()
+        module.scheduleEvent(event)
     }
 
     override fun getClassName(): String = "Schedule Event"
