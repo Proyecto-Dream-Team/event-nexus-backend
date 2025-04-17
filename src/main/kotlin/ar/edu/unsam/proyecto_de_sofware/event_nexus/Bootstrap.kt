@@ -40,7 +40,7 @@ class Bootstrap(
             username = "adrian"
             password = "adrian"
             email = "adrian@mail.com"
-            role = Role.EMPLOYEE_SIMPLE
+            role = Role.ADMIN
         }
         val account02: Authentication = Authentication().apply {
             username = "diego"
@@ -66,6 +66,7 @@ class Bootstrap(
         val imageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5gv6VVdtAGLqBK9MXIBOUGJ-hWeVdiiN-3Q&s"
         val imageBytes = URL(imageUrl).readBytes()
 
+        val credential1 = authRepo.findById(1).get()
         val admin = Admin().apply {
             name = "Adrian"
             lastname = "Perez"
@@ -73,7 +74,7 @@ class Bootstrap(
             email = "perez.A@gmail.com"
             address = "calle posta 123"
             image = imageBytes
-
+            credentials = credential1
         }
 
 // //////////////////////////////////////////////////////////////////////
@@ -81,6 +82,7 @@ class Bootstrap(
 // //////////////////////////////////////////////////////////////////////
 //        USERS
 // //////////////////////////////////////////////////////////////////////
+        val credential2 = authRepo.findById(2).get()
         val diego = Employee().apply {
             name = "Diego"
             lastname = "Lentz"
@@ -88,17 +90,18 @@ class Bootstrap(
             email = "diego.lentz@gmail.com"
             address = "calle falsa 123"
             image = imageBytes
-
+            credentials = credential2
 
         }
 
+        val credential3 = authRepo.findById(3).get()
         val pedro = Employee().apply {
             name = "Pedro"
             lastname = "McGeraghty"
             phone = "12341234"
             email = "pedrito@gmail.com"
             address = "Tambien calle falsa 123"
-
+            credentials = credential3
             image = imageBytes
 
         }
