@@ -42,9 +42,7 @@ class UserController(private val userService: UserService) {
 
     @PutMapping("/img")
     fun changeImg(@RequestBody imgDTO: ImgDTO): ResponseEntity<String>{
-        val base64Data = imgDTO.img.removePrefix("data:image/jpeg;base64,")
-        val imageBytes = Base64.getDecoder().decode(base64Data)
         val user = userService.getByID(imgDTO.id)
-        return userService.changeImg(user, imageBytes)
+        return userService.changeImg(user, imgDTO.img)
     }
 }
