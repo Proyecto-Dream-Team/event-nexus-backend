@@ -1,13 +1,7 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events
 
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToMany
+import jakarta.persistence.*
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 

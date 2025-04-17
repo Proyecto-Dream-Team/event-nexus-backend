@@ -9,16 +9,17 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.AppModu
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.ModuleCommand
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.AuthService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.ModuleService
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.UserService
 import org.springframework.web.bind.annotation.*
 
 @CrossOrigin(origins = ["http://localhost:4200", "http://localhost:5173"])
 @RestController
 @RequestMapping("/module")
-class ModuleController(val moduleService: ModuleService) {
+class ModuleController(val moduleService: ModuleService, val userService: UserService) {
     @GetMapping("/{id}/all")
     fun get(@PathVariable id: Long): Set<ModuleDTO>{
-        val employeeCommands:List<ModuleCommand> = moduleService.mock(id)
-        return employeeCommands.map { ModuleDTO(it.module.id, it.module.name, it.module.image) }.toSet()
+        val user = userService.getByID(id)
+        return moduleService.getAll(user)
     }
 
 }
