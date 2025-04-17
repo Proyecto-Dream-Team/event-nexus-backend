@@ -77,9 +77,9 @@ class Bootstrap(
 // //////////////////////////////////////////////////////////////////////
         val diego = Employee().apply {
             name = "Diego"
-            lastname = "Lentx"
+            lastname = "Lentz"
             phone = "12341234"
-            email = "diego.lentx@gmail.com"
+            email = "diego.lentz@gmail.com"
             address = "calle falsa 123"
             image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5gv6VVdtAGLqBK9MXIBOUGJ-hWeVdiiN-3Q&s"
 
