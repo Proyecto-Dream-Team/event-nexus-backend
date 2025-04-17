@@ -31,7 +31,7 @@ open class Employee(){
     lateinit var lastname: String
 
     @Column
-    lateinit var image:String
+    var image:String = "https://res.cloudinary.com/dumcjdzxo/image/upload/imgDefault_t0achq"
 
     @Column
     val job: String = Role.EMPLOYEE_WATCHER.jobName

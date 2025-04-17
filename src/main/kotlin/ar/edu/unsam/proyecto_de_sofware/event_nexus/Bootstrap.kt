@@ -70,7 +70,6 @@ class Bootstrap(
             phone = "12341234"
             email = "perez.A@gmail.com"
             address = "calle posta 123"
-            image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5gv6VVdtAGLqBK9MXIBOUGJ-hWeVdiiN-3Q&s"
             credentials = credential1
         }
 
@@ -86,7 +85,6 @@ class Bootstrap(
             phone = "12341234"
             email = "diego.lentz@gmail.com"
             address = "calle falsa 123"
-            image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5gv6VVdtAGLqBK9MXIBOUGJ-hWeVdiiN-3Q&s"
             credentials = credential2
 
         }
@@ -99,7 +97,6 @@ class Bootstrap(
             email = "pedrito@gmail.com"
             address = "Tambien calle falsa 123"
             credentials = credential3
-            image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5gv6VVdtAGLqBK9MXIBOUGJ-hWeVdiiN-3Q&s"
 
         }
 // //////////////////////////////////////////////////////////////////////
