@@ -34,7 +34,7 @@ class UserService(val repoUser: UserRepository) {
     }
 
     @Transactional
-    fun changeImg(user: Employee, img: String): ResponseEntity<String> {
+    fun changeImg(user: Employee, img: ByteArray): ResponseEntity<String> {
         user.image = img
         try {
             repoUser.save(user)

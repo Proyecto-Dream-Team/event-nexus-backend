@@ -30,8 +30,9 @@ open class Employee(){
     @Column
     lateinit var lastname: String
 
+    @Lob
     @Column
-    lateinit var image:String
+    lateinit var image:ByteArray
 
     @Column
     val job: String = Role.EMPLOYEE_WATCHER.jobName

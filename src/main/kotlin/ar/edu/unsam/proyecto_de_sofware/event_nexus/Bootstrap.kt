@@ -17,6 +17,8 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Component
+import java.net.URL
+import javax.print.DocFlavor
 
 
 @Component
@@ -60,13 +62,17 @@ class Bootstrap(
 // //////////////////////////////////////////////////////////////////////
 //        ADMINS
 // //////////////////////////////////////////////////////////////////////
+
+        val imageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5gv6VVdtAGLqBK9MXIBOUGJ-hWeVdiiN-3Q&s"
+        val imageBytes = URL(imageUrl).readBytes()
+
         val admin = Admin().apply {
             name = "Adrian"
             lastname = "Perez"
             phone = "12341234"
             email = "perez.A@gmail.com"
             address = "calle posta 123"
-            image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5gv6VVdtAGLqBK9MXIBOUGJ-hWeVdiiN-3Q&s"
+            image = imageBytes
 
         }
 
@@ -81,7 +87,7 @@ class Bootstrap(
             phone = "12341234"
             email = "diego.lentz@gmail.com"
             address = "calle falsa 123"
-            image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5gv6VVdtAGLqBK9MXIBOUGJ-hWeVdiiN-3Q&s"
+            image = imageBytes
 
 
         }
@@ -93,7 +99,7 @@ class Bootstrap(
             email = "pedrito@gmail.com"
             address = "Tambien calle falsa 123"
 
-            image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5gv6VVdtAGLqBK9MXIBOUGJ-hWeVdiiN-3Q&s"
+            image = imageBytes
 
         }
 // //////////////////////////////////////////////////////////////////////
