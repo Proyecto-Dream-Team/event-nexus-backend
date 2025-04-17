@@ -17,6 +17,8 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Component
+import java.net.URL
+import javax.print.DocFlavor
 
 
 @Component
@@ -38,7 +40,7 @@ class Bootstrap(
             username = "adrian"
             password = "adrian"
             email = "adrian@mail.com"
-            role = Role.EMPLOYEE_SIMPLE
+            role = Role.ADMIN
         }
         val account02: Authentication = Authentication().apply {
             username = "diego"
@@ -60,14 +62,15 @@ class Bootstrap(
 // //////////////////////////////////////////////////////////////////////
 //        ADMINS
 // //////////////////////////////////////////////////////////////////////
+
+        val credential1 = authRepo.findById(1).get()
         val admin = Admin().apply {
             name = "Adrian"
             lastname = "Perez"
             phone = "12341234"
             email = "perez.A@gmail.com"
             address = "calle posta 123"
-            image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5gv6VVdtAGLqBK9MXIBOUGJ-hWeVdiiN-3Q&s"
-
+            credentials = credential1
         }
 
 // //////////////////////////////////////////////////////////////////////
@@ -75,25 +78,25 @@ class Bootstrap(
 // //////////////////////////////////////////////////////////////////////
 //        USERS
 // //////////////////////////////////////////////////////////////////////
+        val credential2 = authRepo.findById(2).get()
         val diego = Employee().apply {
             name = "Diego"
-            lastname = "Lents"
+            lastname = "Lentz"
             phone = "12341234"
             email = "diego.lentz@gmail.com"
             address = "calle falsa 123"
-            image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5gv6VVdtAGLqBK9MXIBOUGJ-hWeVdiiN-3Q&s"
-
+            credentials = credential2
 
         }
 
+        val credential3 = authRepo.findById(3).get()
         val pedro = Employee().apply {
             name = "Pedro"
             lastname = "McGeraghty"
             phone = "12341234"
             email = "pedrito@gmail.com"
             address = "Tambien calle falsa 123"
-
-            image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5gv6VVdtAGLqBK9MXIBOUGJ-hWeVdiiN-3Q&s"
+            credentials = credential3
 
         }
 // //////////////////////////////////////////////////////////////////////

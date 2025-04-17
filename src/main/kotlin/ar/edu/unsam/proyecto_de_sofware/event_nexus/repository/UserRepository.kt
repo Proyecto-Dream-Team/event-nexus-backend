@@ -17,4 +17,6 @@ interface UserRepository: CrudRepository<Employee, Long> {
 
     @EntityGraph(attributePaths = ["permissions"])
     override fun findById(id: Long): Optional<Employee>
+
+    fun findByCredentials_Id(id: Long): Employee
 }

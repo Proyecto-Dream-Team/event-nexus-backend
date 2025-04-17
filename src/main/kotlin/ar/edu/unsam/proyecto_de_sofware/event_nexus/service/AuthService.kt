@@ -8,10 +8,13 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Admin
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Authentication
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Role
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.AuthRepository
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.UserRepository
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
-class AuthService(val authRepository: AuthRepository) {
+class AuthService(val authRepository: AuthRepository, val userRepository: UserRepository) {
 
     fun mockGetAll():List<Authentication>{
         return authRepository.findAll().toList()
@@ -32,11 +35,14 @@ class AuthService(val authRepository: AuthRepository) {
         authRepository.save(newAccount)
     }
 
+    @Transactional
     fun login(loginRequest: LoginRequest):LoginResponse{
         val existingUser = authRepository.findByUsername(loginRequest.username)
         if(existingUser.password != loginRequest.password){
             throw BusinessException("Invalid credentials")
         }
-        return LoginResponse(existingUser.id!!, existingUser.role.jobName)
+        val existingUserId = requireNotNull(existingUser.id) { "Client ID is null" }
+        val user = userRepository.findByCredentials_Id(existingUserId)
+        return LoginResponse(existingUser.id!!, existingUser.role.jobName, user.image)
     }
 }

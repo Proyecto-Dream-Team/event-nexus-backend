@@ -11,8 +11,8 @@ class ModuleService(
     @Autowired val userService: UserService,
     @Autowired val commandRepo: CommandRepository
 ) {
-    fun getAll(id: Int): List<AppModule> {
-        val user = userService.getUser(id)
+    fun getAll(id: Long): List<AppModule> {
+        val user = userService.getByID(id)
         val modules: List<AppModule> = listOf()
         return modules
     }

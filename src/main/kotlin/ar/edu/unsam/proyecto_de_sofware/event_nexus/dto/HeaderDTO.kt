@@ -4,7 +4,6 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 
 data class HeaderDTO (
     val id: Long,
-    val img: String,
     val name: String,
     val lastname: String
 ){}
@@ -17,6 +16,5 @@ fun Employee.toHeaderDTO():HeaderDTO{
         id = notNullId,
         name = name,
         lastname = lastname,
-        img = image
     )
 }
