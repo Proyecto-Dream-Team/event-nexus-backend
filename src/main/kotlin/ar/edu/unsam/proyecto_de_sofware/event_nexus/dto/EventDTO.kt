@@ -12,7 +12,7 @@ data class EventDTO(
     val date: LocalDateTime,
     val dateFinished: LocalDateTime,
     val duration: Int,
-    val guests: List<EmployeeDTO>,
+//    val guests: List<EmployeeDTO>,
     val description: String
 )
 
@@ -21,6 +21,6 @@ fun Event.toDTO() = EventDTO(
     date = date,
     dateFinished = dateFinished,
     duration = duration,
-    guests = guests.map { it.toDTO() },
+//    guests = guests.map { it.toDTO() },
     description = description
 )

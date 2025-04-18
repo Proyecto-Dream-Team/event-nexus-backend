@@ -8,30 +8,30 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Ca
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.CreateEvent
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.EventModule
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.ScheduleEvent
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.repports.RepportModule
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.space_reservations.SpaceReservationsModule
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.AppModule
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.ModuleCommand
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.AuthRepository
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.CommandRepository
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.AppModuleRepository
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Component
-import java.net.URL
-import javax.print.DocFlavor
 
 
 @Component
 class Bootstrap(
     @Autowired val authRepo: AuthRepository,
     @Autowired val userRepo: UserRepository,
-    @Autowired val commandRepo:CommandRepository
+    @Autowired val commandRepo:CommandRepository,
+    @Autowired val moduleRepo: AppModuleRepository
 ) : CommandLineRunner {
 
     override fun run(vararg args: String?) {
         createAccounts()
         createUsers()
-        createCommands()
+        createModules()
+//        createCommands()
         addPermissions()
     }
 
@@ -54,49 +54,62 @@ class Bootstrap(
             email = "matias@mail.com"
             role = Role.ADMIN
         }
-        val accounts: List<Authentication> = listOf(account01, account02, account03)
+        val account04:Authentication = Authentication().apply {
+            username = "pica"
+            password = "pica"
+            email = "pica@mail.com"
+            role = Role.ADMIN
+        }
+        val account05:Authentication = Authentication().apply {
+            username = "valen"
+            password = "valen"
+            email = "valen@mail.com"
+            role = Role.ADMIN
+        }
+        val accounts: List<Authentication> = listOf(account01, account02, account03, account04, account05)
         authRepo.saveAll(accounts)
     }
 
     fun createUsers () {
-// //////////////////////////////////////////////////////////////////////
-//        ADMINS
-// //////////////////////////////////////////////////////////////////////
+        // //////////////////////////////////////////////////////////////////////
+        //        ADMINS
+        // //////////////////////////////////////////////////////////////////////
 
-        val credential1 = authRepo.findById(1).get()
+        val credentialsAdrian = authRepo.findByEmail("adrian@mail.com")
         val admin = Admin().apply {
             name = "Adrian"
             lastname = "Perez"
             phone = "12341234"
-            email = "perez.A@gmail.com"
+            email = credentialsAdrian.email
             address = "calle posta 123"
             image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5gv6VVdtAGLqBK9MXIBOUGJ-hWeVdiiN-3Q&s"
-            credentials = credential1
+            credentials = credentialsAdrian
+            job = "asdasdas"
         }
 
-// //////////////////////////////////////////////////////////////////////
+        // //////////////////////////////////////////////////////////////////////
 
-// //////////////////////////////////////////////////////////////////////
-//        USERS
-// //////////////////////////////////////////////////////////////////////
-        val credential2 = authRepo.findById(2).get()
+        // //////////////////////////////////////////////////////////////////////
+        //        USERS
+        // //////////////////////////////////////////////////////////////////////
+        val credential2 = authRepo.findByEmail("diego@mail.com")
         val diego = Employee().apply {
             name = "Diego"
             lastname = "Lentz"
             phone = "12341234"
-            email = "diego.lentz@gmail.com"
+            email = credential2.email
             address = "calle falsa 123"
             image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5gv6VVdtAGLqBK9MXIBOUGJ-hWeVdiiN-3Q&s"
             credentials = credential2
 
         }
 
-        val credential3 = authRepo.findById(3).get()
+        val credential3 = authRepo.findByEmail("pica@mail.com")
         val pedro = Employee().apply {
             name = "Pedro"
             lastname = "McGeraghty"
             phone = "12341234"
-            email = "pedrito@gmail.com"
+            email = credential3.email
             address = "Tambien calle falsa 123"
             credentials = credential3
             image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5gv6VVdtAGLqBK9MXIBOUGJ-hWeVdiiN-3Q&s"
@@ -107,21 +120,21 @@ class Bootstrap(
         userRepo.saveAll(users)
     }
 
-    fun createCommands () {
-// //////////////////////////////////////////////////////////////////////
-//        Event Commands
-// //////////////////////////////////////////////////////////////////////
-        val createEventCommand = CreateEvent()
-        val cancelEventCommand = CancelEvent()
-        val scheduleEventCommand = ScheduleEvent()
-// //////////////////////////////////////////////////////////////////////
+    fun createModules () {
+        val eventModule: EventModule = EventModule()
+        val directiveModule: DirectiveModule = DirectiveModule()
+//        val repportModule: RepportModule = RepportModule()
+//        val reservationModule: SpaceReservationsModule = SpaceReservationsModule()
 
+        val modules : List<AppModule> = listOf(eventModule, directiveModule)
+        moduleRepo.saveAll(modules)
 
-// //////////////////////////////////////////////////////////////////////
-//        Directive Commands
-// //////////////////////////////////////////////////////////////////////
-        val sendDirectiveCommand = SendDirective()
-// //////////////////////////////////////////////////////////////////////
+//        createCommands()
+
+        val createEventCommand = CreateEvent().apply { module = eventModule }
+        val cancelEventCommand = CancelEvent().apply { module = eventModule }
+        val scheduleEventCommand = ScheduleEvent().apply { module = eventModule }
+        val sendDirectiveCommand = SendDirective().apply { module = directiveModule }
 
         val commands : List<ModuleCommand> = listOf(
             createEventCommand, cancelEventCommand, scheduleEventCommand,
@@ -130,16 +143,45 @@ class Bootstrap(
         commandRepo.saveAll(commands)
     }
 
+    private fun createCommands () {
+//        val eventModule:EventModule = moduleRepo.findEventModule()
+//        val directiveModule: DirectiveModule = moduleRepo.findDirectiveModule()
+//        // //////////////////////////////////////////////////////////////////////
+//        //        Event Commands
+//        // //////////////////////////////////////////////////////////////////////
+//        val createEventCommand = CreateEvent(eventModule)
+//        val cancelEventCommand = CancelEvent(eventModule)
+//        val scheduleEventCommand = ScheduleEvent(eventModule)
+//        // //////////////////////////////////////////////////////////////////////
+//
+//
+//        // //////////////////////////////////////////////////////////////////////
+//        //        Directive Commands
+//        // //////////////////////////////////////////////////////////////////////
+//        val sendDirectiveCommand = SendDirective(directiveModule)
+//        // //////////////////////////////////////////////////////////////////////
+//
+//        val commands : List<ModuleCommand> = listOf(
+//            createEventCommand, cancelEventCommand, scheduleEventCommand,
+//            sendDirectiveCommand
+//        )
+//        commandRepo.saveAll(commands)
+    }
+
     fun addPermissions () {
-        val admins:Employee
-        val admin:Admin = Admin()
+        val adminMock:Admin = Admin()
 
         val commands = commandRepo.findAll()
 
+        val adrian: Employee = userRepo.findByEmail("adrian@mail.com")
+        val diego: Employee = userRepo.findByEmail("diego@mail.com")
+        val pica: Employee = userRepo.findByEmail("pica@mail.com")
 
-        val user = userRepo.findById(1).get()
-        admin.addPermissions(user, commands.toSet())
+        adminMock.addPermissions(employee = adrian, permissions = commands.toSet())
+        adminMock.addPermissions(employee = diego, permissions = commands.take(2).toSet())
+        adminMock.addPermissions(employee = pica, permissions = commands.take(1).toSet())
 
-        userRepo.save(user)
+
+        userRepo.saveAll(listOf(adrian, diego, pica))
     }
 }

@@ -24,16 +24,16 @@ class Event {
     @Column(length = 255)
     val description: String = ""
 
-    @Column
-    @ManyToMany
-    @JoinColumn()
-    val guests : MutableSet<Employee> = mutableSetOf()
+//    @Column
+//    @ManyToMany
+//    @JoinColumn()
+//    val guests : MutableSet<Employee> = mutableSetOf()
 
     fun dateFinished() = date.plus(duration.toLong(), ChronoUnit.MINUTES)
 
     fun isPendding() = dateFinished >= LocalDateTime.now()
 
-    fun invite(user: Employee){
-        guests.add(user)
-    }
+//    fun invite(user: Employee){
+//        guests.add(user)
+//    }
 }

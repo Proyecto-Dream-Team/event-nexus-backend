@@ -4,9 +4,9 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Ev
 import jakarta.persistence.Entity
 
 @Entity
-class SendDirective: DirectiveCommand() {
+class SendDirective() : DirectiveCommand() {
     override fun doExecute() {
-        module.mock()
+        (module as DirectiveModule).mock()
     }
 
     override fun getClassName(): String = "Send Directive"

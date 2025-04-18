@@ -5,21 +5,21 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Cr
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.ScheduleEvent
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.ModuleCommand
 
-enum class Role(val jobName: String, val permissions:Set<ModuleCommand>){
+enum class Role(val jobName: String){
     EMPLOYEE_WATCHER(
         jobName = "Employee noob",
-        permissions = setOf()
+//        permissions = setOf()
     ),
     EMPLOYEE_SIMPLE(
         jobName = "Employee simple",
-        permissions = setOf(CreateEvent())
+//        permissions = setOf(CreateEvent())
     ),
     EMPLOYEE_FULL(
         jobName = "Employee full",
-        permissions = setOf(CreateEvent(), ScheduleEvent())
+//        permissions = setOf(CreateEvent(), ScheduleEvent())
     ),
     ADMIN(
         jobName = "Admin",
-        permissions = setOf(CreateEvent(), CancelEvent(), ScheduleEvent())
+//        permissions = setOf(CreateEvent(), CancelEvent(), ScheduleEvent())
     )
 }

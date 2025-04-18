@@ -11,31 +11,24 @@ import jakarta.persistence.OneToMany
 import org.springframework.boot.autoconfigure.security.SecurityProperties.User
 
 @Entity
-class EventModule: AppModule {
-
-    @Id
-    @GeneratedValue(strategy =  GenerationType.IDENTITY)
-    val id: Long ? = null
-    @Column(length = 40)
-
-    override val name: String = "Eventos"
-
-    @Column(length = 40)
-    override val image: String = "fotoEventosSinFondo.png"
+class EventModule(
+    name: String = "Eventos",
+    image: String = ""
+) : AppModule(name, image) {
 
     @OneToMany
     val events: List<Event> = mutableListOf()
 
-    fun notifyEvent(){}
+    fun notifyEvent(event: Event){}
 
-    fun cancelEvent(){}
+    fun cancelEvent(event: Event){}
 
     fun scheduleEvent(event: Event){
-        events.addLast(event)
+//        events.addLast(event)
     }
 
     fun inviteFriends(user: Employee, event: Event){
-        event.invite(user)
+//        event.invite(user)
     }
 
 }

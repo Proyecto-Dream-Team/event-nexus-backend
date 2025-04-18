@@ -5,5 +5,5 @@ import org.springframework.data.repository.CrudRepository
 
 interface ModuleRepository : CrudRepository<AppModule, Long> {
 
-    fun findBy
+//    fun findBy
 }

@@ -34,7 +34,7 @@ open class Employee(){
     lateinit var image:String
 
     @Column
-    val job: String = Role.EMPLOYEE_WATCHER.jobName
+    lateinit var job: String
 
     @Column
     var active: Boolean = true
@@ -59,9 +59,9 @@ open class Employee(){
     )
     lateinit var permissions: MutableSet<ModuleCommand>
 
-    fun modules():Set<String>{
-        return permissions.map{ it.module.name }.toSet()
-    }
+//    fun modules():Set<String>{
+//        return permissions.map{ it.module.name }.toSet()
+//    }
 
     fun updateProfile(data: DataUpdateProfileDTO) {
         email = data.email

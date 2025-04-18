@@ -13,9 +13,10 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/eventmodule")
 class EventModuleController(val eventService: EventService, val userService: UserService) {
     @GetMapping("/{id}")
-    fun get(@PathVariable id: Long): Set<ModuleDTO>{
+    fun get(@PathVariable id: Long): String{
         val user = userService.getByID(id)
-        return eventService.getAllEvent(user)
+//        return eventService.getAllEvent(user)
+        return "ARREGLAR"
     }
 
 }

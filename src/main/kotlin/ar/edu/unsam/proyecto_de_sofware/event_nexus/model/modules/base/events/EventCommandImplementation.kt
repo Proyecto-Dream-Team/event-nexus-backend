@@ -4,9 +4,10 @@ import jakarta.persistence.Entity
 import jakarta.persistence.ManyToOne
 
 @Entity
-class CreateEvent: EventCommand() {
+class CreateEvent() : EventCommand() {
+
     override fun doExecute() {
-        module.notifyEvent()
+        (module as EventModule).notifyEvent(this.event!!)
     }
 
     override fun getClassName(): String = "Create Event"
@@ -14,9 +15,9 @@ class CreateEvent: EventCommand() {
 }
 
 @Entity
-class CancelEvent: EventCommand() {
+class CancelEvent() : EventCommand() {
     override fun doExecute() {
-        module.cancelEvent()
+        (module as EventModule).cancelEvent(this.event!!)
     }
 
     override fun getClassName(): String = "Cancel Event"
@@ -24,11 +25,9 @@ class CancelEvent: EventCommand() {
 }
 
 @Entity
-class ScheduleEvent(): EventCommand() {
-    @ManyToOne
-    lateinit var event: Event
+class ScheduleEvent() : EventCommand() {
     override fun doExecute() {
-        module.scheduleEvent(event)
+        (module as EventModule).scheduleEvent(this.event!!)
     }
 
     override fun getClassName(): String = "Schedule Event"

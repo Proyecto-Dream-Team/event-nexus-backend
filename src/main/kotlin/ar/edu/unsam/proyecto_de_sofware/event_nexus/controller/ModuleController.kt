@@ -18,8 +18,11 @@ import org.springframework.web.bind.annotation.*
 class ModuleController(val moduleService: ModuleService, val userService: UserService) {
     @GetMapping("/{id}/all")
     fun get(@PathVariable id: Long): Set<ModuleDTO>{
-        val user = userService.getByID(id)
-        return moduleService.getAll(user)
+//        val user = userService.getByID(id)
+//        return moduleService.getAll(user)
+//        moduleService.mock2(id)
+//        return moduleService.userService.repoUser.findById(id).get().permissions.toList().map { it.module }
+        return moduleService.mock(id).map { ModuleDTO(it.module.id!!, it.module.name, it.module.image) }.toSet()
     }
 
 }

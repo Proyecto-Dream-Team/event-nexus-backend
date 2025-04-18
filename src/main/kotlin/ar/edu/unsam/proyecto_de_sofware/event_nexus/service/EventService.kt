@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service
 class EventService(
      val eventRepo: EventRepository
 ) {
-    fun getAllEvent(user: Employee): Set<Event> {
-        return eventRepo
-    }
+//    fun getAllEvent(user: Employee): Set<Event> {
+//        return eventRepo
+//    }
 }
