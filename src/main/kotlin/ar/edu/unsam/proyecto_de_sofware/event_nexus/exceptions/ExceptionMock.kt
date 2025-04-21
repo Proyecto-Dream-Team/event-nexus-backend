@@ -11,3 +11,7 @@ class DataBaseNotModifiedException(override val message:String): RuntimeExceptio
 
 @ResponseStatus(HttpStatus.FORBIDDEN)
 class CommandNotAllowedException(commandName:String): Exception("Command <$commandName> not allowed")
+
+@ResponseStatus(HttpStatus.FORBIDDEN)
+class ModuleNotAllowedException(moduleName:String): Exception("Module <$moduleName> not allowed")
+

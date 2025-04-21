@@ -9,14 +9,7 @@ import java.util.*
 
 interface UserRepository: CrudRepository<Employee, Long> {
 
-    @Query(nativeQuery = true, value = """
-        SELECT * FROM employee e
-        WHERE e.dtype = :type
-    """)
-    fun findWithType(type: String = ""): List<Employee>
-
-    @EntityGraph(attributePaths = ["permissions"])
-    override fun findById(id: Long): Optional<Employee>
+    fun findByEmail(email: String): Employee
 
     fun findByCredentials_Id(id: Long): Employee
 }

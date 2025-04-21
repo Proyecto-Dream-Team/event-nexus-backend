@@ -1,25 +1,23 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.service
 
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.AppModule
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.ModuleCommand
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.CommandRepository
-import org.springframework.beans.factory.annotation.Autowired
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.ModuleRepository
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.UserRepository
 import org.springframework.stereotype.Service
 
 @Service
 class ModuleService(
-    @Autowired val userService: UserService,
-    @Autowired val commandRepo: CommandRepository
+    val userRepository: UserRepository,
+    val moduleRepository: ModuleRepository
 ) {
-    fun getAll(id: Long): List<AppModule> {
-        val user = userService.getByID(id)
-        val modules: List<AppModule> = listOf()
-        return modules
+
+    fun modulosAll():List<AppModule>{
+        return moduleRepository.findAll().toList()
     }
 
-    fun mock(id: Long): List<ModuleCommand> {
-        val employeeCommands:List<ModuleCommand> = commandRepo.findEmployeeCommandsByID(id)
-        return employeeCommands
+    fun employeeModulosById(employeeId:Long):List<AppModule>{
+        val employee:Employee = userRepository.findById(employeeId).get()
+        return employee.modules.toList()
     }
-
 }
