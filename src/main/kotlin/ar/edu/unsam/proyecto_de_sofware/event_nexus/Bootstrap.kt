@@ -4,27 +4,24 @@ package ar.edu.unsam.proyecto_de_sofware.event_nexus
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.*
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.directive.DirectiveModule
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.directive.SendDirective
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.CancelEvent
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.CreateEvent
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.EventModule
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.ScheduleEvent
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.*
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.AppModule
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.ModuleCommand
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.AuthRepository
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.CommandRepository
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.AppModuleRepository
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.UserRepository
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Component
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 
 @Component
 class Bootstrap(
     @Autowired val authRepo: AuthRepository,
     @Autowired val userRepo: UserRepository,
-    @Autowired val commandRepo:CommandRepository,
-    @Autowired val moduleRepo: AppModuleRepository
+    @Autowired val commandRepo: CommandRepository,
+    @Autowired val moduleRepo: AppModuleRepository,
+    @Autowired val eventRepo: EventRepository
 ) : CommandLineRunner {
 
     override fun run(vararg args: String?) {
@@ -33,6 +30,7 @@ class Bootstrap(
         createModules()
 //        createCommands()
         addPermissions()
+        createEvents()
     }
 
     fun createAccounts() {
@@ -48,19 +46,19 @@ class Bootstrap(
             email = "diego@mail.com"
             role = Role.EMPLOYEE_FULL
         }
-        val account03:Authentication = Authentication().apply {
+        val account03: Authentication = Authentication().apply {
             username = "matias"
             password = "matias"
             email = "matias@mail.com"
             role = Role.ADMIN
         }
-        val account04:Authentication = Authentication().apply {
+        val account04: Authentication = Authentication().apply {
             username = "pica"
             password = "pica"
             email = "pica@mail.com"
             role = Role.ADMIN
         }
-        val account05:Authentication = Authentication().apply {
+        val account05: Authentication = Authentication().apply {
             username = "valen"
             password = "valen"
             email = "valen@mail.com"
@@ -70,7 +68,7 @@ class Bootstrap(
         authRepo.saveAll(accounts)
     }
 
-    fun createUsers () {
+    fun createUsers() {
         // //////////////////////////////////////////////////////////////////////
         //        ADMINS
         // //////////////////////////////////////////////////////////////////////
@@ -116,17 +114,17 @@ class Bootstrap(
 
         }
 // //////////////////////////////////////////////////////////////////////
-        val users : List<Employee> = listOf( pedro, diego, admin)
+        val users: List<Employee> = listOf(pedro, diego, admin)
         userRepo.saveAll(users)
     }
 
-    fun createModules () {
+    fun createModules() {
         val eventModule: EventModule = EventModule()
         val directiveModule: DirectiveModule = DirectiveModule()
 //        val repportModule: RepportModule = RepportModule()
 //        val reservationModule: SpaceReservationsModule = SpaceReservationsModule()
 
-        val modules : List<AppModule> = listOf(eventModule, directiveModule)
+        val modules: List<AppModule> = listOf(eventModule, directiveModule)
         moduleRepo.saveAll(modules)
 
 //        createCommands()
@@ -136,14 +134,26 @@ class Bootstrap(
         val scheduleEventCommand = ScheduleEvent().apply { module = eventModule }
         val sendDirectiveCommand = SendDirective().apply { module = directiveModule }
 
-        val commands : List<ModuleCommand> = listOf(
+        val commands: List<ModuleCommand> = listOf(
             createEventCommand, cancelEventCommand, scheduleEventCommand,
             sendDirectiveCommand
         )
         commandRepo.saveAll(commands)
     }
 
-    private fun createCommands () {
+
+    fun createEvents() {
+        val event1 = Event().apply {
+            duration = 300
+            date = LocalDateTime.now()
+            dateFinished = LocalDateTime.now().plusDays(1)
+            description = "Evento de prueba"
+        }
+
+        eventRepo.save(event1)
+    }
+
+    private fun createCommands() {
 //        val eventModule:EventModule = moduleRepo.findEventModule()
 //        val directiveModule: DirectiveModule = moduleRepo.findDirectiveModule()
 //        // //////////////////////////////////////////////////////////////////////
@@ -168,8 +178,8 @@ class Bootstrap(
 //        commandRepo.saveAll(commands)
     }
 
-    fun addPermissions () {
-        val adminMock:Admin = Admin()
+    fun addPermissions() {
+        val adminMock: Admin = Admin()
 
         val commands = commandRepo.findAll()
 

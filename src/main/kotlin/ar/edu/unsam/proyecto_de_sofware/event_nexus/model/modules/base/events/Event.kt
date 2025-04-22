@@ -1,35 +1,32 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events
 
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import jakarta.persistence.*
 import java.time.LocalDateTime
-import java.time.temporal.ChronoUnit
 
 @Entity
 class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id : Long? = null
+    val id: Long? = null
 
     @Column
-    val date: LocalDateTime = LocalDateTime.now()
+    var date: LocalDateTime = LocalDateTime.now()
 
     @Column
-    val duration: Int = 0
+    var duration : Int = 0
 
     @Column
-    val dateFinished = dateFinished()
+    var dateFinished: LocalDateTime = LocalDateTime.now()
 
     @Column(length = 255)
-    val description: String = ""
+    var description: String = ""
 
 //    @Column
 //    @ManyToMany
 //    @JoinColumn()
 //    val guests : MutableSet<Employee> = mutableSetOf()
 
-    fun dateFinished() = date.plus(duration.toLong(), ChronoUnit.MINUTES)
 
     fun isPendding() = dateFinished >= LocalDateTime.now()
 
