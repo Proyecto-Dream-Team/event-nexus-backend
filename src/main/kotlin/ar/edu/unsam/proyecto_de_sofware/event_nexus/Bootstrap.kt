@@ -25,7 +25,7 @@ import javax.print.DocFlavor
 class Bootstrap(
     @Autowired val authRepo: AuthRepository,
     @Autowired val userRepo: UserRepository,
-    @Autowired val commandRepo:CommandRepository
+    @Autowired val commandRepo: CommandRepository
 ) : CommandLineRunner {
 
     override fun run(vararg args: String?) {
@@ -40,7 +40,7 @@ class Bootstrap(
             username = "adrian"
             password = "adrian"
             email = "adrian@mail.com"
-            role = Role.ADMIN
+            role = Role.EMPLOYEE_FULL
         }
         val account02: Authentication = Authentication().apply {
             username = "diego"
@@ -48,27 +48,34 @@ class Bootstrap(
             email = "diego@mail.com"
             role = Role.EMPLOYEE_FULL
         }
-        val account03:Authentication = Authentication().apply {
+        val account03: Authentication = Authentication().apply {
             username = "matias"
             password = "matias"
             email = "matias@mail.com"
+            role = Role.EMPLOYEE_FULL
+        }
+
+        val account04: Authentication = Authentication().apply {
+            username = "valen"
+            password = "valen"
+            email = "valen@mail.com"
             role = Role.ADMIN
         }
-        val accounts: List<Authentication> = listOf(account01, account02, account03)
+        val accounts: List<Authentication> = listOf(account01, account02, account03, account04)
         authRepo.saveAll(accounts)
     }
 
-    fun createUsers () {
+    fun createUsers() {
 // //////////////////////////////////////////////////////////////////////
 //        ADMINS
 // //////////////////////////////////////////////////////////////////////
 
-        val credential1 = authRepo.findById(1).get()
+        val credential1 = authRepo.findById(4).get()
         val admin = Admin().apply {
-            name = "Adrian"
-            lastname = "Perez"
+            name = "Valentin"
+            lastname = "Pugliese"
             phone = "12341234"
-            email = "perez.A@gmail.com"
+            email = "valentin.d@gmail.com"
             address = "calle posta 123"
             credentials = credential1
         }
@@ -99,12 +106,23 @@ class Bootstrap(
             credentials = credential3
 
         }
+
+        val credential4 = authRepo.findById(1).get()
+        val adri = Employee().apply {
+            name = "Adri"
+            lastname = "Perez"
+            phone = "12341234"
+            email = "adrian@gmail.com"
+            address = "calle falsa 123"
+            credentials = credential4
+
+        }
 // //////////////////////////////////////////////////////////////////////
-        val users : List<Employee> = listOf( pedro, diego, admin)
+        val users: List<Employee> = listOf(pedro, diego, admin, adri)
         userRepo.saveAll(users)
     }
 
-    fun createCommands () {
+    fun createCommands() {
 // //////////////////////////////////////////////////////////////////////
 //        Event Commands
 // //////////////////////////////////////////////////////////////////////
@@ -120,23 +138,34 @@ class Bootstrap(
         val sendDirectiveCommand = SendDirective()
 // //////////////////////////////////////////////////////////////////////
 
-        val commands : List<ModuleCommand> = listOf(
+        val commands: List<ModuleCommand> = listOf(
             createEventCommand, cancelEventCommand, scheduleEventCommand,
             sendDirectiveCommand
         )
         commandRepo.saveAll(commands)
     }
 
-    fun addPermissions () {
-        val admins:Employee
-        val admin:Admin = Admin()
+    fun addPermissions() {
+        val admins: Employee
+        val admin: Admin = Admin()
 
         val commands = commandRepo.findAll()
 
 
-        val user = userRepo.findById(1).get()
-        admin.addPermissions(user, commands.toSet())
+        val user4 = userRepo.findById(4).get()
+        admin.addPermissions(user4, commands.toSet())
 
-        userRepo.save(user)
+        val user3 = userRepo.findById(3).get()
+        admin.addPermissions(user3, commands.toSet())
+
+        val user2 = userRepo.findById(2).get()
+        admin.addPermissions(user2, commands.toSet())
+
+        val user1 = userRepo.findById(1).get()
+        admin.addPermissions(user1, commands.toSet())
+
+
+        val users = mutableListOf(user1, user2, user3, user4)
+        userRepo.saveAll(users)
     }
 }
