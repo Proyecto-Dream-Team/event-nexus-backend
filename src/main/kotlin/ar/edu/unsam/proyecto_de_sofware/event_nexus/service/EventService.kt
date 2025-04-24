@@ -41,8 +41,9 @@ class EventService(
     }
 
     @Transactional
-    fun createEvent(event: Event) {
+    fun createEvent(event: Event, creator: Employee) {
         try {
+            event.addParticipant(creator)
             eventRepository.save(event)
         } catch (e: Exception) {
             throw e

@@ -53,7 +53,7 @@ class EventController(
             dateFinished = newEventDTO.dateFinished
         }
 //        creatorEmployee.canDoModuleAction(command=CreateEvent())
-        eventService.createEvent(newEvent)
+        eventService.createEvent(newEvent, creatorEmployee)
         return ResponseEntity.ok().body("Evento creado!")
     }
 
