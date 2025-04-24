@@ -49,6 +49,8 @@ class EventController(
             participants = participantsEmployees.toMutableList()
             name = newEventDTO.name
             date = newEventDTO.date
+            description = newEventDTO.description
+            dateFinished = newEventDTO.dateFinished
         }
 //        creatorEmployee.canDoModuleAction(command=CreateEvent())
         eventService.createEvent(newEvent)

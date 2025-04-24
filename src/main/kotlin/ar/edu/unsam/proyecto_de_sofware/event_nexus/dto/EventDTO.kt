@@ -1,14 +1,15 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.dto
 
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Event
-import java.time.LocalDate
 import java.time.LocalDateTime
 
 data class EventDTO(
-    val creatorId:Long,
-    val participantsIds:List<Long>,
+    val creatorId: Long,
+    val participantsIds: List<Long>,
     val date: LocalDateTime,
-    val name:String
+    val name: String,
+    val description: String,
+    val dateFinished: LocalDateTime
 )
 
 data class ShowEventDTO(
