@@ -32,9 +32,15 @@ class Event(){
     @Column
     lateinit var date: LocalDateTime
 
+    @Column
+    var dateFinished: LocalDateTime = LocalDateTime.now()
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(referencedColumnName = "id")
     lateinit var creator: Employee
+
+    @Column
+    var description: String = ""
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -53,4 +59,6 @@ class Event(){
     fun removeParticipant(participant:Employee){
         this.participants.remove(participant)
     }
+
+    fun isPending() : Boolean = date > LocalDateTime.now()
 }

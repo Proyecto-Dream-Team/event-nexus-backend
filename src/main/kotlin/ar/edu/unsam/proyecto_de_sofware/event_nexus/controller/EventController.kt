@@ -1,6 +1,7 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.controller
 
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.EventDTO
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.ShowEventDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.CreateEvent
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Event
@@ -24,26 +25,26 @@ class EventController(
     val userService: UserService
 ) {
     @GetMapping()
-    fun events():List<Event>{
+    fun events(): List<ShowEventDTO> {
         return eventService.eventos()
     }
 
     @GetMapping("/{id}/created")
-    fun createdEvents(@PathVariable id: Long):List<Event>{
+    fun createdEvents(@PathVariable id: Long): List<Event> {
         return eventService.employeeCreatedEvents(id)
     }
 
     @GetMapping("{id}/invited")
-    fun invitedEvents(@PathVariable id: Long):List<Event>{
+    fun invitedEvents(@PathVariable id: Long): List<Event> {
         return eventService.employeeInvitedEvents(id)
     }
 
     @PostMapping("/create")
-    fun createEvent(@RequestBody newEventDTO: EventDTO): ResponseEntity<String>{
+    fun createEvent(@RequestBody newEventDTO: EventDTO): ResponseEntity<String> {
         val creatorEmployee: Employee = userService.getByID(newEventDTO.creatorId)
         val participantsEmployees: List<Employee> = userService.findAllById(employeesIds = newEventDTO.participantsIds)
 
-        val newEvent:Event = Event().apply {
+        val newEvent: Event = Event().apply {
             creator = creatorEmployee
             participants = participantsEmployees.toMutableList()
             name = newEventDTO.name
@@ -55,18 +56,18 @@ class EventController(
     }
 
     @PostMapping("/join")
-    fun joinEvent(@RequestParam employeeId: Long, @RequestParam eventId: Long): ResponseEntity<String>{
+    fun joinEvent(@RequestParam employeeId: Long, @RequestParam eventId: Long): ResponseEntity<String> {
         val employee: Employee = userService.getByID(employeeId)
-        val event:Event = eventService.getById(eventId)
+        val event: Event = eventService.getById(eventId)
         event.addParticipant(employee)
         eventService.updateEvent(event)
         return ResponseEntity.ok().body("Te uniste al evento!")
     }
 
     @PostMapping("/leave")
-    fun leaveEvent(@RequestParam employeeId: Long, @RequestParam eventId: Long): ResponseEntity<String>{
+    fun leaveEvent(@RequestParam employeeId: Long, @RequestParam eventId: Long): ResponseEntity<String> {
         val employee: Employee = userService.getByID(employeeId)
-        val event:Event = eventService.getById(eventId)
+        val event: Event = eventService.getById(eventId)
         event.removeParticipant(employee)
         eventService.updateEvent(event)
         return ResponseEntity.ok().body("Abandonaste el evento!")
