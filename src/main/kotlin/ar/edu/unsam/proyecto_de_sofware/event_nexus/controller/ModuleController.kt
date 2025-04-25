@@ -14,7 +14,6 @@ class ModuleController(val moduleService: ModuleService) {
         return moduleService.modulosAll()
     }
 
-
     @GetMapping("/module/{id}")
     fun employeeModules(@PathVariable id: Long):List<AppModule>{
         return moduleService.employeeModulosById(id)

@@ -15,7 +15,6 @@ import java.util.*
 @Service
 class EventService(
     val eventRepository: EventRepository,
-    val userRepository: UserRepository,
 ) {
     fun getById(eventId: Long): Event {
         return eventRepository.findById(eventId).orElseThrow{ BusinessException("No se encontro Evento")}
@@ -25,16 +24,12 @@ class EventService(
         return eventRepository.findAll().toList()
     }
 
-    fun employeeCreatedEvents(employeeId: Long): List<Event> {
-        val employee: Employee = userRepository.findById(employeeId).get()
-        val employeeEvents: List<Event> = eventRepository.findByCreator(employee)
-        return employeeEvents
+    fun employeeCreatedEvents(employee: Employee): List<Event> {
+        return eventRepository.findByCreator(employee)
     }
 
-    fun employeeInvitedEvents(employeeId: Long): List<Event> {
-        val employee: Employee = userRepository.findById(employeeId).get()
-        val employeeEvents: List<Event> = eventRepository.findByParticipants(employee)
-        return employeeEvents
+    fun employeeInvitedEvents(employee: Employee): List<Event> {
+        return eventRepository.findByParticipants(employee)
     }
 
     @Transactional

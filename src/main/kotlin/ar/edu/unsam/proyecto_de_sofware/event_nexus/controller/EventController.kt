@@ -33,20 +33,22 @@ class EventController(
 
     @GetMapping("/{id}/created")
     fun createdEvents(@PathVariable id: Long): List<Event> {
-        return eventService.employeeCreatedEvents(id)
+        val employee: Employee = userService.getByID(id)
+        return eventService.employeeCreatedEvents(employee)
     }
 
     @GetMapping("{id}/invited")
     fun invitedEvents(@PathVariable id: Long): List<Event> {
-        return eventService.employeeInvitedEvents(id)
+        val employee: Employee = userService.getByID(id)
+        return eventService.employeeInvitedEvents(employee)
     }
 
     @PostMapping("/create")
     fun createEvent(@RequestBody newEventDTO: EventDTO): ResponseEntity<String> {
-        val creatorEmployee: Employee = userService.getByID(newEventDTO.creatorId)
-        val participantsEmployees: List<Employee> = userService.findAllById(employeesIds = newEventDTO.participantsIds.toList())
+        val creatorEmployee = userService.getByID(newEventDTO.creatorId)
+        val participantsEmployees = userService.findAllById(employeesIds = newEventDTO.participantsIds.toList())
 
-        val newEvent: Event = Event().apply {
+        val newEvent = Event().apply {
             creator = creatorEmployee
             participants = participantsEmployees.toMutableSet()
             name = newEventDTO.name
@@ -61,8 +63,8 @@ class EventController(
 
     @PostMapping("/join")
     fun joinEvent(@RequestParam employeeId: Long, @RequestParam eventId: Long): ResponseEntity<String> {
-        val employee: Employee = userService.getByID(employeeId)
-        val event: Event = eventService.getById(eventId)
+        val employee = userService.getByID(employeeId)
+        val event = eventService.getById(eventId)
         event.addParticipant(employee)
         eventService.updateEvent(event)
         return ResponseEntity.ok().body("Te uniste al evento!")
