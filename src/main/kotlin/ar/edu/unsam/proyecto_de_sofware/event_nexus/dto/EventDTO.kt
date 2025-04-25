@@ -9,8 +9,8 @@ data class EventDTO(
     val date: LocalDateTime,
     val name: String,
     val description: String,
-    val dateFinished: LocalDateTime,
-    val amountParticipants: Int
+//    val dateFinished: LocalDateTime,
+//    val amountParticipants: Int
 )
 
 data class ShowEventDTO(
