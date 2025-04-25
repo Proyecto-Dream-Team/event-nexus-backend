@@ -2,6 +2,7 @@ package ar.edu.unsam.proyecto_de_sofware.event_nexus.service
 
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.ShowEventDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.showEventDTO
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.BusinessException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Event
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.EventRepository
@@ -16,12 +17,7 @@ class EventService(
     val userRepository: UserRepository,
 ) {
     fun getById(eventId: Long): Event {
-        try {
-            val event = eventRepository.findById(eventId).orElseThrow()
-            return event
-        } catch (e: Exception) {
-            throw e
-        }
+        return eventRepository.findById(eventId).orElseThrow{ BusinessException("No se encontro Evento")}
     }
 
     fun events(): List<Event> {
