@@ -17,8 +17,8 @@ class EventService(
 ) {
     fun getById(eventId: Long): Event {
         try {
-            val event: Optional<Event> = eventRepository.findById(eventId)
-            return event.get()
+            val event = eventRepository.findById(eventId).orElseThrow()
+            return event
         } catch (e: Exception) {
             throw e
         }
