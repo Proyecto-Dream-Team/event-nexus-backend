@@ -70,11 +70,11 @@ class Bootstrap(
     fun createModules () {
 
         var eventModule: AppModule = EventModule().apply {
-            name = "Eventos"
+            name = "Events"
             image = "fotoEventosSinFondo.png"
         }
         var directiveModule: AppModule = DirectiveModule().apply {
-            name = "Informacion directiva"
+            name = "Directives"
             image = "preguntasFrecuentes.png"
         }
         moduleRepo.saveAll(listOf(
@@ -90,8 +90,8 @@ class Bootstrap(
         var valen: Employee = userRepo.findByEmail(email = "valen@mail.com")
         var theo: Employee = userRepo.findByEmail(email = "theo@mail.com")
 
-        var eventModule: AppModule = moduleRepo.findByName(name = "Eventos")
-        var directiveModule: AppModule = moduleRepo.findByName(name = "Informacion directiva")
+        var eventModule: AppModule = moduleRepo.findByName(name = "Events")
+        var directiveModule: AppModule = moduleRepo.findByName(name = "Directives")
 
         adrian.modules.addAll(elements = listOf(eventModule, directiveModule))
         diego.modules.addAll(elements = listOf(eventModule))
