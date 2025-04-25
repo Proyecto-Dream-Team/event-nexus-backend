@@ -1,17 +1,15 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events
 
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.AppModule
+import jakarta.persistence.Entity
+import jakarta.persistence.OneToMany
 
-class EventModule: AppModule {
 
-    override val id: Int = 1
-    override val name: String = "Eventos"
-    override val image: String = "fotoEventosSinFondo.png"
+@Entity
+class EventModule: AppModule(){
+    override var image: String = "fotoEventosSinFondo.png"
 
-    fun notifyEvent(){}
-
-    fun cancelEvent(){}
-
-    fun scheduleEvent(){}
+    @OneToMany(mappedBy = "module")
+    var events: MutableList<Event> = mutableListOf()
 
 }

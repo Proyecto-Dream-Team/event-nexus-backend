@@ -1,15 +1,23 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.service
 
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.AppModule
-import org.springframework.beans.factory.annotation.Autowired
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.ModuleRepository
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.UserRepository
 import org.springframework.stereotype.Service
 
 @Service
 class ModuleService(
-    @Autowired val userService: UserService
+    val userRepository: UserRepository,
+    val moduleRepository: ModuleRepository
 ) {
-    fun getAll(id: Int): List<AppModule> {
-        val user = userService.getUser(id)
-        return user.modules
+
+    fun modulosAll():List<AppModule>{
+        return moduleRepository.findAll().toList()
+    }
+
+    fun employeeModulosById(employeeId:Long):List<AppModule>{
+        val employee:Employee = userRepository.findById(employeeId).get()
+        return employee.modules.toList()
     }
 }
