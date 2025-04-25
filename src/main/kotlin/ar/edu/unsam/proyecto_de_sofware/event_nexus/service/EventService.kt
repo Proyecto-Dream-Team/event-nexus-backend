@@ -2,11 +2,13 @@ package ar.edu.unsam.proyecto_de_sofware.event_nexus.service
 
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.ShowEventDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.showEventDTO
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.BusinessException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Event
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.EventRepository
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.UserRepository
 import jakarta.transaction.Transactional
+import org.springframework.dao.DataAccessException
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -16,16 +18,11 @@ class EventService(
     val userRepository: UserRepository,
 ) {
     fun getById(eventId: Long): Event {
-        try {
-            val event: Optional<Event> = eventRepository.findById(eventId)
-            return event.get()
-        } catch (e: Exception) {
-            throw e
-        }
+        return eventRepository.findById(eventId).orElseThrow{ BusinessException("No se encontro Evento")}
     }
 
-    fun eventos(): List<ShowEventDTO> {
-        return eventRepository.findAll().map { it.showEventDTO() }
+    fun events(): List<Event> {
+        return eventRepository.findAll().toList()
     }
 
     fun employeeCreatedEvents(employeeId: Long): List<Event> {
@@ -43,10 +40,9 @@ class EventService(
     @Transactional
     fun createEvent(event: Event, creator: Employee) {
         try {
-            event.addParticipant(creator)
             eventRepository.save(event)
-        } catch (e: Exception) {
-            throw e
+        } catch (e: DataAccessException) {
+            throw RuntimeException("No se pudo actualizar eventos") //TODO hacer custom
         }
     }
 
@@ -54,8 +50,8 @@ class EventService(
     fun updateEvent(event: Event) {
         try {
             eventRepository.save(event)
-        } catch (e: Exception) {
-            throw e
+        } catch (e: DataAccessException) {
+            throw RuntimeException("No se pudo actualizar eventos") //TODO hacer custom
         }
     }
 }

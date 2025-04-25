@@ -87,7 +87,7 @@ fun eventAdrian(creatorEmployee: Employee, participantsEmployees:Set<Employee>):
         name = "Evento de Adrian"
         date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
         creator = creatorEmployee
-        participants = participantsEmployees.toMutableList()
+        participants = participantsEmployees.toMutableSet()
     }
 }
 
@@ -96,7 +96,7 @@ fun eventDiego(creatorEmployee: Employee, participantsEmployees:Set<Employee>): 
         name = "Evento de Diego"
         date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
         creator = creatorEmployee
-        participants = participantsEmployees.toMutableList()
+        participants = participantsEmployees.toMutableSet()
     }
 }
 
@@ -105,6 +105,6 @@ fun eventPica(creatorEmployee: Employee, participantsEmployees:Set<Employee>): E
         name = "Evento de Pica"
         date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
         creator = creatorEmployee
-        participants = participantsEmployees.toMutableList()
+        participants = participantsEmployees.toMutableSet()
     }
 }

@@ -50,7 +50,7 @@ class Event(){
         inverseJoinColumns=
             [JoinColumn(name="event_id", referencedColumnName="id")]
     )
-    lateinit var participants: MutableList<Employee>
+    lateinit var participants: MutableSet<Employee>
 
     fun addParticipant(participant:Employee){
         this.participants.add(participant)
