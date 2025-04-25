@@ -5,6 +5,6 @@ import jakarta.persistence.Entity
 
 @Entity
 class DirectiveModule: AppModule() {
-    override var image: String = "imagen"
+    override var image: String = "preguntasFrecuentes.png"
 
 }

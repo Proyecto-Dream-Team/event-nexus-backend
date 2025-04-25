@@ -7,7 +7,7 @@ import jakarta.persistence.OneToMany
 
 @Entity
 class EventModule: AppModule(){
-    override var image: String = "imagen"
+    override var image: String = "fotoEventosSinFondo.png"
 
     @OneToMany(mappedBy = "module")
     var events: MutableList<Event> = mutableListOf()

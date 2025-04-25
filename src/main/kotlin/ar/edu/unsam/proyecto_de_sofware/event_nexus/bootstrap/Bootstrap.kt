@@ -58,8 +58,14 @@ class Bootstrap(
 
     fun createModules () {
 
-        var eventModule: AppModule = EventModule().apply { name = "Events" }
-        var directiveModule: AppModule = DirectiveModule().apply { name = "Directives" }
+        var eventModule: AppModule = EventModule().apply {
+            name = "Events"
+            image = "fotoEventosSinFondo.png"
+        }
+        var directiveModule: AppModule = DirectiveModule().apply {
+            name = "Directives"
+            image = "preguntasFrecuentes.png"
+        }
         moduleRepo.saveAll(listOf(
             eventModule, directiveModule
         ))

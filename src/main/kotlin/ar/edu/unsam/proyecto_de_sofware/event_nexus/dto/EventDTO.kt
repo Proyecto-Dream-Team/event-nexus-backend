@@ -14,6 +14,7 @@ data class EventDTO(
 data class ShowEventDTO(
     val id: Long?,
     val creatorName: String,
+    val creatorImage: String,
     val dateFinished: LocalDateTime,
     val title: String,
     val description: String,
@@ -25,6 +26,7 @@ fun Event.showEventDTO(): ShowEventDTO {
     return ShowEventDTO(
         id = id,
         creatorName = creator.name + " "+ creator.lastname,
+        creatorImage = creator.image,
         dateFinished = dateFinished,
         title = title,
         description = description,
