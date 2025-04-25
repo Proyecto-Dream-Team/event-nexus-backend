@@ -1,36 +1,42 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common
 
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.CommandNotAllowedException
-import com.fasterxml.jackson.annotation.JsonTypeInfo
-import jakarta.persistence.*
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.ModuleNotAllowedException
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 
-@Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
-abstract class ModuleCommand{
+
+abstract class ModulePermission{
 
     abstract val module:AppModule
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id:Long? = null
+    fun moduleName():String = this.module::class.simpleName!!
 
-
-    abstract fun doExecute()
     abstract fun getClassName():String
 
-    fun execute(userAllowedCommands: MutableSet<ModuleCommand>){
-        checkPermissions(userAllowedCommands)
-        doExecute()
+    fun execute(employee: Employee){
+        checkModuleAccess(employeeModules = employee.modules)
+        checkPermissions(employeeAllowedPermissions = employee.permissions)
     }
 
-    private fun checkPermissions(userAllowedCommands: MutableSet<ModuleCommand>){
-        if(this.notAllowedPermit(userAllowedCommands)){
+    private fun checkModuleAccess(employeeModules: MutableSet<AppModule>){
+        if(this.notAllowedModule(employeeModules)){
+            throw ModuleNotAllowedException(this.moduleName())
+        }
+    }
+
+    private fun notAllowedModule(employeeModules: MutableSet<AppModule>):Boolean{
+        return employeeModules.none { module:AppModule ->
+            module::class == this.module::class
+        }
+    }
+
+    private fun checkPermissions(employeeAllowedPermissions: MutableSet<ModulePermission>){
+        if(this.notAllowedPermit(employeeAllowedPermissions)){
             throw CommandNotAllowedException(this.getClassName())
         }
     }
 
-    private fun notAllowedPermit(userAllowedCommands: MutableSet<ModuleCommand>):Boolean{
+    private fun notAllowedPermit(userAllowedCommands: MutableSet<ModulePermission>):Boolean{
         val commandClass = this::class
         return userAllowedCommands.none { it::class == commandClass }
 

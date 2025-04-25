@@ -46,4 +46,9 @@ class UserService(val repoUser: UserRepository) {
             .body("Actualizacion exitosa!")
     }
 
+
+    fun findAllById(employeesIds: List<Long>): List<Employee> {
+        return repoUser.findAllById(employeesIds).toList()
+    }
+
 }

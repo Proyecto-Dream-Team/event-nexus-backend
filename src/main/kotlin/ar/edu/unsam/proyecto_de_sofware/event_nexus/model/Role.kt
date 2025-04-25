@@ -3,23 +3,19 @@ package ar.edu.unsam.proyecto_de_sofware.event_nexus.model
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.CancelEvent
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.CreateEvent
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.ScheduleEvent
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.ModuleCommand
 
-enum class Role(val jobName: String, val permissions:Set<ModuleCommand>){
+
+enum class Role(val jobName: String){
     EMPLOYEE_WATCHER(
-        jobName = "Employee noob",
-        permissions = setOf()
+        jobName = "Employee noob"
     ),
     EMPLOYEE_SIMPLE(
-        jobName = "Employee simple",
-        permissions = setOf(CreateEvent())
+        jobName = "Employee simple"
     ),
     EMPLOYEE_FULL(
-        jobName = "Employee full",
-        permissions = setOf(CreateEvent(), ScheduleEvent())
+        jobName = "Employee full"
     ),
     ADMIN(
-        jobName = "Admin",
-        permissions = setOf(CreateEvent(), CancelEvent(), ScheduleEvent())
+        jobName = "Admin"
     )
 }

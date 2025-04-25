@@ -1,11 +1,11 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.model
 
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.DataUpdateProfileDTO
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.ModuleCommand
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.AppModule
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.ModulePermission
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import jakarta.persistence.*
-import kotlin.jvm.Transient
 
 @Entity
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type") // PARA DATABASE
@@ -49,19 +49,18 @@ open class Employee(){
     var email: String = ""
 
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-        name="employee_module_command",
+        name="employee_module",
         joinColumns=
             [JoinColumn(name="employee_id", referencedColumnName="id")],
         inverseJoinColumns=
-            [JoinColumn(name="module_command_id", referencedColumnName="id")]
+            [JoinColumn(name="module_id", referencedColumnName="id")]
     )
-    lateinit var permissions: MutableSet<ModuleCommand>
+    lateinit var modules: MutableSet<AppModule>
 
-    fun modules():Set<String>{
-        return permissions.map{ it.module.name }.toSet()
-    }
+    @Transient
+    var permissions: MutableSet<ModulePermission> = mutableSetOf()
 
     fun updateProfile(data: DataUpdateProfileDTO) {
         email = data.email
@@ -70,10 +69,9 @@ open class Employee(){
     }
 
 
-//
-//    fun executeModuleAction(command: ModuleCommand) {
-//        command.execute(this.permissions)
-//    }
+    fun canDoModuleAction(command: ModulePermission) {
+        command.execute(this)
+    }
 }
 
 
