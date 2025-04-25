@@ -8,6 +8,7 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Ev
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.EventRepository
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.UserRepository
 import jakarta.transaction.Transactional
+import org.springframework.dao.DataAccessException
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -40,8 +41,8 @@ class EventService(
     fun createEvent(event: Event, creator: Employee) {
         try {
             eventRepository.save(event)
-        } catch (e: Exception) {
-            throw e
+        } catch (e: DataAccessException) {
+            throw RuntimeException("No se pudo actualizar eventos") //TODO hacer custom
         }
     }
 
@@ -49,8 +50,8 @@ class EventService(
     fun updateEvent(event: Event) {
         try {
             eventRepository.save(event)
-        } catch (e: Exception) {
-            throw e
+        } catch (e: DataAccessException) {
+            throw RuntimeException("No se pudo actualizar eventos") //TODO hacer custom
         }
     }
 }
