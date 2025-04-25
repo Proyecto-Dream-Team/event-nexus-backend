@@ -9,6 +9,7 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.EventService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.UserService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CrossOrigin
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -84,6 +85,12 @@ class EventController(
         event.removeParticipant(employee)
         eventService.updateEvent(event)
         return ResponseEntity.ok().body("Abandonaste el evento!")
+    }
+
+    @DeleteMapping("/{id}")
+    fun delete(@PathVariable id: Long): ResponseEntity<String>{
+        val event = eventService.getById(id)
+        return eventService.delete(event)
     }
 
 }

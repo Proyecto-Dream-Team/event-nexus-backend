@@ -9,6 +9,8 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.EventRepository
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.UserRepository
 import jakarta.transaction.Transactional
 import org.springframework.dao.DataAccessException
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -48,5 +50,17 @@ class EventService(
         } catch (e: DataAccessException) {
             throw RuntimeException("No se pudo actualizar eventos") //TODO hacer custom
         }
+    }
+
+    @Transactional
+    fun delete(event: Event): ResponseEntity<String> {
+        try{
+            eventRepository.delete(event)
+        }catch (err : DataAccessException){
+            return throw RuntimeException("No se pudo eliminar evento")
+        }
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body("Evento eliminado!")
     }
 }
