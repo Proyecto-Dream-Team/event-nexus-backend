@@ -24,8 +24,8 @@ class EventService(
         }
     }
 
-    fun eventos(): List<ShowEventDTO> {
-        return eventRepository.findAll().map { it.showEventDTO() }
+    fun events(): List<Event> {
+        return eventRepository.findAll().toList()
     }
 
     fun employeeCreatedEvents(employeeId: Long): List<Event> {
@@ -43,7 +43,6 @@ class EventService(
     @Transactional
     fun createEvent(event: Event, creator: Employee) {
         try {
-            event.addParticipant(creator)
             eventRepository.save(event)
         } catch (e: Exception) {
             throw e

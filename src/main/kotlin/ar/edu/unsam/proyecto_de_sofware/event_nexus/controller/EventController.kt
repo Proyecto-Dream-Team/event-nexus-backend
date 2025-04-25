@@ -2,6 +2,7 @@ package ar.edu.unsam.proyecto_de_sofware.event_nexus.controller
 
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.EventDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.ShowEventDTO
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.showEventDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.CreateEvent
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Event
@@ -26,7 +27,7 @@ class EventController(
 ) {
     @GetMapping()
     fun events(): List<ShowEventDTO> {
-        return eventService.eventos()
+        return eventService.events().map { it.showEventDTO() }
     }
 
     @GetMapping("/{id}/created")
@@ -42,11 +43,11 @@ class EventController(
     @PostMapping("/create")
     fun createEvent(@RequestBody newEventDTO: EventDTO): ResponseEntity<String> {
         val creatorEmployee: Employee = userService.getByID(newEventDTO.creatorId)
-        val participantsEmployees: List<Employee> = userService.findAllById(employeesIds = newEventDTO.participantsIds)
+        val participantsEmployees: List<Employee> = userService.findAllById(employeesIds = newEventDTO.participantsIds.toList())
 
         val newEvent: Event = Event().apply {
             creator = creatorEmployee
-            participants = participantsEmployees.toMutableList()
+            participants = participantsEmployees.toMutableSet()
             name = newEventDTO.name
             date = newEventDTO.date
             description = newEventDTO.description

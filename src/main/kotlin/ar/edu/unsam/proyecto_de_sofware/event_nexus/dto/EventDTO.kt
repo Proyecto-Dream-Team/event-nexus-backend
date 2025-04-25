@@ -5,34 +5,37 @@ import java.time.LocalDateTime
 
 data class EventDTO(
     val creatorId: Long,
-    val participantsIds: List<Long>,
+    val participantsIds: MutableSet<Long>,
     val date: LocalDateTime,
     val name: String,
     val description: String,
-    val dateFinished: LocalDateTime
+    val dateFinished: LocalDateTime,
+    val amountParticipants: Int
 )
 
 data class ShowEventDTO(
     val id: Long?,
     val creatorId: Long?,
-    val participantsIds: List<Long?>,
+    val participantsIds: MutableSet<Long?>,
     val date: LocalDateTime,
     val dateFinished: LocalDateTime,
     val name: String,
     val description: String,
-    val isPending: Boolean
+    val isPending: Boolean,
+    val amountParticipants: Int
 )
 
 fun Event.showEventDTO(): ShowEventDTO {
     return ShowEventDTO(
         id = id,
         creatorId = creator.id,
-        participantsIds = participants.map { it.id },
+        participantsIds = participants.map { it.id }.toMutableSet(),
         date = date,
         dateFinished = dateFinished,
         name = name,
         description = description,
-        isPending = isPending()
+        isPending = isPending(),
+        amountParticipants = participants.size + 1
 
     )
 }
