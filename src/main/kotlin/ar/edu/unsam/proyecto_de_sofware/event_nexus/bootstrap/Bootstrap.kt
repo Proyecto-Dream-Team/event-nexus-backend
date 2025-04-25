@@ -70,11 +70,11 @@ class Bootstrap(
     fun createModules () {
 
         var eventModule: AppModule = EventModule().apply {
-            name = "Events"
+            name = "Eventos"
             image = "fotoEventosSinFondo.png"
         }
         var directiveModule: AppModule = DirectiveModule().apply {
-            name = "Directives"
+            name = "Informacion directiva"
             image = "preguntasFrecuentes.png"
         }
         moduleRepo.saveAll(listOf(
