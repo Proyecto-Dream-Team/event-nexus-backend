@@ -84,7 +84,8 @@ fun employeeAccountPica(credential: Authentication): Employee{
 
 fun eventAdrian(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Event{
     return Event().apply {
-        name = "Evento de Adrian"
+        title = "Evento de Adrian"
+        description = "Juntada de estudio. Copate"
         date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
         creator = creatorEmployee
         participants = participantsEmployees.toMutableSet()
@@ -93,7 +94,8 @@ fun eventAdrian(creatorEmployee: Employee, participantsEmployees:Set<Employee>):
 
 fun eventDiego(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Event{
     return Event().apply {
-        name = "Evento de Diego"
+        title = "Evento de Diego"
+        description = "Fulbito salvaje"
         date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
         creator = creatorEmployee
         participants = participantsEmployees.toMutableSet()
@@ -102,7 +104,8 @@ fun eventDiego(creatorEmployee: Employee, participantsEmployees:Set<Employee>): 
 
 fun eventPica(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Event{
     return Event().apply {
-        name = "Evento de Pica"
+        title = "Evento de Pica"
+        description = "Free fire con los pibes"
         date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
         creator = creatorEmployee
         participants = participantsEmployees.toMutableSet()

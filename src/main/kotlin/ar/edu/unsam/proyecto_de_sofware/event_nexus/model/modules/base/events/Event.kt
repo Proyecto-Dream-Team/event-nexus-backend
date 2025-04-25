@@ -24,7 +24,7 @@ class Event(){
     var module: EventModule? = null
 
     @Column
-    var name: String = ""
+    var title: String = ""
 
     @Column
     var creationDate: LocalDateTime = LocalDateTime.now()

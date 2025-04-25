@@ -43,6 +43,6 @@ class AuthService(val authRepository: AuthRepository, val userRepository: UserRe
         }
         val existingUserId = requireNotNull(existingUser.id) { "Client ID is null" }
         val user = userRepository.findByCredentials_Id(existingUserId)
-        return LoginResponse(existingUser.id!!, existingUser.role.jobName, user.image)
+        return LoginResponse(user.id!!, existingUser.role.jobName, user.image)
     }
 }

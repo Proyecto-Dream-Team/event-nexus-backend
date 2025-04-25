@@ -8,34 +8,28 @@ data class EventDTO(
     val participantsIds: MutableSet<Long>,
     val date: LocalDateTime,
     val name: String,
-    val description: String,
-//    val dateFinished: LocalDateTime,
-//    val amountParticipants: Int
+    val description: String
 )
 
 data class ShowEventDTO(
     val id: Long?,
-    val creatorId: Long?,
-    val participantsIds: MutableSet<Long?>,
-    val date: LocalDateTime,
+    val creatorName: String,
     val dateFinished: LocalDateTime,
-    val name: String,
+    val title: String,
     val description: String,
-    val isPending: Boolean,
-    val amountParticipants: Int
+    val isActive: Boolean,
+    val numberOfParticipants: Int
 )
 
 fun Event.showEventDTO(): ShowEventDTO {
     return ShowEventDTO(
         id = id,
-        creatorId = creator.id,
-        participantsIds = participants.map { it.id }.toMutableSet(),
-        date = date,
+        creatorName = creator.name + " "+ creator.lastname,
         dateFinished = dateFinished,
-        name = name,
+        title = title,
         description = description,
-        isPending = isPending(),
-        amountParticipants = participants.size + 1
+        isActive = isPending(),
+        numberOfParticipants = participants.size + 1
 
     )
 }

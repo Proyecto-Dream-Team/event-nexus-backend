@@ -4,7 +4,6 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.EventDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.ShowEventDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.showEventDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.CreateEvent
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Event
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.EventService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.UserService
@@ -31,6 +30,14 @@ class EventController(
         return eventService.events().map { it.showEventDTO() }
     }
 
+    @GetMapping("/{id}")
+    fun employeeEvents(@PathVariable id: Long): Map<String, List<ShowEventDTO>> {
+        val employee: Employee = userService.getByID(id)
+        val createdEvents = eventService.employeeCreatedEvents(employee).map { it.showEventDTO() }
+        val invitedEvents = eventService.employeeInvitedEvents(employee).map { it.showEventDTO() }
+        return mapOf("createdEvents" to createdEvents, "invitedEvents" to invitedEvents)
+    }
+
     @GetMapping("/{id}/created")
     fun createdEvents(@PathVariable id: Long): List<Event> {
         val employee: Employee = userService.getByID(id)
@@ -51,7 +58,7 @@ class EventController(
         val newEvent = Event().apply {
             creator = creatorEmployee
             participants = participantsEmployees.toMutableSet()
-            name = newEventDTO.name
+            title = newEventDTO.name
             date = LocalDateTime.now()
             description = newEventDTO.description
             dateFinished = newEventDTO.date
