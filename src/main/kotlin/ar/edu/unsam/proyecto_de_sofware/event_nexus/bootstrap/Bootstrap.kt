@@ -90,8 +90,8 @@ class Bootstrap(
         var valen: Employee = userRepo.findByEmail(email = "valen@mail.com")
         var theo: Employee = userRepo.findByEmail(email = "theo@mail.com")
 
-        var eventModule: AppModule = moduleRepo.findByName(name = "Events")
-        var directiveModule: AppModule = moduleRepo.findByName(name = "Directives")
+        var eventModule: AppModule = moduleRepo.findByName(name = "Eventos")
+        var directiveModule: AppModule = moduleRepo.findByName(name = "Informacion directiva")
 
         adrian.modules.addAll(elements = listOf(eventModule, directiveModule))
         diego.modules.addAll(elements = listOf(eventModule))
