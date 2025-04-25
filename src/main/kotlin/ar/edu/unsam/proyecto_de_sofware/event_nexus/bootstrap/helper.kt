@@ -29,9 +29,9 @@ fun credentialsDiego(): Authentication{
 }
 fun credentialsMatias(): Authentication{
     return Authentication().apply {
-        username = "matias"
-        password = "matias"
-        email = "matias@mail.com"
+        username = "mati"
+        password = "mati"
+        email = "mati@mail.com"
         role = Role.ADMIN
     }
 }
@@ -40,6 +40,23 @@ fun credentialsPica(): Authentication{
         username = "pica"
         password = "pica"
         email = "pica@mail.com"
+        role = Role.ADMIN
+    }
+}
+fun credentialsValen(): Authentication{
+    return Authentication().apply {
+        username = "valen"
+        password = "valen"
+        email = "valen@mail.com"
+        role = Role.ADMIN
+    }
+}
+
+fun credentialsTheo(): Authentication{
+    return Authentication().apply {
+        username = "theo"
+        password = "theo"
+        email = "theo@mail.com"
         role = Role.ADMIN
     }
 }
@@ -77,7 +94,37 @@ fun employeeAccountPica(credential: Authentication): Employee{
         credentials = credential
     }
 }
+fun employeeAccountMati(credential: Authentication): Employee{
+    return Employee().apply {
+        name = "Matias"
+        lastname = "Diaz"
+        phone = "12341234"
+        email = credential.email
+        address = "Tambien calle falsa 123"
+        credentials = credential
+    }
+}
 
+fun employeeAccountValen(credential: Authentication): Employee{
+    return Employee().apply {
+        name = "Valen"
+        lastname = "Pugliese"
+        phone = "12341234"
+        email = credential.email
+        address = "Tambien calle falsa 123"
+        credentials = credential
+    }
+}
+fun employeeAccountTheo(credential: Authentication): Employee{
+    return Employee().apply {
+        name = "Theo"
+        lastname = "Narmontas"
+        phone = "12341234"
+        email = credential.email
+        address = "Tambien calle falsa 123"
+        credentials = credential
+    }
+}
 // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // EVENTS
 // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////

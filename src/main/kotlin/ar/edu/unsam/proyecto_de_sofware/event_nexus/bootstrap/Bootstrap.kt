@@ -37,7 +37,9 @@ class Bootstrap(
         val diego: Authentication = credentialsDiego()
         val matias: Authentication = credentialsMatias()
         val pica: Authentication = credentialsPica()
-        val accounts: List<Authentication> = listOf(adrian, diego, matias, pica)
+        val valen: Authentication = credentialsValen()
+        val theo: Authentication = credentialsTheo()
+        val accounts: List<Authentication> = listOf(adrian, diego, matias, pica, valen, theo)
         authRepo.saveAll(accounts)
     }
 
@@ -52,7 +54,16 @@ class Bootstrap(
         credential = authRepo.findByUsername(username = "pica")
         val pica = employeeAccountPica(credential)
 
-        val users : List<Employee> = listOf(adrian, diego, pica)
+        credential = authRepo.findByUsername(username = "mati")
+        val mati = employeeAccountMati(credential)
+
+        credential = authRepo.findByUsername(username = "valen")
+        val valen = employeeAccountValen(credential)
+
+        credential = authRepo.findByUsername(username = "theo")
+        val theo = employeeAccountTheo(credential)
+
+        val users : List<Employee> = listOf(adrian, diego, pica, mati, valen, theo)
         userRepo.saveAll(users)
     }
 
@@ -75,15 +86,21 @@ class Bootstrap(
         var adrian: Employee = userRepo.findByEmail(email = "adrian@mail.com")
         var diego: Employee = userRepo.findByEmail(email = "diego@mail.com")
         var pica: Employee = userRepo.findByEmail(email = "pica@mail.com")
+        var mati: Employee = userRepo.findByEmail(email = "mati@mail.com")
+        var valen: Employee = userRepo.findByEmail(email = "valen@mail.com")
+        var theo: Employee = userRepo.findByEmail(email = "theo@mail.com")
 
         var eventModule: AppModule = moduleRepo.findByName(name = "Events")
         var directiveModule: AppModule = moduleRepo.findByName(name = "Directives")
 
         adrian.modules.addAll(elements = listOf(eventModule, directiveModule))
-        diego.modules.addAll(elements = listOf(directiveModule))
-        pica.modules.addAll(elements = listOf(eventModule))
+        diego.modules.addAll(elements = listOf(eventModule))
+        pica.modules.addAll(elements = listOf(eventModule, directiveModule))
+        mati.modules.addAll(elements = listOf(eventModule))
+        valen.modules.addAll(elements = listOf(eventModule, directiveModule))
+        theo.modules.addAll(elements = listOf(eventModule))
 
-        userRepo.saveAll(listOf(adrian, diego, pica))
+        userRepo.saveAll(listOf(adrian, diego, pica, mati, valen, theo))
     }
 
     fun createEvents () {
