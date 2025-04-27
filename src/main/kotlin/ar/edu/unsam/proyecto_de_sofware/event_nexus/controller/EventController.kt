@@ -78,8 +78,8 @@ class EventController(
     }
 
     @PutMapping()
-    fun modify(@RequestBody eventDTO: EventDTO): ResponseEntity<String>{
-        val event = eventService.getById(eventDTO.id)
+    fun modify(@RequestBody eventDTO: ShowEventDTO): ResponseEntity<String>{
+        val event = eventService.getById(eventDTO.id!!)
         try{
             eventService.modify(event, eventDTO)
         }catch (e: DataBaseNotModifiedException){

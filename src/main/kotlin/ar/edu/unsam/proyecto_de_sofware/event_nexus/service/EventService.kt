@@ -56,7 +56,7 @@ class EventService(
     }
 
     @Transactional
-    fun modify(event: Event, eventDTO: EventDTO) {
+    fun modify(event: Event, eventDTO: ShowEventDTO) {
         event.fromDTO(eventDTO)
         return updateEvent(event)
     }
