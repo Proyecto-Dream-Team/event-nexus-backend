@@ -4,6 +4,7 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Ev
 import java.time.LocalDateTime
 
 data class EventDTO(
+    val id: Long,
     val creatorId: Long,
     val participantsIds: MutableSet<Long>,
     val date: LocalDateTime,

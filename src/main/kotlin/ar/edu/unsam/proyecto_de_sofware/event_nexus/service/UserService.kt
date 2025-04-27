@@ -2,6 +2,7 @@ package ar.edu.unsam.proyecto_de_sofware.event_nexus.service
 
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.DataUpdateProfileDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.ImgDTO
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.BusinessException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.DataBaseNotModifiedException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.UserRepository
@@ -10,40 +11,34 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.client.HttpClientErrorException.NotFound
 
 @Service
 class UserService(val repoUser: UserRepository) {
 
     fun getByID(id : Long): Employee {
-        val user = repoUser.findById(id)
-        return user.get()
+        return repoUser.findById(id).orElseThrow{throw BusinessException("Usuario no encontrado")}
     }
 
     @Transactional
-    fun updateProfile(dataUpdateProfileDTO: DataUpdateProfileDTO) : ResponseEntity<String> {
+    fun updateProfile(dataUpdateProfileDTO: DataUpdateProfileDTO) {
         val user = repoUser.findById(dataUpdateProfileDTO.id).get()
         user.updateProfile(dataUpdateProfileDTO)
         try {
             repoUser.save(user)
-        }catch (e: DataAccessException){
+        } catch (e: DataAccessException) {
             throw DataBaseNotModifiedException("No se pudo actualizar el perfil")
         }
-        return ResponseEntity
-            .status(HttpStatus.OK)
-            .body("Actualizacion exitosa!")
     }
 
     @Transactional
-    fun changeImg(user: Employee, img: String): ResponseEntity<String> {
+    fun changeImg(user: Employee, img: String){
         user.image = img
         try {
             repoUser.save(user)
         }catch (error: DataAccessException){
             throw DataBaseNotModifiedException("No se pudo actualizar el perfil")
         }
-        return ResponseEntity
-            .status(HttpStatus.OK)
-            .body("Actualizacion exitosa!")
     }
 
 
