@@ -1,5 +1,8 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events
 
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.EventDTO
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.ShowEventDTO
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.BusinessException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -42,6 +45,9 @@ class Event(){
     @Column
     var description: String = ""
 
+    @Column
+    var public: Boolean = false
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name="employee_event",
@@ -60,5 +66,22 @@ class Event(){
         this.participants.remove(participant)
     }
 
+    fun employeeParticipates(participant: Employee): Boolean{
+        return  participants.contains(participant)
+    }
+
     fun isPending() : Boolean = date > LocalDateTime.now()
+
+    fun fromDTO(eventDTO: ShowEventDTO){
+        if(!isCreator(eventDTO.creatorId!!)){
+            throw BusinessException("No puede modificar este evento")
+        }
+        date = eventDTO.dateFinished
+        description = eventDTO.description
+        title = eventDTO.title
+    }
+
+    fun isCreator(employeeId: Long): Boolean{
+        return employeeId == creator.id
+    }
 }

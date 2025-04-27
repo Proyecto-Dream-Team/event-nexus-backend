@@ -3,15 +3,19 @@ package ar.edu.unsam.proyecto_de_sofware.event_nexus.controller
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.EventDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.ShowEventDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.showEventDTO
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.DataBaseNotModifiedException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Event
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.EventService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.UserService
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CrossOrigin
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -27,7 +31,7 @@ class EventController(
 ) {
     @GetMapping()
     fun events(): List<ShowEventDTO> {
-        return eventService.events().map { it.showEventDTO() }
+        return eventService.findAllByPublic().map { it.showEventDTO() }
     }
 
     @GetMapping("/{id}")
@@ -38,23 +42,11 @@ class EventController(
         return mapOf("createdEvents" to createdEvents, "invitedEvents" to invitedEvents)
     }
 
-    @GetMapping("/{id}/created")
-    fun createdEvents(@PathVariable id: Long): List<Event> {
-        val employee: Employee = userService.getByID(id)
-        return eventService.employeeCreatedEvents(employee)
-    }
-
-    @GetMapping("{id}/invited")
-    fun invitedEvents(@PathVariable id: Long): List<Event> {
-        val employee: Employee = userService.getByID(id)
-        return eventService.employeeInvitedEvents(employee)
-    }
 
     @PostMapping("/create")
     fun createEvent(@RequestBody newEventDTO: EventDTO): ResponseEntity<String> {
         val creatorEmployee = userService.getByID(newEventDTO.creatorId)
         val participantsEmployees = userService.findAllById(employeesIds = newEventDTO.participantsIds.toList())
-
         val newEvent = Event().apply {
             creator = creatorEmployee
             participants = participantsEmployees.toMutableSet()
@@ -63,27 +55,56 @@ class EventController(
             description = newEventDTO.description
             dateFinished = newEventDTO.date
         }
-//        creatorEmployee.canDoModuleAction(command=CreateEvent())
+//      creatorEmployee.canDoModuleAction(command=CreateEvent())
         eventService.createEvent(newEvent, creatorEmployee)
         return ResponseEntity.ok().body("Evento creado!")
     }
 
-    @PostMapping("/join")
-    fun joinEvent(@RequestParam employeeId: Long, @RequestParam eventId: Long): ResponseEntity<String> {
-        val employee = userService.getByID(employeeId)
-        val event = eventService.getById(eventId)
-        event.addParticipant(employee)
-        eventService.updateEvent(event)
-        return ResponseEntity.ok().body("Te uniste al evento!")
-    }
-
-    @PostMapping("/leave")
-    fun leaveEvent(@RequestParam employeeId: Long, @RequestParam eventId: Long): ResponseEntity<String> {
+    @PostMapping("/join-leave")
+    fun joinLeave(@RequestParam employeeId: Long, @RequestParam eventId: Long): ResponseEntity<String> {
         val employee: Employee = userService.getByID(employeeId)
         val event: Event = eventService.getById(eventId)
-        event.removeParticipant(employee)
-        eventService.updateEvent(event)
-        return ResponseEntity.ok().body("Abandonaste el evento!")
+        eventService.joinLeave(event, employee)
+        try{
+            eventService.updateEvent(event)
+        }catch (e: DataBaseNotModifiedException){
+            return ResponseEntity
+                .status(HttpStatus.NOT_MODIFIED)
+                .body(e.message)
+        }
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body("Actualizacion exitosa!")
     }
 
+    @PutMapping()
+    fun modify(@RequestBody eventDTO: ShowEventDTO): ResponseEntity<String>{
+        val event = eventService.getById(eventDTO.id!!)
+        try{
+            eventService.modify(event, eventDTO)
+        }catch (e: DataBaseNotModifiedException){
+            return ResponseEntity
+                .status(HttpStatus.NOT_MODIFIED)
+                .body(e.message)
+        }
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body("Actualizacion exitosa!")
+    }
+
+    @DeleteMapping()
+    fun delete(@RequestParam employeeId: Long, @RequestParam eventId: Long): ResponseEntity<String>{
+        val event = eventService.getById(eventId)
+        val employee = userService.getByID(employeeId)
+        try{
+            eventService.delete(event, employee)
+        }catch (error: DataBaseNotModifiedException){
+            return ResponseEntity
+                .status(HttpStatus.NOT_MODIFIED)
+                .body(error.message)
+        }
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body("Evento eliminado")
+    }
 }

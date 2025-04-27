@@ -1,10 +1,13 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.controller
 
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.*
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.BusinessException
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.DataBaseNotModifiedException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.AuthService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.UserService
 import jakarta.websocket.server.PathParam
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
@@ -37,12 +40,30 @@ class UserController(private val userService: UserService) {
 
     @PutMapping("profile")
     fun profileUpdate(@RequestBody dataUpdateProfileDTO: DataUpdateProfileDTO): ResponseEntity<String>{
-        return userService.updateProfile(dataUpdateProfileDTO)
+        try{
+            userService.updateProfile(dataUpdateProfileDTO)
+        }catch (error: DataBaseNotModifiedException){
+            ResponseEntity
+                .status(HttpStatus.NOT_MODIFIED)
+                .body(error.message)
+        }
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body("Actualizacion exitosa!")
     }
 
     @PutMapping("/img")
     fun changeImg(@RequestBody imgDTO: ImgDTO): ResponseEntity<String>{
         val user = userService.getByID(imgDTO.id)
-        return userService.changeImg(user, imgDTO.img)
+        try {
+            userService.changeImg(user, imgDTO.img)
+        }catch (error: DataBaseNotModifiedException){
+            return ResponseEntity
+                .status(HttpStatus.NOT_MODIFIED)
+                .body(error.message)
+        }
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body("Actualizacion exitosa!")
     }
 }

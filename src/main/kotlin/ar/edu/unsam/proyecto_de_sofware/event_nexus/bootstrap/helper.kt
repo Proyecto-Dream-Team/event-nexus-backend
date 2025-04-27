@@ -136,6 +136,7 @@ fun eventAdrian(creatorEmployee: Employee, participantsEmployees:Set<Employee>):
         date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
         creator = creatorEmployee
         participants = participantsEmployees.toMutableSet()
+        public = true
     }
 }
 
