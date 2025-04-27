@@ -72,14 +72,14 @@ class Event(){
     fun isPending() : Boolean = date > LocalDateTime.now()
 
     fun fromDTO(eventDTO: EventDTO){
-        if(!canModify(eventDTO.creatorId)){
+        if(!isCreator(eventDTO.creatorId)){
             throw BusinessException("No puede modificar este evento")
         }
         date = eventDTO.date
         description = eventDTO.description
     }
 
-    fun canModify(employeeId: Long): Boolean{
-        return employeeId == id
+    fun isCreator(employeeId: Long): Boolean{
+        return employeeId == creator.id
     }
 }

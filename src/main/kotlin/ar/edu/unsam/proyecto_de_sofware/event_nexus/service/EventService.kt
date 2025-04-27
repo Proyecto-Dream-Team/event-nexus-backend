@@ -68,4 +68,16 @@ class EventService(
             event.addParticipant(employee)
         }
     }
+
+    fun delete(event: Event, employee: Employee) {
+        if(event.isCreator(employee.id!!)){
+            try {
+                eventRepository.delete(event)
+            }catch (error: DataAccessException){
+                throw DataBaseNotModifiedException("No se puede eliminar")
+            }
+        }else{
+            throw BusinessException("No eres el creador del evento")
+        }
+    }
 }

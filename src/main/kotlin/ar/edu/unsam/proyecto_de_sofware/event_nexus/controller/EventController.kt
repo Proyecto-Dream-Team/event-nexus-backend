@@ -11,6 +11,7 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.UserService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CrossOrigin
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -54,17 +55,16 @@ class EventController(
             description = newEventDTO.description
             dateFinished = newEventDTO.date
         }
-//        creatorEmployee.canDoModuleAction(command=CreateEvent())
+//      creatorEmployee.canDoModuleAction(command=CreateEvent())
         eventService.createEvent(newEvent, creatorEmployee)
         return ResponseEntity.ok().body("Evento creado!")
     }
 
     @PostMapping("/join-leave")
-    fun leaveEvent(@RequestParam employeeId: Long, @RequestParam eventId: Long): ResponseEntity<String> {
+    fun joinLeave(@RequestParam employeeId: Long, @RequestParam eventId: Long): ResponseEntity<String> {
         val employee: Employee = userService.getByID(employeeId)
         val event: Event = eventService.getById(eventId)
         eventService.joinLeave(event, employee)
-        event.removeParticipant(employee)
         try{
             eventService.updateEvent(event)
         }catch (e: DataBaseNotModifiedException){
@@ -90,5 +90,21 @@ class EventController(
         return ResponseEntity
             .status(HttpStatus.OK)
             .body("Actualizacion exitosa!")
+    }
+
+    @DeleteMapping()
+    fun delete(@RequestParam employeeId: Long, @RequestParam eventId: Long): ResponseEntity<String>{
+        val event = eventService.getById(eventId)
+        val employee = userService.getByID(employeeId)
+        try{
+            eventService.delete(event, employee)
+        }catch (error: DataBaseNotModifiedException){
+            return ResponseEntity
+                .status(HttpStatus.NOT_MODIFIED)
+                .body(error.message)
+        }
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body("Evento eliminado")
     }
 }
