@@ -1,0 +1,9 @@
+package ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.repports
+
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.AppModule
+
+class RepportModule(
+    override val id: Int = 3,
+    override val name: String = "Reportes",
+    override val image: String = "fotoEventosSinFondo.png"
+) : AppModule(id, name, image){}

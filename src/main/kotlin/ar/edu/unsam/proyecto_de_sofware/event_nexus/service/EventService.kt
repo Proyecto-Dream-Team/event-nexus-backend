@@ -1,26 +1,24 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.service
 
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.EventDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.ShowEventDTO
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.showEventDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.BusinessException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.DataBaseNotModifiedException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Event
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.EventModule
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permission
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.EventRepository
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.UserRepository
 import jakarta.transaction.Transactional
 import org.springframework.dao.DataAccessException
-import org.springframework.http.HttpStatus
-import org.springframework.http.HttpStatusCode
-import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
-import java.util.*
+
 
 @Service
 class EventService(
     val eventRepository: EventRepository,
 ) {
+    private val eventModule: EventModule = EventModule()
+
     fun getById(eventId: Long): Event {
         return eventRepository.findById(eventId).orElseThrow{ BusinessException("No se encontro Evento")}
     }
@@ -38,7 +36,7 @@ class EventService(
     }
 
     @Transactional
-    fun createEvent(event: Event, creator: Employee) {
+    fun createEvent(event: Event) {
         try {
             eventRepository.save(event)
         } catch (e: DataAccessException) {
@@ -79,5 +77,9 @@ class EventService(
         }else{
             throw BusinessException("No eres el creador del evento")
         }
+    }
+
+    fun checkPermission(employee: Employee, permission: Permission){
+        this.eventModule.checkPermission(employeePermmission = employee.permissions, permissionToCheck = permission)
     }
 }

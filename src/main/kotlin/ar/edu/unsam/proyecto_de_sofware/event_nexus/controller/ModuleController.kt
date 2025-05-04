@@ -11,12 +11,12 @@ class ModuleController(val moduleService: ModuleService) {
 
     @GetMapping("/module")
     fun modules():List<AppModule>{
-        return moduleService.modulosAll()
+        return moduleService.all()
     }
 
     @GetMapping("/module/{id}")
     fun employeeModules(@PathVariable id: Long):List<AppModule>{
-        return moduleService.employeeModulosById(id)
+        return moduleService.all()
     }
 
 }

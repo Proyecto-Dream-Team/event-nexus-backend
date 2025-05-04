@@ -5,5 +5,5 @@ import org.springframework.data.repository.CrudRepository
 
 interface AuthRepository: CrudRepository<Authentication, Long> {
 
-    fun findByUsername(username: String): Authentication
+    fun findByUsername(username: String): Authentication?
 }
