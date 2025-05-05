@@ -9,7 +9,7 @@ abstract class AppModule(
     open val name:String,
     open val image:String
 ){
-
+    open lateinit var description:String
     fun checkPermission(employeePermmission: MutableSet<Permission>, permissionToCheck: Permission){
         if(employeePermmission.none{it == permissionToCheck}){
             throw CommandNotAllowedException(commandName = permissionToCheck.name)

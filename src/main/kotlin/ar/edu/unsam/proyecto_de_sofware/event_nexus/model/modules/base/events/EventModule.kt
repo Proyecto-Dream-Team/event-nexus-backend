@@ -8,5 +8,6 @@ class EventModule(
     override val image: String = "fotoEventosSinFondo.png"
 ) : AppModule(id, name, image){
 
+    override var description:String = "En este modulo podes crear eventos, unirte a los que te interesen o salir cuando lo desees. Gestiona tu participacion facilmente"
 
 }
