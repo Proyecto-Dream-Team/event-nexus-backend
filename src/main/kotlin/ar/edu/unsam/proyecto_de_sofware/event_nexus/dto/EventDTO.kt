@@ -1,6 +1,7 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.dto
 
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Event
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.EventType
 import java.time.LocalDateTime
 
 data class EventDTO(
@@ -22,7 +23,8 @@ data class ShowEventDTO(
     val description: String,
     val isActive: Boolean,
     val numberOfParticipants: Int,
-    val participantsIds: List<Long?>
+    val participantsIds: List<Long?>,
+    val type: EventType
 )
 
 fun Event.showEventDTO(): ShowEventDTO {
@@ -36,6 +38,7 @@ fun Event.showEventDTO(): ShowEventDTO {
         description = description,
         isActive = isPending(),
         numberOfParticipants = participants.size + 1,
-        participantsIds = participants.map { it.id }
+        participantsIds = participants.map { it.id },
+        type = type
     )
 }
