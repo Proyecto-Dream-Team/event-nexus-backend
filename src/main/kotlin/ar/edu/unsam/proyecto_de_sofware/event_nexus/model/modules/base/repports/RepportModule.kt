@@ -6,4 +6,6 @@ class RepportModule(
     override val id: Int = 3,
     override val name: String = "Reportes",
     override val image: String = "events.svg"
-) : AppModule(id, name, image){}
+) : AppModule(id, name, image){
+    override var description:String = "Lore ipsum"
+}
