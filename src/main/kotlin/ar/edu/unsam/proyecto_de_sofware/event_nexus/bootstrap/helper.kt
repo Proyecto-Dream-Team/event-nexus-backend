@@ -5,6 +5,7 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Authentication
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Role
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Event
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.EventType
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
@@ -170,6 +171,7 @@ fun eventAdrian(creatorEmployee: Employee, participantsEmployees:Set<Employee>):
         creator = creatorEmployee
         participants = participantsEmployees.toMutableSet()
         public = true
+        type = EventType.CAPACITACION
     }
 }
 
@@ -180,6 +182,7 @@ fun eventDiego(creatorEmployee: Employee, participantsEmployees:Set<Employee>): 
         date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
         creator = creatorEmployee
         participants = participantsEmployees.toMutableSet()
+        type = EventType.DEPORTIVO
     }
 }
 
