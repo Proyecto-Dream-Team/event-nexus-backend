@@ -1,8 +1,8 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.controller
 
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.CreateEvent
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Event
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.AppModule
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permission
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.MockService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -13,30 +13,21 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class MockController(val mockService: MockService) {
 
-    @GetMapping("/mock/module")
-    fun modules():List<AppModule>{
-        return mockService.modulosAll()
+
+    @GetMapping("/mock")
+    fun mock():String{
+        val admin = mockService.getAdmin(1)
+        val user = mockService.getUser(3)
+
+        return "Admin es del tipo ${admin!!::class}. User es del tipo ${user!!::class}. Admin name: ${admin.name}"
     }
 
-    @GetMapping("/mock/module/{id}")
-    fun employeeModules(@PathVariable id: Long):List<AppModule>{
-        return mockService.employeeModulosById(id)
+
+    @GetMapping("/mock2")
+    fun mock2(): List<Permission>{
+        return Permission.entries.toList()
     }
 
-    @GetMapping("/mock/event")
-    fun eventos():List<Event>{
-        return mockService.eventos()
-    }
-
-    @GetMapping("/mock/event/{id}/created")
-    fun eventosCreados(@PathVariable id: Long):List<Event>{
-        return mockService.employeeCreatedEvents(id)
-    }
-
-    @GetMapping("/mock/event/{id}/invited")
-    fun eventosInvitados(@PathVariable id: Long):List<Event>{
-        return mockService.employeeInvitedEvents(id)
-    }
 
 
 }

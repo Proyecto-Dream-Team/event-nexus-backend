@@ -41,7 +41,14 @@ class UserService(val repoUser: UserRepository) {
         }
     }
 
-
+    @Transactional
+    fun saveEmployee(employee: Employee): Employee {
+        return try {
+            repoUser.save(employee)
+        } catch (e: DataAccessException) {
+            throw RuntimeException("No se pudo actualizar eventos")
+        }
+    }
     fun findAllById(employeesIds: List<Long>): List<Employee> {
         return repoUser.findAllById(employeesIds).toList()
     }

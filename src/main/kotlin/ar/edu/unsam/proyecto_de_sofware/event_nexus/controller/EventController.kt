@@ -6,6 +6,7 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.showEventDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.DataBaseNotModifiedException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Event
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permission
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.EventService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.UserService
 import org.springframework.http.HttpStatus
@@ -46,6 +47,7 @@ class EventController(
     @PostMapping("/create")
     fun createEvent(@RequestBody newEventDTO: EventDTO): ResponseEntity<String> {
         val creatorEmployee = userService.getByID(newEventDTO.creatorId)
+        this.eventService.checkPermission(employee=creatorEmployee, permission = Permission.CREATE_EVENT)
         val participantsEmployees = userService.findAllById(employeesIds = newEventDTO.participantsIds.toList())
         val newEvent = Event().apply {
             creator = creatorEmployee
@@ -55,8 +57,7 @@ class EventController(
             description = newEventDTO.description
             dateFinished = newEventDTO.date
         }
-//      creatorEmployee.canDoModuleAction(command=CreateEvent())
-        eventService.createEvent(newEvent, creatorEmployee)
+        eventService.createEvent(newEvent)
         return ResponseEntity.ok().body("Evento creado!")
     }
 
@@ -94,8 +95,9 @@ class EventController(
 
     @DeleteMapping()
     fun delete(@RequestParam employeeId: Long, @RequestParam eventId: Long): ResponseEntity<String>{
-        val event = eventService.getById(eventId)
         val employee = userService.getByID(employeeId)
+        eventService.checkPermission(employee=employee, permission = Permission.CANCEL_EVENT)
+        val event = eventService.getById(eventId)
         try{
             eventService.delete(event, employee)
         }catch (error: DataBaseNotModifiedException){

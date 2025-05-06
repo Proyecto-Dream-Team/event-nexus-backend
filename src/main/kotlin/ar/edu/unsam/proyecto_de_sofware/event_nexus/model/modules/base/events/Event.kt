@@ -23,9 +23,6 @@ class Event(){
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    var module: EventModule? = null
-
     @Column
     var title: String = ""
 

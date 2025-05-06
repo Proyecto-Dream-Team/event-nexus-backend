@@ -10,8 +10,6 @@ class BusinessException(override val message:String): Exception(message)
 class DataBaseNotModifiedException(override val message:String): RuntimeException(message)
 
 @ResponseStatus(HttpStatus.FORBIDDEN)
-class CommandNotAllowedException(commandName:String): Exception("Command <$commandName> not allowed")
+class CommandNotAllowedException(commandName:String): Exception("Permiso <$commandName> denegado")
 
-@ResponseStatus(HttpStatus.FORBIDDEN)
-class ModuleNotAllowedException(moduleName:String): Exception("Module <$moduleName> not allowed")
 

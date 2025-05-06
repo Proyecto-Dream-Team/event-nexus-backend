@@ -14,32 +14,19 @@ import org.springframework.stereotype.Service
 class MockService(
     val authRepository: AuthRepository,
     val userRepository: UserRepository,
-    val moduleRepository: ModuleRepository,
     val eventRepository: EventRepository,
-    ) {
+) {
 
-    fun eventos():List<Event>{
-        return eventRepository.findAll().toList()
+    fun getUser(id: Long): Employee {
+        return userRepository.findById(id).get()
     }
 
-    fun modulosAll():List<AppModule>{
-        return moduleRepository.findAll().toList()
-    }
 
-    fun employeeModulosById(employeeId:Long):List<AppModule>{
-        val employee:Employee = userRepository.findById(employeeId).get()
-        return employee.modules.toList()
-    }
-
-    fun employeeCreatedEvents(employeeId:Long):List<Event>{
-        val employee:Employee = userRepository.findById(employeeId).get()
-        val employeeEvents: List<Event> = eventRepository.findByCreator(employee)
-        return employeeEvents
-    }
-
-    fun employeeInvitedEvents(employeeId:Long):List<Event>{
-        val employee:Employee = userRepository.findById(employeeId).get()
-        val employeeEvents: List<Event> = eventRepository.findByParticipants(employee)
-        return employeeEvents
+    fun getAdmin(id: Long): Admin? {
+        val user = userRepository.findById(id).get()
+        if (user !is Admin) {
+            throw BusinessException("")
+        }
+        return user
     }
 }
