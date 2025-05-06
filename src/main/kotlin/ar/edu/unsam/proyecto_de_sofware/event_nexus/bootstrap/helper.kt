@@ -163,10 +163,166 @@ fun employeeAccountMockParaJugar(credential: Authentication): Employee{
 // EVENTS
 // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-fun eventAdrian(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Event{
+fun event01(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Event{
     return Event().apply {
         title = "Evento de Adrian"
         description = "Juntada de estudio. Copate"
+        date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
+        creator = creatorEmployee
+        participants = participantsEmployees.toMutableSet()
+        public = false
+        type = EventType.CAPACITACION
+    }
+}
+
+fun event02(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Event{
+    return Event().apply {
+        title = "Evento de Adrian"
+        description = "Fulbito salvaje"
+        date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
+        creator = creatorEmployee
+        participants = participantsEmployees.toMutableSet()
+        public = true
+        type = EventType.DEPORTIVO
+    }
+}
+
+fun event03(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Event{
+    return Event().apply {
+        title = "Evento de Adrian"
+        description = "Free fire con los pibes"
+        date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
+        creator = creatorEmployee
+        participants = participantsEmployees.toMutableSet()
+        public = true
+        type = EventType.SOCIAL
+    }
+}
+
+fun event04(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Event{
+    return Event().apply {
+        title = "Evento de Diego"
+        description = "Asado en casa"
+        date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
+        creator = creatorEmployee
+        participants = participantsEmployees.toMutableSet()
+        public = false
+        type = EventType.SOCIAL
+    }
+}
+
+fun event05(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Event{
+    return Event().apply {
+        title = "Evento de Diego"
+        description = "Fulbito salvaje. Revancha contra los profes"
+        date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
+        creator = creatorEmployee
+        participants = participantsEmployees.toMutableSet()
+        public = true
+        type = EventType.DEPORTIVO
+    }
+}
+
+fun event06(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Event{
+    return Event().apply {
+        title = "Evento de Diego"
+        description = "Trote picante"
+        date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
+        creator = creatorEmployee
+        participants = participantsEmployees.toMutableSet()
+        public = true
+        type = EventType.DEPORTIVO
+    }
+}
+
+fun event07(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Event{
+    return Event().apply {
+        title = "Evento de Pica"
+        description = "Salida de Skate. A la tarde"
+        date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
+        creator = creatorEmployee
+        participants = participantsEmployees.toMutableSet()
+        public = false
+        type = EventType.DEPORTIVO
+    }
+}
+
+fun event08(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Event{
+    return Event().apply {
+        title = "Evento de Pica"
+        description = "Salida de Skate. A la noche"
+        date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
+        creator = creatorEmployee
+        participants = participantsEmployees.toMutableSet()
+        public = true
+        type = EventType.DEPORTIVO
+    }
+}
+
+fun event09(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Event{
+    return Event().apply {
+        title = "Evento de Pica"
+        description = "Salida de Skate. Forever"
+        date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
+        creator = creatorEmployee
+        participants = participantsEmployees.toMutableSet()
+        public = true
+        type = EventType.DEPORTIVO
+    }
+}
+
+fun event10(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Event{
+    return Event().apply {
+        title = "Evento de Valen"
+        description = "Proyecto .NET. Solo devs"
+        date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
+        creator = creatorEmployee
+        participants = participantsEmployees.toMutableSet()
+        public = false
+        type = EventType.CAPACITACION
+    }
+}
+
+fun event11(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Event{
+    return Event().apply {
+        title = "Evento de Valen"
+        description = "Juntada de estudio. Haskell"
+        date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
+        creator = creatorEmployee
+        participants = participantsEmployees.toMutableSet()
+        public = true
+        type = EventType.EQUIPO
+    }
+}
+
+fun event12(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Event{
+    return Event().apply {
+        title = "Evento de Valen"
+        description = "Lore ipsum"
+        date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
+        creator = creatorEmployee
+        participants = participantsEmployees.toMutableSet()
+        public = true
+        type = EventType.EJECUTIVO
+    }
+}
+
+fun event13(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Event{
+    return Event().apply {
+        title = "Evento de Mati"
+        description = "Curso de Spring Security"
+        date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
+        creator = creatorEmployee
+        participants = participantsEmployees.toMutableSet()
+        public = false
+        type = EventType.CAPACITACION
+    }
+}
+
+fun event14(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Event{
+    return Event().apply {
+        title = "Evento de Mati"
+        description = "Capacitacion Spring Boot REST"
         date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
         creator = creatorEmployee
         participants = participantsEmployees.toMutableSet()
@@ -175,23 +331,51 @@ fun eventAdrian(creatorEmployee: Employee, participantsEmployees:Set<Employee>):
     }
 }
 
-fun eventDiego(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Event{
+fun event15(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Event{
     return Event().apply {
-        title = "Evento de Diego"
-        description = "Fulbito salvaje"
+        title = "Evento de Mati"
+        description = "Age of Empires 3. Solo valientes"
         date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
         creator = creatorEmployee
         participants = participantsEmployees.toMutableSet()
-        type = EventType.DEPORTIVO
+        public = true
+        type = EventType.SOCIAL
     }
 }
 
-fun eventPica(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Event{
+fun event16(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Event{
     return Event().apply {
-        title = "Evento de Pica"
-        description = "Free fire con los pibes"
+        title = "Evento de Theo"
+        description = "Salida a bosques de Palermo"
         date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
         creator = creatorEmployee
         participants = participantsEmployees.toMutableSet()
+        public = false
+        type = EventType.EQUIPO
+    }
+}
+
+fun event17(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Event{
+    return Event().apply {
+        title = "Evento de Theo"
+        description = "Juntada de estudio. PHM"
+        date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
+        creator = creatorEmployee
+        participants = participantsEmployees.toMutableSet()
+        public = true
+        type = EventType.EQUIPO
+    }
+}
+
+
+fun event18(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Event{
+    return Event().apply {
+        title = "Evento de Theo"
+        description = "Lore ipsum"
+        date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
+        creator = creatorEmployee
+        participants = participantsEmployees.toMutableSet()
+        public = true
+        type = EventType.EJECUTIVO
     }
 }
