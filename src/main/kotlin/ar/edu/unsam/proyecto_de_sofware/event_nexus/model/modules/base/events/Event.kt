@@ -33,7 +33,7 @@ class Event(){
     var description: String = ""
 
     @Column
-    var public: Boolean = false
+    var public: Boolean = true
 
     @Column
     @Enumerated(EnumType.STRING)
@@ -43,9 +43,9 @@ class Event(){
     @JoinTable(
         name="employee_event",
         joinColumns=
-            [JoinColumn(name="employee_id", referencedColumnName="id")],
+            [JoinColumn(name="event_id", referencedColumnName="id")],
         inverseJoinColumns=
-            [JoinColumn(name="event_id", referencedColumnName="id")]
+            [JoinColumn(name="employee_id", referencedColumnName="id")]
     )
     lateinit var participants: MutableSet<Employee>
 
