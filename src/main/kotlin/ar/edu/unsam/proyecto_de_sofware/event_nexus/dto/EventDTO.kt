@@ -10,7 +10,8 @@ data class EventDTO(
     val participantsIds: MutableSet<Long>,
     val date: LocalDateTime,
     val name: String,
-    val description: String
+    val description: String,
+    val eventType: EventType
 )
 
 data class ShowEventDTO(
@@ -21,9 +22,8 @@ data class ShowEventDTO(
     val dateFinished: LocalDateTime,
     val title: String,
     val description: String,
-    val isActive: Boolean,
     val numberOfParticipants: Int,
-    val participantsIds: List<Long?>,
+    val participantsIds: Array<Long?>,
     val type: EventType
 )
 
@@ -36,9 +36,8 @@ fun Event.showEventDTO(): ShowEventDTO {
         dateFinished = dateFinished,
         title = title,
         description = description,
-        isActive = isPending(),
         numberOfParticipants = participants.size + 1,
-        participantsIds = participants.map { it.id },
+        participantsIds = participants.map { it.id }.toTypedArray(),
         type = type
     )
 }

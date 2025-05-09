@@ -27,6 +27,10 @@ class EventService(
         return eventRepository.findAllByPublic()
     }
 
+    fun findAllByPending(): List<Event> {
+        return eventRepository.findAllByPublic()
+    }
+
     fun employeeCreatedEvents(employee: Employee): List<Event> {
         return eventRepository.findByCreator(employee)
     }
