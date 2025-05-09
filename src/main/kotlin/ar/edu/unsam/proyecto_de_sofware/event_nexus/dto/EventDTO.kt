@@ -10,7 +10,8 @@ data class EventDTO(
     val participantsIds: MutableSet<Long>,
     val date: LocalDateTime,
     val name: String,
-    val description: String
+    val description: String,
+    val eventType: EventType
 )
 
 data class ShowEventDTO(

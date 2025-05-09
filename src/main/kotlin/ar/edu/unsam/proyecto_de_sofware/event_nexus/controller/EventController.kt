@@ -6,6 +6,7 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.showEventDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.DataBaseNotModifiedException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Event
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.EventType
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permission
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.EventService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.UserService
@@ -44,6 +45,11 @@ class EventController(
     }
 
 
+    @GetMapping("/create")
+    fun listEventTypes(): List<EventType> {
+        return EventType.entries.toList()
+    }
+
     @PostMapping("/create")
     fun createEvent(@RequestBody newEventDTO: EventDTO): ResponseEntity<String> {
         val creatorEmployee = userService.getByID(newEventDTO.creatorId)
@@ -56,6 +62,7 @@ class EventController(
             date = LocalDateTime.now()
             description = newEventDTO.description
             dateFinished = newEventDTO.date
+            type = newEventDTO.eventType
         }
         eventService.createEvent(newEvent)
         return ResponseEntity.ok().body("Evento creado!")
