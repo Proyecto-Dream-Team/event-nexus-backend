@@ -33,7 +33,7 @@ class EventController(
 ) {
     @GetMapping()
     fun events(): List<ShowEventDTO> {
-        return eventService.findAllByPending().map { it.showEventDTO() }
+        return eventService.findAllByPublic().map { it.showEventDTO() }
     }
 
     @GetMapping("/{id}")
