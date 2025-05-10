@@ -1,6 +1,7 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.model
 
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.DataUpdateProfileDTO
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.UserCreateDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permission
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
@@ -19,7 +20,7 @@ open class Employee(){
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinColumn(referencedColumnName = "id")
     lateinit var credentials: Authentication
 
@@ -57,6 +58,8 @@ open class Employee(){
         phone = data.phone
         address = data.address
     }
+
+
 
 }
 

@@ -1,5 +1,6 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.controller
 
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.UserCreateDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Admin
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permission
@@ -51,6 +52,10 @@ class AdminController(
     }
 
     @PostMapping("/create-user")
-    fun createUser(@RequestBody userDto: UserDto)
+    fun createUser(@RequestBody userDto: UserCreateDTO): ResponseEntity<String>{
+        val employee = userDto.toEmployee()
+        userService.create(employee)
+        return ResponseEntity.ok().body("Usuario creado")
+    }
 
 }

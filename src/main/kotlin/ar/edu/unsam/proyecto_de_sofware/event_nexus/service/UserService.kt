@@ -53,4 +53,12 @@ class UserService(val repoUser: UserRepository) {
         return repoUser.findAllById(employeesIds).toList()
     }
 
+    fun create(employee: Employee) {
+        try{
+            repoUser.save(employee)
+        }catch (e: DataAccessException){
+            throw DataBaseNotModifiedException("No se pudo actualizar el perfil")
+        }
+    }
+
 }
