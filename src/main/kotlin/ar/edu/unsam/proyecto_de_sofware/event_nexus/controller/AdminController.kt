@@ -50,4 +50,7 @@ class AdminController(
         return ResponseEntity.ok().body("Permisos revocados!")
     }
 
+    @PostMapping("/create-user")
+    fun createUser(@RequestBody userDto: UserDto)
+
 }

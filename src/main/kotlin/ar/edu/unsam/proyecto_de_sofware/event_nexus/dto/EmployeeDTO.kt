@@ -15,3 +15,11 @@ fun Employee.toEmployeeDTO() = EmployeeDTO(
     lastname = lastname,
     image = image
 )
+
+data class UserCreateDTO(
+    val name: String,
+    val lastName: String,
+    val email: String,
+    val module: List<Module>,
+    val
+)
