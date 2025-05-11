@@ -44,6 +44,9 @@ dependencies {
 	testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
 	testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+	//mail
+	implementation("org.springframework.boot:spring-boot-starter-mail")
 }
 
 kotlin {
