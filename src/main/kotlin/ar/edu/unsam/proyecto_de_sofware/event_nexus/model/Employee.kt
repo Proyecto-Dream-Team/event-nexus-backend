@@ -1,6 +1,8 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.model
 
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.DataUpdateProfileDTO
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.EditEmployeeDTO
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.EmployeeDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.UserCreateDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permission
 import com.fasterxml.jackson.annotation.JsonSubTypes
@@ -15,9 +17,10 @@ import jakarta.persistence.*
     JsonSubTypes.Type(value = Employee::class, name = "Empleado")
 )
 @Inheritance(strategy= InheritanceType.SINGLE_TABLE)
-open class Employee(){
+open class Employee() {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
 
     @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
@@ -31,7 +34,7 @@ open class Employee(){
     lateinit var lastname: String
 
     @Column
-    var image:String = "https://res.cloudinary.com/dumcjdzxo/image/upload/imgDefault_t0achq"
+    var image: String = "https://res.cloudinary.com/dumcjdzxo/image/upload/imgDefault_t0achq"
 
     @Column
     lateinit var job: String
@@ -59,8 +62,15 @@ open class Employee(){
         address = data.address
     }
 
+    fun editFromAdmin(editEmployeeDTO: EditEmployeeDTO) {
+        name = editEmployeeDTO.name
+        lastname = editEmployeeDTO.lastName
+        phone = editEmployeeDTO.phone
+        address = editEmployeeDTO.address
+        email = editEmployeeDTO.email
+        permissions.addAll(editEmployeeDTO.permissions)
 
-
+    }
 }
 
 

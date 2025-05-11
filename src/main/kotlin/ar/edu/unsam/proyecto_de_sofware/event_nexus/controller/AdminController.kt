@@ -1,18 +1,18 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.controller
 
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.EditEmployeeDTO
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.ProfileDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.UserCreateDTO
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.BusinessException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Admin
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permission
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.AuthRepository
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.AuthService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.UserService
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.CrossOrigin
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 
 @CrossOrigin(origins = ["http://localhost:4200", "http://localhost:5173"])
@@ -20,7 +20,8 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/admin")
 class AdminController(
     val authService: AuthService,
-    val userService: UserService,
+    val userService: UserService<Any?>,
+    @Autowired val authRepo: AuthRepository
 ) {
 
     @PostMapping("/permission/grant")
@@ -56,6 +57,14 @@ class AdminController(
         val employee = userDto.toEmployee()
         userService.create(employee)
         return ResponseEntity.ok().body("Usuario creado")
+    }
+
+    @PutMapping("/edit-user")
+    fun editUser(@RequestBody editEmployeeDTO: EditEmployeeDTO): ResponseEntity<String>{
+        val employee = userService.getByID(editEmployeeDTO.id)
+        employee.editFromAdmin(editEmployeeDTO)
+        userService.edit(employee)
+        return ResponseEntity.ok().body("Usuario editado")
     }
 
 }

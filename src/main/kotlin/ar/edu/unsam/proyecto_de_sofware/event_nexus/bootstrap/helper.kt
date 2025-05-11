@@ -16,7 +16,7 @@ fun credentialsAdrian(): Authentication{
     return Authentication().apply {
         username = "adrian"
         password = "adrian"
-        email = "adrian@mail.com"
+        //email = "adrian@mail.com"
         role = Role.ADMIN
     }
 }
@@ -24,7 +24,7 @@ fun credentialsDiego(): Authentication{
     return Authentication().apply {
         username = "diego"
         password = "diego"
-        email = "diego@mail.com"
+        //email = "diego@mail.com"
         role = Role.SUPERVISOR
     }
 }
@@ -32,7 +32,7 @@ fun credentialsMatias(): Authentication{
     return Authentication().apply {
         username = "mati"
         password = "mati"
-        email = "mati@mail.com"
+        //email = "mati@mail.com"
         role = Role.DEV
     }
 }
@@ -40,7 +40,7 @@ fun credentialsPica(): Authentication{
     return Authentication().apply {
         username = "pica"
         password = "pica"
-        email = "pica@mail.com"
+        //email = "pica@mail.com"
         role = Role.HR
     }
 }
@@ -48,7 +48,7 @@ fun credentialsValen(): Authentication{
     return Authentication().apply {
         username = "valen"
         password = "valen"
-        email = "valen@mail.com"
+//        email = "valen@mail.com"
         role = Role.DEV
     }
 }
@@ -57,7 +57,7 @@ fun credentialsTheo(): Authentication{
     return Authentication().apply {
         username = "theo"
         password = "theo"
-        email = "theo@mail.com"
+//        email = "theo@mail.com"
         role = Role.SUPERVISOR
     }
 }
@@ -66,7 +66,7 @@ fun credentialsMock(): Authentication{
     return Authentication().apply {
         username = "mock"
         password = "mock"
-        email = "mock@mail.com"
+//        email = "mock@mail.com"
         role = Role.MOCK_PARA_JUGAR
     }
 }
@@ -80,7 +80,7 @@ fun employeeAccountAdrian(credential: Authentication): Admin{
         lastname = "Perez"
         job = credential.role.name
         phone = "12341234"
-        email = credential.email
+        email = "adrian@gmail.com"
         address = "calle posta 123"
         credentials = credential
         permissions = credential.role.defaultPermissions.toMutableSet()
@@ -92,7 +92,7 @@ fun employeeAccountDiego(credential: Authentication): Employee{
         lastname = "Lentz"
         job = credential.role.name
         phone = "12341234"
-        email = credential.email
+        email = "diego@gmail.com"
         address = "calle falsa 123"
         credentials = credential
         permissions = credential.role.defaultPermissions.toMutableSet()
@@ -104,7 +104,7 @@ fun employeeAccountPica(credential: Authentication): Employee{
         lastname = "McGeraghty"
         job = credential.role.name
         phone = "12341234"
-        email = credential.email
+        email = "pedro@gmail.com"
         address = "Tambien calle falsa 123"
         credentials = credential
         permissions = credential.role.defaultPermissions.toMutableSet()
@@ -116,7 +116,7 @@ fun employeeAccountMati(credential: Authentication): Employee{
         lastname = "Diaz"
         job = credential.role.name
         phone = "12341234"
-        email = credential.email
+        email = "matias@gmail.com"
         address = "Tambien calle falsa 123"
         credentials = credential
         permissions = credential.role.defaultPermissions.toMutableSet()
@@ -129,7 +129,7 @@ fun employeeAccountValen(credential: Authentication): Employee{
         lastname = "Pugliese"
         job = credential.role.name
         phone = "12341234"
-        email = credential.email
+        email = "valen@gmail.com"
         address = "Tambien calle falsa 123"
         credentials = credential
         permissions = credential.role.defaultPermissions.toMutableSet()
@@ -141,7 +141,7 @@ fun employeeAccountTheo(credential: Authentication): Employee{
         lastname = "Narmontas"
         job = credential.role.name
         phone = "12341234"
-        email = credential.email
+        email = "theo@gmail.com"
         address = "Tambien calle falsa 123"
         credentials = credential
         permissions = credential.role.defaultPermissions.toMutableSet()
@@ -153,7 +153,7 @@ fun employeeAccountMockParaJugar(credential: Authentication): Employee{
         lastname = "MOck Mock"
         job = credential.role.name
         phone = "12341234"
-        email = credential.email
+        email = "mock@gmail.com"
         address = "Calle mock"
         credentials = credential
         permissions = credential.role.defaultPermissions.toMutableSet()

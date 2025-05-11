@@ -20,12 +20,9 @@ fun Employee.toEmployeeDTO() = EmployeeDTO(
 )
 
 data class UserCreateDTO(
-    val username: String,
-    val password: String,
     val name: String,
     val lastName: String,
     val email: String,
-    val module: List<Module>,
     val permissions: List<Permission>,
     val role: Role
 ){
@@ -40,12 +37,21 @@ data class UserCreateDTO(
             permissions = this@UserCreateDTO.permissions.toMutableSet()
             credentials = Authentication().apply {
                 email = this@UserCreateDTO.email
-                username = this@UserCreateDTO.username
-                password = this@UserCreateDTO.password
+                username = "back"
+                password = "back"
                 role = this@UserCreateDTO.role
             }
         }
-
     }
 }
+
+data class EditEmployeeDTO(
+    val id: Long,
+    val name: String,
+    val lastName: String,
+    val phone: String,
+    val email: String,
+    val address: String,
+    val permissions: List<Permission>,
+)
 

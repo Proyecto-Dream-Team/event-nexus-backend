@@ -9,7 +9,20 @@ data class ProfileDTO(
     val phone: String,
     val email: String,
     val address: String
-){}
+){
+
+    fun toEmployee(): Employee{
+        return Employee().apply {
+            name = this@ProfileDTO.name
+            lastname = this@ProfileDTO.lastName
+            phone = this@ProfileDTO.phone
+            email = this@ProfileDTO.email
+            address = this@ProfileDTO.address
+        }
+    }
+}
+
+
 
 
 fun Employee.toProfileDTO():ProfileDTO{
