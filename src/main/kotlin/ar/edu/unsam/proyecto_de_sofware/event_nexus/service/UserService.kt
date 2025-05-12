@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.client.HttpClientErrorException.NotFound
 
 @Service
-class UserService<ProfileDTO>(val repoUser: UserRepository) {
+class UserService(val repoUser: UserRepository) {
 
     fun getByID(id : Long): Employee {
         return repoUser.findById(id).orElseThrow{throw BusinessException("Usuario no encontrado")}

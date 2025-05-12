@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/admin")
 class AdminController(
     val authService: AuthService,
-    val userService: UserService<Any?>,
+    val userService: UserService,
     @Autowired val emailService: EmailService
 ) {
     val emailUtil = EmailSenderUtils()
