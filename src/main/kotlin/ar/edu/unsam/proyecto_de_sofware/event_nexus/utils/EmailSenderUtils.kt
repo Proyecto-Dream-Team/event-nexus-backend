@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 
 class EmailSenderUtils {
-    fun subjectCreationUser() = "Tu cuenta ha sido creada"
-    fun contentCreationUser(name: String) = """Hola ${name}, tu cuenta ha sido modificado por un administrador.
-        |Haz click en el siguiente link para establecer tus credenciales < https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlzKggZEy5E7c0UrXPxyf2FHukAZ6pkRa2iA&s >
-        |Cualquier inconveniente contacta al administrador.
+    fun subjectCreationUser() = "Creación de cuenta Event-Nexus"
+    fun contentCreationUser(name: String) = """Buenas! Te informamos que tu cuenta de event-nexus ha sido creada exitosamente! Haz click en el siguiente enlace para para establecer tu contraseña y empezar a utilizar la app
+        <aca iria el enlace>
+        Bienvenido a bordo 🚀 !
             """.trimMargin()
-    fun subjectEditProfile() = "Tu perfil ha sido modificado"
+    fun subjectEditProfile() = "Modificación de perfil Event-Nexus"
 
-    fun contentEditProfile(name: String) = """Hola ${name}, tu perfil ha sido modificado por un administrador.
-            """.trimMargin()
+    fun contentEditProfile(name: String) = """Te informamos que la información de tu perfil ha sido actualizada correctamente por un administrador.
+        Podrás verla reflejada en la sección de Mi perfil""".trimMargin()
 }
