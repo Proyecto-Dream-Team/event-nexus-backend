@@ -9,7 +9,9 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permission
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.AuthRepository
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.AuthService
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.EmailService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.UserService
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.utils.EmailSenderUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -20,9 +22,10 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/admin")
 class AdminController(
     val authService: AuthService,
-    val userService: UserService<Any?>,
-    @Autowired val authRepo: AuthRepository
+    val userService: UserService,
+    @Autowired val emailService: EmailService
 ) {
+    val emailUtil = EmailSenderUtils()
 
     @PostMapping("/permission/grant")
     fun grantPermissions(
@@ -56,7 +59,12 @@ class AdminController(
     fun createUser(@RequestBody userDto: UserCreateDTO): ResponseEntity<String>{
         val employee = userDto.toEmployee()
         userService.create(employee)
-        return ResponseEntity.ok().body("Usuario creado")
+        emailService.sendEmail(
+            to = employee.email,
+            subject = emailUtil.subjectCreationUser(),
+            content = emailUtil.contentCreationUser(employee.name)
+        )
+        return ResponseEntity.ok().body("Usuario creado, mail enviado")
     }
 
     @PutMapping("/edit-user")
@@ -64,7 +72,12 @@ class AdminController(
         val employee = userService.getByID(editEmployeeDTO.id)
         employee.editFromAdmin(editEmployeeDTO)
         userService.edit(employee)
-        return ResponseEntity.ok().body("Usuario editado")
+        emailService.sendEmail(
+            to = editEmployeeDTO.email,
+            subject = emailUtil.subjectEditProfile(),
+            content = emailUtil.contentEditProfile(editEmployeeDTO.name)
+        )
+        return ResponseEntity.ok().body("Usuario editado, mail enviado")
     }
 
 }

@@ -29,7 +29,7 @@ import java.time.LocalDateTime
 @RequestMapping("/event")
 class EventController(
     val eventService: EventService,
-    val userService: UserService<Any?>
+    val userService: UserService
 ) {
     @GetMapping()
     fun events(): List<ShowEventDTO> {
