@@ -18,47 +18,19 @@ class Bootstrap(
 ) : CommandLineRunner {
 
     override fun run(vararg args: String?) {
-        createAccounts()
         createUsers()
-//        createModules()
+//      createModules()
         createEvents()
     }
 
-    fun createAccounts() {
-        val adrian: Authentication = credentialsAdrian()
-        val diego: Authentication = credentialsDiego()
-        val matias: Authentication = credentialsMatias()
-        val pica: Authentication = credentialsPica()
-        val valen: Authentication = credentialsValen()
-        val theo: Authentication = credentialsTheo()
-        val mock: Authentication = credentialsMock()
-        val accounts: List<Authentication> = listOf(adrian, diego, matias, pica, valen, theo, mock)
-        authRepo.saveAll(accounts)
-    }
-
     fun createUsers () {
-
-        var credential: Authentication? = authRepo.findByUsername(username = "adrian")
-        val adrian = employeeAccountAdrian(credential!!)
-
-        credential = authRepo.findByUsername(username = "diego")
-        val diego = employeeAccountDiego(credential!!)
-
-        credential = authRepo.findByUsername(username = "pica")
-        val pica = employeeAccountPica(credential!!)
-
-        credential = authRepo.findByUsername(username = "mati")
-        val mati = employeeAccountMati(credential!!)
-
-        credential = authRepo.findByUsername(username = "valen")
-        val valen = employeeAccountValen(credential!!)
-
-        credential = authRepo.findByUsername(username = "theo")
-        val theo = employeeAccountTheo(credential!!)
-
-        credential = authRepo.findByUsername(username = "mock")
-        val mock = employeeAccountMockParaJugar(credential!!)
-
+        val adrian = employeeAccountAdrian(credentialsAdrian())
+        val diego = employeeAccountDiego(credentialsDiego())
+        val pica = employeeAccountPica(credentialsMatias())
+        val mati = employeeAccountMati(credentialsPica())
+        val valen = employeeAccountValen(credentialsValen())
+        val theo = employeeAccountTheo(credentialsTheo())
+        val mock = employeeAccountMockParaJugar(credentialsMock())
         val users : List<Employee> = listOf(adrian, diego, pica, mati, valen, theo, mock)
         userRepo.saveAll(users)
     }

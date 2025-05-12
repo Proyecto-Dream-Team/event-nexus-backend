@@ -10,7 +10,7 @@ class Admin():Employee() {
         val account = Authentication()
         account.username = username
         account.password = password
-        account.email = email
+//        account.email = email
         account.role = role
         return account
     }

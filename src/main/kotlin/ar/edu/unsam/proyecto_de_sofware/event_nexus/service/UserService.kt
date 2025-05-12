@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.client.HttpClientErrorException.NotFound
 
 @Service
-class UserService(val repoUser: UserRepository) {
+class UserService<ProfileDTO>(val repoUser: UserRepository) {
 
     fun getByID(id : Long): Employee {
         return repoUser.findById(id).orElseThrow{throw BusinessException("Usuario no encontrado")}
@@ -51,6 +51,24 @@ class UserService(val repoUser: UserRepository) {
     }
     fun findAllById(employeesIds: List<Long>): List<Employee> {
         return repoUser.findAllById(employeesIds).toList()
+    }
+
+    @Transactional
+    fun create(employee: Employee) {
+        try{
+            repoUser.save(employee)
+        }catch (e: DataAccessException){
+            throw DataBaseNotModifiedException("No se pudo crear Usuario")
+        }
+    }
+
+    @Transactional
+    fun edit(employee: Employee) {
+        try {
+            repoUser.save(employee)
+        }catch (e: DataAccessException){
+            throw DataBaseNotModifiedException("No se pudo modificar la informacion del usuario")
+        }
     }
 
 }

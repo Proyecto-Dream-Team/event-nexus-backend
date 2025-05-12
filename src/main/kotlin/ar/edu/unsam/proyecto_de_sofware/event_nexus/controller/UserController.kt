@@ -21,7 +21,7 @@ import java.util.*
 @CrossOrigin(origins = ["http://localhost:4200", "http://localhost:5173"])
 @RestController
 @RequestMapping("/user")
-class UserController(private val userService: UserService) {
+class UserController(private val userService: UserService<Any?>) {
 
     @GetMapping("/home/{id}")
     fun homeModules(@PathVariable id: Long): Employee {
