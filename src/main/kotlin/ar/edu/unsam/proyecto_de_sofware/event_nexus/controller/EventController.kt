@@ -8,6 +8,7 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Event
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.EventType
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permission
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.notification.EventoCreadoSubject
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.EventService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.UserService
 import org.springframework.http.HttpStatus
@@ -29,7 +30,8 @@ import java.time.LocalDateTime
 @RequestMapping("/event")
 class EventController(
     val eventService: EventService,
-    val userService: UserService
+    val userService: UserService,
+    private val createdEventSubject: EventoCreadoSubject
 ) {
     @GetMapping()
     fun events(): List<ShowEventDTO> {
