@@ -5,5 +5,8 @@ enum class EventType {
     DEPORTIVO,
     CAPACITACION,
     EJECUTIVO,
-    EQUIPO
+    EQUIPO,
+    CULTURAL,
+    BENEFICO,
+    SALUD
 }

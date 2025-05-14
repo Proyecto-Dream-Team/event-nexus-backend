@@ -16,8 +16,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class EventService(
-    val eventRepository: EventRepository,
-    private val notifyObserver: EventoCreadoSubject
+    val eventRepository: EventRepository
 ) {
     private val eventModule: EventModule = EventModule()
 
@@ -38,10 +37,9 @@ class EventService(
     }
 
     @Transactional
-    fun createEvent(event: Event) {
+    fun createEvent(event: Event):Event {
         try {
-            eventRepository.save(event)
-            notifyObserver.notify(event)
+            return eventRepository.save(event)
         } catch (e: DataAccessException) {
             throw RuntimeException("No se pudo actualizar eventos")
         }

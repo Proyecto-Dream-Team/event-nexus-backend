@@ -26,11 +26,11 @@ class NotificationController(
     fun subscribe(@RequestParam userId: String): SseEmitter {
         val emitter = SseEmitter(TimeUnit.MINUTES.toMillis(5)) // Timeout de la conexión
         eventoCreadoSubject.subscribe(sseNotificationService)
-        try {
-            emitter.send(SseEmitter.event().data("{\"message\": \"SSE connection established for user: $userId\"}"))
-        }catch (e:Exception){
-            emitter.completeWithError(e)
-        }
+//        try {
+//            emitter.send(SseEmitter.event().data("{\"message\": \"SSE connection established for user: $userId\"}"))
+//        }catch (e:Exception){
+//            emitter.completeWithError(e)
+//        }
         sseNotificationService.agregarConexion(userId, emitter)
         return emitter
     }

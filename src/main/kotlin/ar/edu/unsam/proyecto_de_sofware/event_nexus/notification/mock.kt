@@ -34,8 +34,6 @@ class EventoCreadoSubject {
 }
 
 
-
-
 @Component
 class SseNotificationService(
     private val objectMapper: ObjectMapper
@@ -48,7 +46,6 @@ class SseNotificationService(
         emitter.onCompletion { emitters.remove(userId) }
         emitter.onTimeout { emitters.remove(userId) }
         emitter.onError { emitters.remove(userId) }
-
         sendHeartbeat(userId)
     }
 
@@ -66,9 +63,10 @@ class SseNotificationService(
         }
     }
 
+//    Scheduled hace el trabajo de ejecutarse cada 30 segundos, y envia informacion a las conexiones de los emitters
     @Scheduled(fixedRate = 5000) // Enviar heartbeat cada 30 segundos
     fun sendHeartbeats() {
-        emitters.forEach { (userId, emitter) ->
+        emitters.forEach { (userId, _) ->
             sendHeartbeat(userId)
         }
     }
