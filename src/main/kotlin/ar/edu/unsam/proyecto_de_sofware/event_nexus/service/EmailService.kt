@@ -3,10 +3,12 @@ package ar.edu.unsam.proyecto_de_sofware.event_nexus.service
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.BusinessException
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.MimeMessageHelper
+import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Service
 
 @Service
 class EmailService(private val mailSender: JavaMailSender) {
+    @Async
     fun sendEmail(to: String, subject: String, content: String) {
         val message = mailSender.createMimeMessage()
         val helper = MimeMessageHelper(message, true)
