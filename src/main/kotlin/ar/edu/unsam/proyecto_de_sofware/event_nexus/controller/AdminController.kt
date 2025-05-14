@@ -57,6 +57,9 @@ class AdminController(
 
     @PostMapping("/create-user")
     fun createUser(@RequestBody userDto: UserCreateDTO): ResponseEntity<String>{
+        if(!authService.uniqueEmail(userDto.email)){
+            throw BusinessException("Email ya existente")
+        }
         val employee = userDto.toEmployee()
         userService.create(employee)
         emailService.sendEmail(

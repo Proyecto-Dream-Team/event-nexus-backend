@@ -72,6 +72,10 @@ class AuthService(val authRepository: AuthRepository, val userRepository: UserRe
         return userRepository.findAuthenticationByEmail(email) ?: throw NotFoundException("Error de credenciales")
     }
 
+    fun uniqueEmail(email: String): Boolean{
+        return userRepository.findAuthenticationByEmail(email) == null
+    }
+
     @Transactional
     fun update(credential: Authentication) {
         try{
