@@ -40,6 +40,11 @@ class UserController(private val userService: UserService) {
         return userService.getByID(id).toProfileDTO()
     }
 
+    @GetMapping("/detail/{id}")
+    fun gerEmployee(@PathVariable id: Long): UserCreateDTO {
+        return userService.getByID(id).toUserCreateDTO()
+    }
+
     @PutMapping("profile")
     fun profileUpdate(@RequestBody dataUpdateProfileDTO: DataUpdateProfileDTO): ResponseEntity<String>{
         try{

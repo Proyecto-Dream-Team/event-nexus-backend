@@ -47,6 +47,16 @@ data class UserCreateDTO(
     }
 }
 
+fun Employee.toUserCreateDTO() = UserCreateDTO(
+    name = this.name,
+    address = this.address,
+    email = this.email,
+    lastName = this.lastname,
+    permissions = this.permissions.toList(),
+    role = this.credentials.role,
+    phone = this.phone
+)
+
 data class EditEmployeeDTO(
     val id: Long,
     val name: String,
