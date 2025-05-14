@@ -4,6 +4,8 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.LoginRequest
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.LoginResponse
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.NewAccountRequest
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.BusinessException
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.DataBaseNotModifiedException
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.NotFoundException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Admin
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Authentication
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
@@ -13,7 +15,6 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permiss
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.AuthRepository
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.UserRepository
 import org.springframework.dao.DataAccessException
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -65,6 +66,19 @@ class AuthService(val authRepository: AuthRepository, val userRepository: UserRe
 
     fun checkPermission(employee: Employee, permission: Permission){
         this.adminModule.checkPermission(employeePermmission = employee.permissions, permissionToCheck = permission)
+    }
+
+    fun getCredentialsByEmail(email: String): Authentication {
+        return userRepository.findAuthenticationByEmail(email) ?: throw NotFoundException("Error de credenciales")
+    }
+
+    @Transactional
+    fun update(credential: Authentication) {
+        try{
+            authRepository.save(credential)
+        }catch (e: DataAccessException){
+            throw DataBaseNotModifiedException("No se pudieron crear credenciales")
+        }
     }
 
 }

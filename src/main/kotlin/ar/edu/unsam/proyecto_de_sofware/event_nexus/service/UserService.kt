@@ -4,6 +4,7 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.DataUpdateProfileDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.ImgDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.BusinessException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.DataBaseNotModifiedException
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.NotFoundException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permission
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.UserRepository
@@ -19,6 +20,10 @@ class UserService(val repoUser: UserRepository) {
 
     fun getByID(id : Long): Employee {
         return repoUser.findById(id).orElseThrow{throw BusinessException("Usuario no encontrado")}
+    }
+
+    fun getByEmail(email : String): Employee {
+        return repoUser.findByEmail(email)
     }
 
     @Transactional
