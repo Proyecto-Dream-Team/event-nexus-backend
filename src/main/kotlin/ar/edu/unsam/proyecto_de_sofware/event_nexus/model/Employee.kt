@@ -48,7 +48,7 @@ open class Employee() {
     @Column
     lateinit var phone: String
 
-    @Column
+    @Column(unique = true)
     lateinit var email: String
 
 
