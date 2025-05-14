@@ -2,12 +2,14 @@ package ar.edu.unsam.proyecto_de_sofware.event_nexus.controller
 
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.EventDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.ShowEventDTO
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.fromEventDTOtoEvent
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.showEventDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.DataBaseNotModifiedException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Event
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.EventType
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permission
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.notification.EventoCreadoSubject
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.EventService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.UserService
 import org.springframework.http.HttpStatus
@@ -22,14 +24,15 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import java.time.LocalDateTime
 
 @CrossOrigin(origins = ["http://localhost:4200", "http://localhost:5173"])
 @RestController
 @RequestMapping("/event")
 class EventController(
     val eventService: EventService,
-    val userService: UserService
+    val userService: UserService,
+    private val createdEventSubject: EventoCreadoSubject,
+    private val notifyObserver: EventoCreadoSubject
 ) {
     @GetMapping()
     fun events(): List<ShowEventDTO> {
@@ -53,18 +56,14 @@ class EventController(
     @PostMapping("/create")
     fun createEvent(@RequestBody newEventDTO: EventDTO): ResponseEntity<String> {
         val creatorEmployee = userService.getByID(newEventDTO.creatorId)
-        this.eventService.checkPermission(employee=creatorEmployee, permission = Permission.CREATE_EVENT)
+        this.eventService.checkPermission(employee=creatorEmployee, permission = Permission.CREAR_EVENTO_SOCIAL)
         val participantsEmployees = userService.findAllById(employeesIds = newEventDTO.participantsIds.toList())
-        val newEvent = Event().apply {
-            creator = creatorEmployee
-            participants = participantsEmployees.toMutableSet()
-            title = newEventDTO.name
-            date = LocalDateTime.now()
-            description = newEventDTO.description
-            dateFinished = newEventDTO.date
-            type = newEventDTO.eventType
-        }
-        eventService.createEvent(newEvent)
+        val newEvent = eventService.createEvent(event=fromEventDTOtoEvent(
+            creatorEmployee = creatorEmployee,
+            participantsEmployees = participantsEmployees,
+            eventDTO = newEventDTO
+        ))
+        notifyObserver.notify(newEvent)
         return ResponseEntity.ok().body("Evento creado!")
     }
 
@@ -103,7 +102,7 @@ class EventController(
     @DeleteMapping()
     fun delete(@RequestParam employeeId: Long, @RequestParam eventId: Long): ResponseEntity<String>{
         val employee = userService.getByID(employeeId)
-        eventService.checkPermission(employee=employee, permission = Permission.CANCEL_EVENT)
+        eventService.checkPermission(employee=employee, permission = Permission.CREAR_EVENTO_DEPORTIVO)
         val event = eventService.getById(eventId)
         try{
             eventService.delete(event, employee)

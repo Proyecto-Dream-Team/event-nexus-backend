@@ -8,9 +8,6 @@ class Authentication{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
-//
-//    @Column(length = 100)
-//    lateinit var email:String
 
     @Column(length = 100)
     lateinit var username: String

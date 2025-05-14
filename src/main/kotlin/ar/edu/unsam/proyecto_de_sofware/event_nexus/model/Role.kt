@@ -10,16 +10,17 @@ enum class Role(val jobName: String, val defaultPermissions:Set<Permission>){
     ),
     HR(
         jobName = "Human Resources",
-        defaultPermissions = setOf(Permission.CREATE_EVENT, Permission.SCHEDULE_EVENT)
+        defaultPermissions = setOf(
+            Permission.CREAR_EVENTO_SOCIAL, Permission.CREAR_EVENTO_CAPACITACION)
     ),
     DEV(
         jobName = "Softwate Developer",
-        defaultPermissions = setOf(Permission.CREATE_EVENT, Permission.CANCEL_EVENT)
+        defaultPermissions = setOf(Permission.CREAR_EVENTO_SOCIAL, Permission.CREAR_EVENTO_DEPORTIVO)
     ),
     SUPERVISOR(
         jobName = "Supervisor",
         defaultPermissions = setOf(
-            Permission.CREATE_EVENT, Permission.CANCEL_EVENT, Permission.SCHEDULE_EVENT,
+            Permission.CREAR_EVENTO_SOCIAL, Permission.CREAR_EVENTO_DEPORTIVO, Permission.CREAR_EVENTO_CAPACITACION,
             Permission.CREATE_DIRECTIVE,
             Permission.CREATE_REPPORT
         )

@@ -1,5 +1,6 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.dto
 
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Event
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.EventType
 import java.time.LocalDateTime
@@ -13,6 +14,18 @@ data class EventDTO(
     val description: String,
     val eventType: EventType
 )
+
+fun fromEventDTOtoEvent(creatorEmployee: Employee, participantsEmployees: List<Employee>, eventDTO: EventDTO):Event{
+    return Event().apply {
+        creator = creatorEmployee
+        participants = participantsEmployees.toMutableSet()
+        title = eventDTO.name
+        date = LocalDateTime.now()
+        description = eventDTO.description
+        dateFinished = eventDTO.date
+        type = eventDTO.eventType
+    }
+}
 
 data class ShowEventDTO(
     val id: Long?,
