@@ -2,6 +2,7 @@ package ar.edu.unsam.proyecto_de_sofware.event_nexus.controller
 
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.*
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.BusinessException
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.NotFoundException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Admin
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Role
@@ -90,9 +91,23 @@ class AdminController(
         if(credential.validateRegister()){
             credential.setNewCredentials(registerDTO.username, registerDTO.password)
             authService.update(credential)
+        }else{
+            throw NotFoundException("Credenciales invalidadas")
         }
 
         return ResponseEntity.ok().body("Credenciales generadas")
+    }
+
+    @PutMapping("/recovery")
+    fun setPass(@RequestBody registerDTO: RegisterDTO): ResponseEntity<String>{
+        val credential = authService.getCredentialsByEmail(registerDTO.email)
+        if(!credential.validateRegister() && credential.validateUsername(registerDTO.username)){
+            credential.setNewCredentials(registerDTO.username, registerDTO.password)
+            authService.update(credential)
+        }else{
+            throw NotFoundException("Credenciales invalidadas")
+        }
+        return ResponseEntity.ok().body("Password actualizado")
     }
 
 

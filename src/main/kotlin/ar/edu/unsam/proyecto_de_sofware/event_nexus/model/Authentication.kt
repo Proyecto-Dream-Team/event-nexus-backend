@@ -28,5 +28,10 @@ class Authentication{
         this.password = password
     }
 
+    fun validateUsername(username: String): Boolean {
+        return  username == this.username
+    }
+
+
 }
 
