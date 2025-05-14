@@ -32,7 +32,7 @@ data class UserCreateDTO(
         return Employee().apply {
             name = this@UserCreateDTO.name
             lastname = lastName
-            job = ""
+            job = this@UserCreateDTO.role.name
             address = this@UserCreateDTO.address
             phone = this@UserCreateDTO.phone
             email = this@UserCreateDTO.email
