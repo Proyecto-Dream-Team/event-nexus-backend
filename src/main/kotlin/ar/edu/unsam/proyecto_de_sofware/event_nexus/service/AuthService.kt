@@ -81,4 +81,8 @@ class AuthService(val authRepository: AuthRepository, val userRepository: UserRe
         }
     }
 
+    fun checkCredentialsBack(username: String, password: String): Boolean {
+        return username == "back" && password == "back"
+    }
+
 }

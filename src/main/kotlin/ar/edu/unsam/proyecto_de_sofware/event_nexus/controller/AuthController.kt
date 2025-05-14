@@ -25,7 +25,12 @@ class AuthController(val authService: AuthService) {
 
     @PostMapping("/login")
     fun login(@RequestBody loginRequest: LoginRequest):ResponseEntity<LoginResponse>{
-        val loginResponse:LoginResponse = authService.login(loginRequest)
+        lateinit var loginResponse:LoginResponse
+        if(!authService.checkCredentialsBack(loginRequest.username, loginRequest.password)){
+            loginResponse = authService.login(loginRequest)
+        }else{
+            throw BusinessException("Credenciales invalidas")
+        }
         return ResponseEntity.ok().body(loginResponse)
     }
 
