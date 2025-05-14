@@ -5,6 +5,7 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.ImgDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.BusinessException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.DataBaseNotModifiedException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permission
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.UserRepository
 import org.springframework.dao.DataAccessException
 import org.springframework.http.HttpStatus
@@ -69,6 +70,10 @@ class UserService(val repoUser: UserRepository) {
         }catch (e: DataAccessException){
             throw DataBaseNotModifiedException("No se pudo modificar la informacion del usuario")
         }
+    }
+
+    fun gerPermissions(id: Long): List<Permission> {
+        return repoUser.findById(id).get().permissions.toList()
     }
 
 }

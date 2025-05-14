@@ -11,7 +11,7 @@ class EmailSenderUtils {
             <p>Hola <strong>$name</strong>,</p>
             <p>¡Te informamos que tu cuenta en <strong>Event-Nexus</strong> ha sido creada exitosamente!</p>
             <p>Haz clic en el siguiente enlace para establecer tu contraseña y empezar a utilizar la aplicación:</p>
-            <p><a href="https://tuenlace.com/restablecer">Establecer contraseña</a></p>
+            <p><a href="http://localhost:5173/register">Establecer credenciales</a></p>
             <br/>
             <p>¡Bienvenido a bordo 🚀!</p>
             <hr/>
