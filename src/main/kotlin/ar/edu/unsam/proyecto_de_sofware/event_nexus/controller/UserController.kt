@@ -4,6 +4,7 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.*
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.BusinessException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.DataBaseNotModifiedException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permission
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.AuthService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.UserService
 import jakarta.websocket.server.PathParam
@@ -21,7 +22,7 @@ import java.util.*
 @CrossOrigin(origins = ["http://localhost:4200", "http://localhost:5173"])
 @RestController
 @RequestMapping("/user")
-class UserController(private val userService: UserService<Any?>) {
+class UserController(private val userService: UserService) {
 
     @GetMapping("/home/{id}")
     fun homeModules(@PathVariable id: Long): Employee {
@@ -65,6 +66,11 @@ class UserController(private val userService: UserService<Any?>) {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body("Actualizacion exitosa!")
+    }
+
+    @GetMapping("/{id}/permissions")
+    fun getPermissions(@PathVariable id: Long): List<Permission>{
+        return userService.gerPermissions(id)
     }
 
 }

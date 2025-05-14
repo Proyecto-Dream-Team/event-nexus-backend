@@ -80,4 +80,10 @@ class AdminController(
         return ResponseEntity.ok().body("Usuario editado, mail enviado")
     }
 
+    @GetMapping("/permissions")
+    fun getPermissions(): List<Permission>{
+        return Permission.entries
+    }
+
+
 }
