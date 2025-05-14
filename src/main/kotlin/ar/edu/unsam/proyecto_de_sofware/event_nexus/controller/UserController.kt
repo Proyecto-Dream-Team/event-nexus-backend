@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.util.*
 
@@ -71,6 +72,11 @@ class UserController(private val userService: UserService) {
     @GetMapping("/{id}/permissions")
     fun getPermissions(@PathVariable id: Long): List<Permission>{
         return userService.gerPermissions(id)
+    }
+
+    @GetMapping()
+    fun search(@RequestParam search: String): List<EmployeeDTO>{
+        return userService.findBySearch(search).map { it.toEmployeeDTO() }
     }
 
 }

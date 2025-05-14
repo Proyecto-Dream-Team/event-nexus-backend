@@ -22,4 +22,10 @@ interface UserRepository: CrudRepository<Employee, Long> {
     """)
     fun findAuthenticationByEmail(@Param("email") email: String): Authentication?
 
+    @Query("""
+        SELECT e FROM Employee e
+        WHERE LOWER(e.lastname) LIKE  %:search% OR LOWER(e.name) LIKE  %:search%
+    """)
+    fun findBySearch(@Param("search") search: String): List<Employee>
+
 }

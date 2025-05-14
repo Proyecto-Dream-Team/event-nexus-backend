@@ -81,4 +81,8 @@ class UserService(val repoUser: UserRepository) {
         return repoUser.findById(id).get().permissions.toList()
     }
 
+    fun findBySearch(search: String): List<Employee> {
+        return repoUser.findBySearch(search.lowercase())
+    }
+
 }
