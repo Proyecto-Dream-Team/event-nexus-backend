@@ -1,9 +1,6 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.controller
 
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.CreteDataDTO
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.EditEmployeeDTO
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.ProfileDTO
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.UserCreateDTO
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.*
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.BusinessException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Admin
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
@@ -85,6 +82,17 @@ class AdminController(
     @GetMapping("/permissions-role")
     fun getPermissions(): CreteDataDTO{
         return CreteDataDTO(Role.entries, Permission.entries)
+    }
+
+    @PutMapping("/register")
+    fun register(@RequestBody registerDTO: RegisterDTO): ResponseEntity<String>{
+        val credential = authService.getCredentialsByEmail(registerDTO.email)
+        if(credential.validateRegister()){
+            credential.setNewCredentials(registerDTO.username, registerDTO.password)
+            authService.update(credential)
+        }
+
+        return ResponseEntity.ok().body("Credenciales generadas")
     }
 
 

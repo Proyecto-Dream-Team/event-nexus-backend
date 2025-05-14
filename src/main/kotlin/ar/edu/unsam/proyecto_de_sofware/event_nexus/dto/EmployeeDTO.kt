@@ -24,15 +24,17 @@ data class UserCreateDTO(
     val lastName: String,
     val email: String,
     val permissions: List<Permission>,
-    val role: Role
+    val role: Role,
+    val address: String,
+    val phone: String
 ){
     fun toEmployee(): Employee{
         return Employee().apply {
             name = this@UserCreateDTO.name
             lastname = lastName
             job = ""
-            address = ""
-            phone = ""
+            address = this@UserCreateDTO.address
+            phone = this@UserCreateDTO.phone
             email = this@UserCreateDTO.email
             permissions = this@UserCreateDTO.permissions.toMutableSet()
             credentials = Authentication().apply {

@@ -18,5 +18,15 @@ class Authentication{
     @Enumerated(EnumType.STRING)
     @Column(length = 100)
     lateinit var role: Role
+
+    fun validateRegister(): Boolean {
+        return password == "back" && username == "back"
+    }
+
+    fun setNewCredentials(username: String, password: String) {
+        this.username = username
+        this.password = password
+    }
+
 }
 
