@@ -1,11 +1,13 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.controller
 
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.CreteDataDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.EditEmployeeDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.ProfileDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.UserCreateDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.BusinessException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Admin
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Role
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permission
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.AuthRepository
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.AuthService
@@ -80,9 +82,9 @@ class AdminController(
         return ResponseEntity.ok().body("Usuario editado, mail enviado")
     }
 
-    @GetMapping("/permissions")
-    fun getPermissions(): List<Permission>{
-        return Permission.entries
+    @GetMapping("/permissions-role")
+    fun getPermissions(): CreteDataDTO{
+        return CreteDataDTO(Role.entries, Permission.entries)
     }
 
 
