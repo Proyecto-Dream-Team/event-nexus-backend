@@ -1,13 +1,11 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.controller
 
 
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.notification.EventoCreadoSubject
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.notification.SseNotificationService
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.notification.observer.CreatedEventObserver
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.SseNotificationService
 import org.springframework.http.MediaType
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
@@ -19,18 +17,13 @@ import java.util.concurrent.TimeUnit
 @RequestMapping("/notification")
 class NotificationController(
     private val sseNotificationService: SseNotificationService,
-    private val eventoCreadoSubject: EventoCreadoSubject
+    private val createdEventObserver: CreatedEventObserver
 ) {
 
     @GetMapping(produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
     fun subscribe(@RequestParam userId: String): SseEmitter {
         val emitter = SseEmitter(TimeUnit.MINUTES.toMillis(5)) // Timeout de la conexión
-        eventoCreadoSubject.subscribe(sseNotificationService)
-//        try {
-//            emitter.send(SseEmitter.event().data("{\"message\": \"SSE connection established for user: $userId\"}"))
-//        }catch (e:Exception){
-//            emitter.completeWithError(e)
-//        }
+        createdEventObserver.subscribe(sseNotificationService)
         sseNotificationService.agregarConexion(userId, emitter)
         return emitter
     }
