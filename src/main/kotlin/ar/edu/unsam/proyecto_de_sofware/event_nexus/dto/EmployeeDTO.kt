@@ -9,14 +9,16 @@ data class EmployeeDTO(
     val id: Long,
     val name: String,
     val lastname: String,
-    val image: String
+    val image: String,
+    val rol: String
 ) {}
 
 fun Employee.toEmployeeDTO() = EmployeeDTO(
     id = id!!,
     name = name,
     lastname = lastname,
-    image = image
+    image = image,
+    rol = job
 )
 
 data class UserCreateDTO(

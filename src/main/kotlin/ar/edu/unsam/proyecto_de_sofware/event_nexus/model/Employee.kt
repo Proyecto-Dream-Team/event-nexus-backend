@@ -51,7 +51,6 @@ open class Employee() {
     @Column(unique = true)
     lateinit var email: String
 
-
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     lateinit var permissions: MutableSet<Permission>
