@@ -80,7 +80,7 @@ class UserService(val repoUser: UserRepository) {
     @Transactional
     fun delete(employee: Employee) {
         try {
-            repoUser.save(employee)
+            repoUser.delete(employee)
         }catch (e: DataAccessException){
             throw DataBaseNotModifiedException("No se pudo eliminar la informacion del usuario")
         }
