@@ -115,7 +115,7 @@ class AdminController(
         return ResponseEntity.ok().body("Password actualizado")
     }
 
-    @DeleteMapping("/delete/user/{id}")
+    @DeleteMapping("/delete/user/{employeeId}")
     fun delete(@PathVariable employeeId: Long): ResponseEntity<String>{
         val employee:Employee = userService.getByID(employeeId)
         try {
