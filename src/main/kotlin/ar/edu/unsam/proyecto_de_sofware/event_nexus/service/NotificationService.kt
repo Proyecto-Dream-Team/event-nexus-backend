@@ -1,37 +1,18 @@
-package ar.edu.unsam.proyecto_de_sofware.event_nexus.notification
+package ar.edu.unsam.proyecto_de_sofware.event_nexus.service
 
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.EventNotification
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.toEventNotification
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Event
-import org.springframework.stereotype.Component
-import java.util.concurrent.CopyOnWriteArrayList
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.notification.listener.CreatedEventListener
 import com.fasterxml.jackson.databind.ObjectMapper
-import jakarta.annotation.PostConstruct
 import org.springframework.scheduling.annotation.Scheduled
+import org.springframework.stereotype.Component
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 import java.time.LocalDateTime
 import java.util.concurrent.ConcurrentHashMap
-
-
-interface CreatedEventListener {
-    fun onCreated(event: Event)
-}
-
-@Component
-class EventoCreadoSubject {
-    private val listeners = CopyOnWriteArrayList<CreatedEventListener>()
-
-    fun subscribe(listener: CreatedEventListener) {
-        listeners.add(listener)
-    }
-
-    fun unsubscribe(listener: CreatedEventListener) {
-        listeners.remove(listener)
-    }
-
-    fun notify(event: Event) {
-        listeners.forEach { it.onCreated(event) }
-    }
-
-}
+import kotlin.collections.component1
+import kotlin.collections.component2
+import kotlin.collections.set
 
 
 @Component
@@ -46,15 +27,13 @@ class SseNotificationService(
         emitter.onCompletion { emitters.remove(userId) }
         emitter.onTimeout { emitters.remove(userId) }
         emitter.onError { emitters.remove(userId) }
-        sendHeartbeat(userId)
     }
 
-    override fun onCreated(evento: Event) {
-        // Lógica para determinar qué usuarios deben recibir esta notificación
+    override fun onCreated(event: Event) {
+        val parsedEvent: EventNotification = toEventNotification(event)
         emitters.forEach { (userId, emitter) ->
-            // Aquí podrías verificar si el usuario con userId debe recibir la notificación
             try {
-                val data = mapOf("tipo" to "nuevo-evento", "payload" to evento)
+                val data = mapOf("type" to "new-event", "payload" to parsedEvent)
                 emitter.send(SseEmitter.event().data(objectMapper.writeValueAsString(data)))
             } catch (e: Exception) {
                 emitters.remove(userId)
@@ -63,13 +42,14 @@ class SseNotificationService(
         }
     }
 
-//    Scheduled hace el trabajo de ejecutarse cada 30 segundos, y envia informacion a las conexiones de los emitters
+    //    Scheduled hace el trabajo de ejecutarse cada 30 segundos, y envia informacion a las conexiones de los emitters
     @Scheduled(fixedRate = 5000) // Enviar heartbeat cada 30 segundos
     fun sendHeartbeats() {
         emitters.forEach { (userId, _) ->
             sendHeartbeat(userId)
         }
     }
+
     private fun sendHeartbeat(userId: String) {
         val emitter = emitters[userId] ?: return
         try {
@@ -81,16 +61,4 @@ class SseNotificationService(
         }
     }
 
-}
-
-@Component
-class NotificationInitializer(
-    private val eventoCreadoSubject: EventoCreadoSubject,
-    private val sseNotificationService: SseNotificationService
-) {
-    @PostConstruct
-    fun subscribeListeners() {
-        eventoCreadoSubject.subscribe(sseNotificationService)
-        println("SseNotificationService suscrito a EventoCreadoSubject")
-    }
 }

@@ -56,3 +56,21 @@ fun Event.showEventDTO(): ShowEventDTO {
         type = type
     )
 }
+
+data class EventNotification(
+    val id:Long,
+    val eventId: Long,
+    val from:String,
+    val date: LocalDateTime,
+    val shortText:String
+)
+
+fun toEventNotification(event:Event): EventNotification{
+    return EventNotification(
+        id = 1,
+        eventId = event.id!!,
+        from = event.creator.name+" "+event.creator.lastname,
+        date = event.date,
+        shortText = event.title
+    )
+}

@@ -4,6 +4,7 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.EventDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.ShowEventDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.BusinessException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Notifiable
 import jakarta.persistence.*
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
@@ -11,7 +12,7 @@ import java.time.LocalDateTime
 
 @Entity
 @Table(name = "event")
-class Event(){
+class Event(): Notifiable{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
 
