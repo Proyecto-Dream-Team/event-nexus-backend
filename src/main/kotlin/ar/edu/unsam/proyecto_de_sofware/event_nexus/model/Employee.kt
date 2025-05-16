@@ -68,7 +68,8 @@ open class Employee() {
         address = userCreateDTO.address
         email = userCreateDTO.email
         permissions = userCreateDTO.permissions.toMutableSet()
-        job = userCreateDTO.role.name
+        job = userCreateDTO.role.name //TODO arreglar futuro duplicidad de campos
+        credentials.role = userCreateDTO.role
     }
 
 }
