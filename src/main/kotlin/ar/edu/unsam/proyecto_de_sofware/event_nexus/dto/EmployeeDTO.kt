@@ -22,6 +22,7 @@ fun Employee.toEmployeeDTO() = EmployeeDTO(
 )
 
 data class UserCreateDTO(
+    val id: Long? = null,
     val name: String,
     val lastName: String,
     val email: String,

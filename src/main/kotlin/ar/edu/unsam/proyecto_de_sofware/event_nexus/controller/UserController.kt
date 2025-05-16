@@ -41,7 +41,7 @@ class UserController(private val userService: UserService) {
     }
 
     @GetMapping("/detail/{id}")
-    fun gerEmployee(@PathVariable id: Long): UserCreateDTO {
+    fun getEmployee(@PathVariable id: Long): UserCreateDTO {
         return userService.getByID(id).toUserCreateDTO()
     }
 
