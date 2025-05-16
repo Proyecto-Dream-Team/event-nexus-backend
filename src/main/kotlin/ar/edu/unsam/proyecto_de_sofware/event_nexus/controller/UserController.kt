@@ -79,7 +79,7 @@ class UserController(private val userService: UserService) {
         return userService.gerPermissions(id)
     }
 
-    @GetMapping()
+    @GetMapping( )
     fun search(@RequestParam search: String): List<EmployeeDTO>{
         return userService.findBySearch(search).map { it.toEmployeeDTO() }
     }

@@ -39,7 +39,10 @@ class Event(){
     @Enumerated(EnumType.STRING)
     var type: EventType = EventType.SOCIAL
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(
+        fetch = FetchType.EAGER,
+        cascade = [CascadeType.ALL]
+    )
     @JoinTable(
         name="employee_event",
         joinColumns=
