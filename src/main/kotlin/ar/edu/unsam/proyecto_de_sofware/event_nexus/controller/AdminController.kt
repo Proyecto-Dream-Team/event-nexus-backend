@@ -79,8 +79,8 @@ class AdminController(
     }
 
     @PutMapping("/edit-user")
-    fun editUser(@RequestBody editEmployeeDTO: EditEmployeeDTO): ResponseEntity<String>{
-        val employee = userService.getByID(editEmployeeDTO.id)
+    fun editUser(@RequestBody editEmployeeDTO: UserCreateDTO): ResponseEntity<String>{
+        val employee = userService.getByID(editEmployeeDTO.id!!)
         employee.editFromAdmin(editEmployeeDTO)
         userService.edit(employee)
         emailService.sendEmail(
