@@ -117,9 +117,8 @@ class AdminController(
 
     @DeleteMapping("/delete/user/{employeeId}")
     fun delete(@PathVariable employeeId: Long): ResponseEntity<String>{
-        val employee:Employee = userService.getByID(employeeId)
         try {
-            userService.delete(employee)
+            userService.deleteEmployee(employeeId)
         }catch (e: DataBaseNotModifiedException){
             return ResponseEntity
                 .status(HttpStatus.NOT_MODIFIED)
