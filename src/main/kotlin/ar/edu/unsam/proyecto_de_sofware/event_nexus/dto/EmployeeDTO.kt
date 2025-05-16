@@ -51,6 +51,7 @@ data class UserCreateDTO(
 }
 
 fun Employee.toUserCreateDTO() = UserCreateDTO(
+    id = this.id,
     name = this.name,
     address = this.address,
     email = this.email,

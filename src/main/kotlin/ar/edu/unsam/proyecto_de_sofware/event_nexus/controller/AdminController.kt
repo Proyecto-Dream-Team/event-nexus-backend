@@ -72,6 +72,12 @@ class AdminController(
         return ResponseEntity.ok().body("Usuario creado, mail enviado")
     }
 
+    @GetMapping("/edit-user/{employeeId}")
+    fun getUserInfoToEdit(@PathVariable employeeId: Long): UserCreateDTO{
+        val employee = userService.getByID(employeeId)
+        return employee.toUserCreateDTO()
+    }
+
     @PutMapping("/edit-user")
     fun editUser(@RequestBody editEmployeeDTO: EditEmployeeDTO): ResponseEntity<String>{
         val employee = userService.getByID(editEmployeeDTO.id)
