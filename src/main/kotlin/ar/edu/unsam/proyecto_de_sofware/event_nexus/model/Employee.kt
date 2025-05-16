@@ -67,8 +67,8 @@ open class Employee() {
         phone = userCreateDTO.phone
         address = userCreateDTO.address
         email = userCreateDTO.email
-        permissions.addAll(userCreateDTO.permissions)
-
+        permissions = userCreateDTO.permissions.toMutableSet()
+        job = userCreateDTO.role.name
     }
 
 }
