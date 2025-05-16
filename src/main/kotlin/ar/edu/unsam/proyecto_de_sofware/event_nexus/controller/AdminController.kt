@@ -2,6 +2,7 @@ package ar.edu.unsam.proyecto_de_sofware.event_nexus.controller
 
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.*
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.BusinessException
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.DataBaseNotModifiedException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.NotFoundException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Admin
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
@@ -13,6 +14,7 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.EmailService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.UserService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.utils.EmailSenderUtils
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -111,6 +113,19 @@ class AdminController(
             throw NotFoundException("Credenciales invalidadas")
         }
         return ResponseEntity.ok().body("Password actualizado")
+    }
+
+    @DeleteMapping("/delete/user/{id}")
+    fun delete(@PathVariable employeeId: Long): ResponseEntity<String>{
+        val employee:Employee = userService.getByID(employeeId)
+        try {
+            userService.delete(employee)
+        }catch (e: DataBaseNotModifiedException){
+            return ResponseEntity
+                .status(HttpStatus.NOT_MODIFIED)
+                .body(e.message)
+        }
+        return ResponseEntity.ok().body("Usuario eliminado")
     }
 
 
