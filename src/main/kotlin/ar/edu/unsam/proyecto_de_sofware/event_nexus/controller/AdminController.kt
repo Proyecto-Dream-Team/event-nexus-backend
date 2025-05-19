@@ -1,11 +1,12 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.controller
 
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.EditEmployeeDTO
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.ProfileDTO
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.UserCreateDTO
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.*
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.BusinessException
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.DataBaseNotModifiedException
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.NotFoundException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Admin
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Role
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permission
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.AuthRepository
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.AuthService
@@ -13,6 +14,7 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.EmailService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.UserService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.utils.EmailSenderUtils
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -57,6 +59,9 @@ class AdminController(
 
     @PostMapping("/create-user")
     fun createUser(@RequestBody userDto: UserCreateDTO): ResponseEntity<String>{
+        if(!authService.uniqueEmail(userDto.email)){
+            throw BusinessException("Email ya existente")
+        }
         val employee = userDto.toEmployee()
         userService.create(employee)
         emailService.sendEmail(
@@ -67,9 +72,15 @@ class AdminController(
         return ResponseEntity.ok().body("Usuario creado, mail enviado")
     }
 
+    @GetMapping("/edit-user/{employeeId}")
+    fun getUserInfoToEdit(@PathVariable employeeId: Long): UserCreateDTO{
+        val employee = userService.getByID(employeeId)
+        return employee.toUserCreateDTO()
+    }
+
     @PutMapping("/edit-user")
-    fun editUser(@RequestBody editEmployeeDTO: EditEmployeeDTO): ResponseEntity<String>{
-        val employee = userService.getByID(editEmployeeDTO.id)
+    fun editUser(@RequestBody editEmployeeDTO: UserCreateDTO): ResponseEntity<String>{
+        val employee = userService.getByID(editEmployeeDTO.id!!)
         employee.editFromAdmin(editEmployeeDTO)
         userService.edit(employee)
         emailService.sendEmail(
@@ -79,5 +90,48 @@ class AdminController(
         )
         return ResponseEntity.ok().body("Usuario editado, mail enviado")
     }
+
+    @GetMapping("/permissions-role")
+    fun getPermissions(): CreteDataDTO{
+        return CreteDataDTO(Role.entries, Permission.entries)
+    }
+
+    @PutMapping("/register")
+    fun register(@RequestBody registerDTO: RegisterDTO): ResponseEntity<String>{
+        val credential = authService.getCredentialsByEmail(registerDTO.email)
+        if(credential.validateRegister()){
+            credential.setNewCredentials(registerDTO.username, registerDTO.password)
+            authService.update(credential)
+        }else{
+            throw NotFoundException("Credenciales invalidadas")
+        }
+
+        return ResponseEntity.ok().body("Credenciales generadas")
+    }
+
+    @PutMapping("/recovery")
+    fun setPass(@RequestBody registerDTO: RegisterDTO): ResponseEntity<String>{
+        val credential = authService.getCredentialsByEmail(registerDTO.email)
+        if(!credential.validateRegister() && credential.validateUsername(registerDTO.username)){
+            credential.setNewCredentials(registerDTO.username, registerDTO.password)
+            authService.update(credential)
+        }else{
+            throw NotFoundException("Credenciales invalidadas")
+        }
+        return ResponseEntity.ok().body("Password actualizado")
+    }
+
+    @DeleteMapping("/delete/user/{employeeId}")
+    fun delete(@PathVariable employeeId: Long): ResponseEntity<String>{
+        try {
+            userService.deleteEmployee(employeeId)
+        }catch (e: DataBaseNotModifiedException){
+            return ResponseEntity
+                .status(HttpStatus.NOT_MODIFIED)
+                .body(e.message)
+        }
+        return ResponseEntity.ok().body("Usuario eliminado")
+    }
+
 
 }

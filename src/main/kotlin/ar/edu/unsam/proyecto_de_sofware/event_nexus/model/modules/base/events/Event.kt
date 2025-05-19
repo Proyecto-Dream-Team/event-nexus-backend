@@ -6,6 +6,8 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.BusinessException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Notifiable
 import jakarta.persistence.*
+import org.hibernate.annotations.OnDelete
+import org.hibernate.annotations.OnDeleteAction
 import java.time.LocalDateTime
 
 @Entity
@@ -28,6 +30,7 @@ class Event(): Notifiable{
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(referencedColumnName = "id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     lateinit var creator: Employee
 
     @Column
@@ -40,13 +43,25 @@ class Event(): Notifiable{
     @Enumerated(EnumType.STRING)
     var type: EventType = EventType.SOCIAL
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(
+        fetch = FetchType.EAGER,
+//        cascade = [CascadeType.REMOVE],
+
+    )
     @JoinTable(
         name="employee_event",
         joinColumns=
             [JoinColumn(name="event_id", referencedColumnName="id")],
-        inverseJoinColumns=
-            [JoinColumn(name="employee_id", referencedColumnName="id")]
+        inverseJoinColumns = [
+            JoinColumn(
+                name = "employee_id",
+                referencedColumnName = "id",
+                foreignKey = ForeignKey(
+                    foreignKeyDefinition = "FOREIGN KEY (employee_id) REFERENCES employee(id) ON DELETE CASCADE"
+                )
+            )
+        ]
+
     )
     lateinit var participants: MutableSet<Employee>
 

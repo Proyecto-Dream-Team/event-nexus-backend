@@ -4,6 +4,7 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.*
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.BusinessException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.DataBaseNotModifiedException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permission
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.AuthService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.UserService
 import jakarta.websocket.server.PathParam
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.util.*
 
@@ -36,6 +38,11 @@ class UserController(private val userService: UserService) {
     @GetMapping("/profile/{id}")
     fun dataProfile(@PathVariable id: Long): ProfileDTO {
         return userService.getByID(id).toProfileDTO()
+    }
+
+    @GetMapping("/detail/{id}")
+    fun getEmployee(@PathVariable id: Long): UserCreateDTO {
+        return userService.getByID(id).toUserCreateDTO()
     }
 
     @PutMapping("profile")
@@ -65,6 +72,16 @@ class UserController(private val userService: UserService) {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body("Actualizacion exitosa!")
+    }
+
+    @GetMapping("/{id}/permissions")
+    fun getPermissions(@PathVariable id: Long): List<Permission>{
+        return userService.gerPermissions(id)
+    }
+
+    @GetMapping( )
+    fun search(@RequestParam search: String): List<EmployeeDTO>{
+        return userService.findBySearch(search).map { it.toEmployeeDTO() }
     }
 
 }

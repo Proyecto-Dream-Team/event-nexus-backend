@@ -48,9 +48,8 @@ open class Employee() {
     @Column
     lateinit var phone: String
 
-    @Column
+    @Column(unique = true)
     lateinit var email: String
-
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
@@ -62,15 +61,17 @@ open class Employee() {
         address = data.address
     }
 
-    fun editFromAdmin(editEmployeeDTO: EditEmployeeDTO) {
-        name = editEmployeeDTO.name
-        lastname = editEmployeeDTO.lastName
-        phone = editEmployeeDTO.phone
-        address = editEmployeeDTO.address
-        email = editEmployeeDTO.email
-        permissions.addAll(editEmployeeDTO.permissions)
-
+    fun editFromAdmin(userCreateDTO: UserCreateDTO) {
+        name = userCreateDTO.name
+        lastname = userCreateDTO.lastName
+        phone = userCreateDTO.phone
+        address = userCreateDTO.address
+        email = userCreateDTO.email
+        permissions = userCreateDTO.permissions.toMutableSet()
+        job = userCreateDTO.role.name //TODO arreglar futuro duplicidad de campos
+        credentials.role = userCreateDTO.role
     }
+
 }
 
 
