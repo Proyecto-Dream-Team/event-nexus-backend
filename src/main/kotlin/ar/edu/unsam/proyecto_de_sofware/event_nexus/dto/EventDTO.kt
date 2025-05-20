@@ -3,6 +3,7 @@ package ar.edu.unsam.proyecto_de_sofware.event_nexus.dto
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Event
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.EventType
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Notification
 import java.time.LocalDateTime
 
 data class EventDTO(
@@ -11,8 +12,8 @@ data class EventDTO(
     val participantsIds: MutableSet<Long>,
     val date: LocalDateTime,
     val name: String,
-    val description: String,
-    val eventType: EventType
+    val description: String
+//    val eventType: EventType
 )
 
 fun fromEventDTOtoEvent(creatorEmployee: Employee, participantsEmployees: List<Employee>, eventDTO: EventDTO):Event{
@@ -23,7 +24,7 @@ fun fromEventDTOtoEvent(creatorEmployee: Employee, participantsEmployees: List<E
         date = LocalDateTime.now()
         description = eventDTO.description
         dateFinished = eventDTO.date
-        type = eventDTO.eventType
+//        type = eventDTO.eventType
     }
 }
 
@@ -65,9 +66,9 @@ data class EventNotification(
     val shortText:String
 )
 
-fun toEventNotification(event:Event): EventNotification{
+fun toEventNotification(event:Event, notification: Notification): EventNotification{
     return EventNotification(
-        id = 1,
+        id = notification.id!!,
         eventId = event.id!!,
         from = event.creator.name+" "+event.creator.lastname,
         date = event.date,

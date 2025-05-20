@@ -4,6 +4,7 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.DataUpdateProfileDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.EditEmployeeDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.EmployeeDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.UserCreateDTO
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Notification
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permission
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
@@ -55,6 +56,8 @@ open class Employee() {
     @Enumerated(EnumType.STRING)
     lateinit var permissions: MutableSet<Permission>
 
+    @OneToMany
+    var notifications: MutableSet<Notification> = mutableSetOf()
     fun updateProfile(data: DataUpdateProfileDTO) {
         email = data.email
         phone = data.phone

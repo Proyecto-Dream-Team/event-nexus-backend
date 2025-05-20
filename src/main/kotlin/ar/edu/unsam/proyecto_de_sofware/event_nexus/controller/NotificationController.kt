@@ -1,11 +1,16 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.controller
 
 
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Notification
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.notification.observer.CreatedEventObserver
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.NotificationService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.SseNotificationService
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.UserService
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
@@ -17,7 +22,9 @@ import java.util.concurrent.TimeUnit
 @RequestMapping("/notification")
 class NotificationController(
     private val sseNotificationService: SseNotificationService,
-    private val createdEventObserver: CreatedEventObserver
+    private val createdEventObserver: CreatedEventObserver,
+    val notificationService: NotificationService,
+    val userService: UserService
 ) {
 
     @GetMapping(produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
@@ -26,5 +33,9 @@ class NotificationController(
         createdEventObserver.subscribe(sseNotificationService)
         sseNotificationService.agregarConexion(userId, emitter)
         return emitter
+    }
+    @GetMapping("/{employeeId}")
+    fun getNotifications(@PathVariable employeeId: Long): List<Notification>{
+        return notificationService.getNotificationsByCreator(employeeId)
     }
 }

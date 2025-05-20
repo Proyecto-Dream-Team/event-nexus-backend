@@ -8,9 +8,13 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.DataBaseNotModifi
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Event
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.EventType
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Notification
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permission
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.notification.observer.CreatedEventObserver
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.notification.observer.NewDirectiveObserver
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.EventService
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.NotificationService
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.SseNotificationService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.UserService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -31,7 +35,10 @@ import org.springframework.web.bind.annotation.RestController
 class EventController(
     val eventService: EventService,
     val userService: UserService,
-    private val notifyObserver: CreatedEventObserver
+    private val notifyObserver: CreatedEventObserver,
+    private val directiveObserver: NewDirectiveObserver,
+    val serviceSSE: SseNotificationService,
+    val notificationService: NotificationService
 ) {
     @GetMapping()
     fun events(): List<ShowEventDTO> {
@@ -62,7 +69,13 @@ class EventController(
             participantsEmployees = participantsEmployees,
             eventDTO = newEventDTO
         ))
-        notifyObserver.notify(newEvent)
+        val notification: Notification = this.notificationService.save(
+            Notification().apply{
+                creator = creatorEmployee
+                type = newEvent::class.simpleName!!
+            }
+        )
+        notifyObserver.notify(newEvent, notification)
         return ResponseEntity.ok().body("Evento creado!")
     }
 
@@ -114,4 +127,22 @@ class EventController(
             .status(HttpStatus.OK)
             .body("Evento eliminado")
     }
+
+//    @PostMapping("/directive")
+//    fun createDirectiveMock(@RequestBody employeeId: Long): ResponseEntity<String> {
+//        val employee: Employee = userService.getByID(employeeId)
+//        val newDirective: Directive = Directive().apply {
+//            creator = employee
+//        }
+//        val notification: Notification = this.notificationService.save(
+//            Notification(
+//                id = null,
+//                from = employee,
+//                type = newDirective::class.simpleName!!
+//            )
+//        )
+//        directiveObserver.notify(newDirective)
+//        return ResponseEntity.ok().body("Evento creado!")
+//    }
+
 }
