@@ -70,8 +70,22 @@ fun toEventNotification(event:Event, notification: Notification): EventNotificat
     return EventNotification(
         id = notification.id!!,
         eventId = event.id!!,
-        from = event.creator.name+" "+event.creator.lastname,
+        from = event.creator.fullName(),
         date = event.date,
         shortText = event.title
+    )
+}
+
+
+fun toEventCreatorNofitication(event:Event, notification: Notification, joined:Boolean): EventNotification{
+    lateinit var text: String
+    text = if(joined) "Alguien se unio al evento"
+    else "Alguien abandono el evento"
+    return EventNotification(
+        id = notification.id!!,
+        eventId = event.id!!,
+        from = notification.creator.fullName(),
+        date = event.date,
+        shortText = text
     )
 }

@@ -6,7 +6,7 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.notification.listener.Create
 import java.util.concurrent.CopyOnWriteArrayList
 
 open class GenericObserver<N: Notifiable, L: CreatedEntity<N>> {
-    private val listeners = CopyOnWriteArrayList<L>()
+    val listeners = CopyOnWriteArrayList<L>()
 
     fun subscribe(listener: L) {
         listeners.add(listener)

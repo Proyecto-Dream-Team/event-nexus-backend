@@ -1,7 +1,9 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.service
 
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.EventNotification
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.toEventCreatorNofitication
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.toEventNotification
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.toNotificationDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Event
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Notification
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.notification.listener.CreatedEventListener
@@ -27,18 +29,19 @@ class SseNotificationService(
     private val emitters = ConcurrentHashMap<String, SseEmitter>()
 
     fun agregarConexion(userId: String, emitter: SseEmitter) {
-        emitters[userId] = emitter
+        if(emitters[userId] != null){
+            emitters[userId] = emitter
+        }
         emitter.onCompletion { emitters.remove(userId) }
         emitter.onTimeout { emitters.remove(userId) }
         emitter.onError { emitters.remove(userId) }
     }
 
     override fun onCreated(event: Event, notification:Notification) {
-        val parsedEvent: EventNotification = toEventNotification(event, notification)
         emitters.forEach { (userId, emitter) ->
             try {
-                val data = mapOf("type" to "new-event", "payload" to parsedEvent)
-                emitter.send(SseEmitter.event().data(objectMapper.writeValueAsString(data)))
+                val data2 = mapOf("type" to "new-notification", "payload" to toNotificationDTO(notification))
+                emitter.send(SseEmitter.event().data(objectMapper.writeValueAsString(data2)))
             } catch (e: Exception) {
                 emitters.remove(userId)
                 println("Error al enviar SSE a $userId: ${e.message}")
@@ -64,5 +67,21 @@ class SseNotificationService(
             emitter.completeWithError(e)
         }
     }
+
+    override fun notifyJoined(event: Event, notification: Notification) {
+        emitters.forEach { (userId, emitter) ->
+            try {
+//                if(notification.listeners.map { it.id }.contains(userId.toLong())){
+                    val data2 = mapOf("type" to "new-notification", "payload" to toNotificationDTO(notification))
+                    emitter.send(SseEmitter.event().data(objectMapper.writeValueAsString(data2)))
+//                }
+            } catch (e: Exception) {
+                emitters.remove(userId)
+                println("Error al enviar SSE a $userId: ${e.message}")
+            }
+        }
+    }
+
+
 
 }

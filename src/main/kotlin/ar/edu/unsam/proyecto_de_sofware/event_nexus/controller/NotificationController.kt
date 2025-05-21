@@ -1,6 +1,8 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.controller
 
 
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.NotificationDTO
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.toNotificationDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Notification
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.notification.observer.CreatedEventObserver
@@ -35,7 +37,7 @@ class NotificationController(
         return emitter
     }
     @GetMapping("/{employeeId}")
-    fun getNotifications(@PathVariable employeeId: Long): List<Notification>{
-        return notificationService.getNotificationsByCreator(employeeId)
+    fun getNotifications(@PathVariable employeeId: Long): List<NotificationDTO>{
+        return notificationService.getNotificationsByCreator(employeeId).map{ toNotificationDTO(it) }
     }
 }

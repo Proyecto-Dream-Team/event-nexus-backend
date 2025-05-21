@@ -56,14 +56,13 @@ open class Employee() {
     @Enumerated(EnumType.STRING)
     lateinit var permissions: MutableSet<Permission>
 
-    @OneToMany
-    var notifications: MutableSet<Notification> = mutableSetOf()
     fun updateProfile(data: DataUpdateProfileDTO) {
         email = data.email
         phone = data.phone
         address = data.address
     }
 
+    fun fullName():String = (this.name).plus(" ${this.lastname}")
     fun editFromAdmin(userCreateDTO: UserCreateDTO) {
         name = userCreateDTO.name
         lastname = userCreateDTO.lastName

@@ -6,8 +6,10 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.DataBaseNotModifi
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Event
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.EventModule
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Notification
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permission
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.EventRepository
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.NotificationRepository
 import jakarta.transaction.Transactional
 import org.springframework.dao.DataAccessException
 import org.springframework.stereotype.Service
@@ -15,7 +17,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class EventService(
-    val eventRepository: EventRepository
+    val eventRepository: EventRepository,
+    val notificationRepository: NotificationRepository
 ) {
     private val eventModule: EventModule = EventModule()
 
@@ -59,7 +62,7 @@ class EventService(
         return updateEvent(event)
     }
 
-    fun joinLeave(event: Event, employee: Employee) {
+    fun joinLeave(event: Event, employee: Employee)  {
         if(event.employeeParticipates(employee)){
             event.removeParticipant(employee)
         }else{

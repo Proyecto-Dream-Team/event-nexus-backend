@@ -7,4 +7,6 @@ import org.springframework.data.repository.CrudRepository
 interface NotificationRepository: CrudRepository<Notification, Long> {
 
     fun findByCreator_Id(creatorId: Long): List<Notification>
+
+    fun findNotificationsByListeners(listener: Employee): List<Notification>
 }

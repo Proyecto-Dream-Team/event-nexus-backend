@@ -63,7 +63,7 @@ class EventController(
     fun createEvent(@RequestBody newEventDTO: EventDTO): ResponseEntity<String> {
         val creatorEmployee = userService.getByID(newEventDTO.creatorId)
         this.eventService.checkPermission(employee=creatorEmployee, permission = Permission.CREAR_EVENTO_SOCIAL)
-        val participantsEmployees = userService.findAllById(employeesIds = newEventDTO.participantsIds.toList())
+        val participantsEmployees:List<Employee> = userService.findAllById(employeesIds = newEventDTO.participantsIds.toList())
         val newEvent = eventService.createEvent(event=fromEventDTOtoEvent(
             creatorEmployee = creatorEmployee,
             participantsEmployees = participantsEmployees,
@@ -73,6 +73,8 @@ class EventController(
             Notification().apply{
                 creator = creatorEmployee
                 type = newEvent::class.simpleName!!
+                listeners = participantsEmployees.toMutableSet()
+                title = "Te invitaron al evento ${newEvent.title}"
             }
         )
         notifyObserver.notify(newEvent, notification)
@@ -82,7 +84,9 @@ class EventController(
     @PostMapping("/join-leave")
     fun joinLeave(@RequestParam employeeId: Long, @RequestParam eventId: Long): ResponseEntity<String> {
         val employee: Employee = userService.getByID(employeeId)
-        val event: Event = eventService.getById(eventId)
+        lateinit var event: Event
+        event = eventService.getById(eventId)
+        val initialAmmount: Int = event.participants.size
         eventService.joinLeave(event, employee)
         try{
             eventService.updateEvent(event)
@@ -91,6 +95,19 @@ class EventController(
                 .status(HttpStatus.NOT_MODIFIED)
                 .body(e.message)
         }
+        val notification:Notification = this.notificationService.save(
+            Notification().apply {
+                creator = employee
+                type = event::class.simpleName!!
+                listeners = mutableSetOf(event.creator)
+                title = if(event.participants.size>initialAmmount) "${employee.fullName()} se unio al evento" else "${employee.fullName()} abandono el evento"
+            }
+        )
+        notifyObserver.notifyLeaveOrJoined(
+            event = event,
+            notification=notification,
+            joined=event.participants.size>initialAmmount
+        )
         return ResponseEntity
             .status(HttpStatus.OK)
             .body("Actualizacion exitosa!")
