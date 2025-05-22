@@ -76,12 +76,8 @@ class UserController(private val userService: UserService) {
     }
 
     @GetMapping("/{id}/permissions/{permissionType}")
-    fun getPermissions(@PathVariable id: Long, @PathVariable permissionType: PermissionType): Map<String, List<String>>{
-        val userPermissions = userService.gerPermissions(id, permissionType).map { it.permissionName }
-        return mapOf(
-            "allPermissions" to Permission.entries.filter{ it.type == permissionType}.map { it.permissionName },
-            "userPermissions" to userPermissions
-        )
+    fun getPermissions(@PathVariable id: Long, @PathVariable permissionType: PermissionType): List<String>{
+        return userService.gerPermissions(id, permissionType).map { it.permissionName }
     }
 
     @GetMapping( )
