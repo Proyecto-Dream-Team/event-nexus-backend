@@ -12,7 +12,7 @@ abstract class AppModule(
     open lateinit var description:String
     fun checkPermission(employeePermmission: MutableSet<Permission>, permissionToCheck: Permission){
         if(employeePermmission.none{it == permissionToCheck}){
-            throw CommandNotAllowedException(commandName = permissionToCheck.name)
+            throw CommandNotAllowedException(commandName = permissionToCheck.permissionName)
         }
     }
 }

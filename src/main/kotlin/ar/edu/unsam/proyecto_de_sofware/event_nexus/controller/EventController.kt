@@ -56,7 +56,7 @@ class EventController(
     @PostMapping("/create")
     fun createEvent(@RequestBody newEventDTO: EventDTO): ResponseEntity<String> {
         val creatorEmployee = userService.getByID(newEventDTO.creatorId)
-        this.eventService.checkPermission(employee=creatorEmployee, permission = Permission.CREAR_EVENTO_SOCIAL)
+//        this.eventService.checkPermission(employee=creatorEmployee, permission = Permission.CREAR_EVENTO_SOCIAL)
         val participantsEmployees = userService.findAllById(employeesIds = newEventDTO.participantsIds.toList())
         val newEvent = eventService.createEvent(event=fromEventDTOtoEvent(
             creatorEmployee = creatorEmployee,
