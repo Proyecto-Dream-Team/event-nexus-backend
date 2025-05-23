@@ -93,7 +93,7 @@ class AdminController(
 
     @GetMapping("/permissions-role")
     fun getPermissions(): CreteDataDTO{
-        return CreteDataDTO(Role.entries, Permission.entries.map{it.permissionName})
+        return CreteDataDTO(Role.entries, Permission.entries.map{ it.permissionName })
     }
 
     @PutMapping("/register")

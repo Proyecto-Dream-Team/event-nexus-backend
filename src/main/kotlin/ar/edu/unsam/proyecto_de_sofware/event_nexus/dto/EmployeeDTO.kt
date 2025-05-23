@@ -26,12 +26,13 @@ data class UserCreateDTO(
     val name: String,
     val lastName: String,
     val email: String,
-    val permissions: List<Permission>,
+    val permissions: List<String>,
     val role: Role,
     val address: String,
     val phone: String
 ){
     fun toEmployee(): Employee{
+        val domainPermissions:List<Permission> = Permission.entries.filter { permissions.contains(it.permissionName) }
         return Employee().apply {
             name = this@UserCreateDTO.name
             lastname = lastName
@@ -39,7 +40,7 @@ data class UserCreateDTO(
             address = this@UserCreateDTO.address
             phone = this@UserCreateDTO.phone
             email = this@UserCreateDTO.email
-            permissions = this@UserCreateDTO.permissions.toMutableSet()
+            permissions = domainPermissions.toMutableSet()
             credentials = Authentication().apply {
                 email = this@UserCreateDTO.email
                 username = "back"
@@ -56,7 +57,7 @@ fun Employee.toUserCreateDTO() = UserCreateDTO(
     address = this.address,
     email = this.email,
     lastName = this.lastname,
-    permissions = this.permissions.toList(),
+    permissions = this.permissions.map { it.permissionName },
     role = this.credentials.role,
     phone = this.phone
 )
