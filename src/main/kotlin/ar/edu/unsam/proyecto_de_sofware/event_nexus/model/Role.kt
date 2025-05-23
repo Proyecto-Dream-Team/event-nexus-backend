@@ -4,10 +4,6 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permiss
 
 
 enum class Role(val jobName: String, val defaultPermissions:Set<Permission>){
-    MOCK_PARA_JUGAR(
-        jobName = "Human Resources",
-        defaultPermissions = setOf()
-    ),
     HR(
         jobName = "Human Resources",
         defaultPermissions = setOf(

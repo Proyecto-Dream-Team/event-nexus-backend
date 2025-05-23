@@ -69,7 +69,7 @@ open class Employee() {
         phone = userCreateDTO.phone
         address = userCreateDTO.address
         email = userCreateDTO.email
-        permissions = userCreateDTO.permissions.toMutableSet()
+        permissions = Permission.entries.filter { userCreateDTO.permissions.contains(it.permissionName) }.toMutableSet()
         job = userCreateDTO.role.name //TODO arreglar futuro duplicidad de campos
         credentials.role = userCreateDTO.role
     }

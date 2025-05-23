@@ -5,5 +5,5 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permiss
 
 data class CreteDataDTO(
     val roles: List<Role>,
-    val permissions: List<Permission>
+    val permissions: List<String>
 )

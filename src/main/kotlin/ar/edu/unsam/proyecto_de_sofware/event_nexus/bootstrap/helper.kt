@@ -67,7 +67,7 @@ fun credentialsMock(): Authentication{
         username = "mock"
         password = "mock"
 //        email = "mock@mail.com"
-        role = Role.MOCK_PARA_JUGAR
+        role = Role.ADMIN
     }
 }
 
