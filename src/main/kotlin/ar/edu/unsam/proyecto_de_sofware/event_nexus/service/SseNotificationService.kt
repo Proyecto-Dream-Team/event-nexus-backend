@@ -30,6 +30,10 @@ class SseNotificationService(
     fun connected(key:String):Boolean{
         return emitters[key] != null
     }
+    fun removeConnection(userId: String) {
+        emitters.remove(userId)
+    }
+
     fun agregarConexion(userId: String, emitter: SseEmitter) {
 //        if(emitters[userId] != null){
             emitters[userId] = emitter

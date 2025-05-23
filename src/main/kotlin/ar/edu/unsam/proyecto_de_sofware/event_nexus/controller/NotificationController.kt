@@ -31,13 +31,13 @@ class NotificationController(
 
     @GetMapping(produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
     fun subscribe(@RequestParam userId: String): SseEmitter {
-        lateinit var emitter: SseEmitter
-        emitter = SseEmitter(TimeUnit.MINUTES.toMillis(5)) // Timeout de la conexión
+        var emitter: SseEmitter = SseEmitter(TimeUnit.MINUTES.toMillis(5))
         if(!sseNotificationService.connected(userId)){
             sseNotificationService.agregarConexion(userId, emitter)
             return emitter
         }
-        emitter = SseEmitter(TimeUnit.SECONDS.toMillis(1))
+        sseNotificationService.removeConnection(userId)
+        sseNotificationService.agregarConexion(userId, emitter)
         return emitter
     }
     @GetMapping("/{employeeId}")
