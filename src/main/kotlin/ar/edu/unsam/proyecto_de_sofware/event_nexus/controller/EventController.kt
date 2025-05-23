@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
-@CrossOrigin(origins = ["http://localhost:4200", "http://localhost:5173"])
+@CrossOrigin(origins = ["http://localhost:4200", "http://localhost:5173", "http://localhost:3001"])
 @RestController
 @RequestMapping("/event")
 class EventController(
@@ -62,15 +62,17 @@ class EventController(
     @PostMapping("/create")
     fun createEvent(@RequestBody newEventDTO: EventDTO): ResponseEntity<String> {
         val creatorEmployee = userService.getByID(newEventDTO.creatorId)
-        this.eventService.checkPermission(employee=creatorEmployee, permission = Permission.CREAR_EVENTO_SOCIAL)
+        this.eventService.checkPermission(employee = creatorEmployee, permission = Permission.CREAR_EVENTO_SOCIAL)
         val participantsEmployees = userService.findAllById(employeesIds = newEventDTO.participantsIds.toList())
-        val newEvent = eventService.createEvent(event=fromEventDTOtoEvent(
-            creatorEmployee = creatorEmployee,
-            participantsEmployees = participantsEmployees,
-            eventDTO = newEventDTO
-        ))
+        val newEvent = eventService.createEvent(
+            event = fromEventDTOtoEvent(
+                creatorEmployee = creatorEmployee,
+                participantsEmployees = participantsEmployees,
+                eventDTO = newEventDTO
+            )
+        )
         val notification: Notification = this.notificationService.save(
-            Notification().apply{
+            Notification().apply {
                 creator = creatorEmployee
                 type = newEvent::class.simpleName!!
                 listeners = participantsEmployees.toMutableSet()
@@ -82,28 +84,45 @@ class EventController(
     }
 
     @PostMapping("/join-leave")
+
     fun joinLeave(@RequestParam employeeId: Long, @RequestParam eventId: Long): ResponseEntity<String> {
         val employee: Employee = userService.getByID(employeeId)
-        val event: Event = eventService.getById(eventId)
+        lateinit var event: Event
+        event = eventService.getById(eventId)
+        val initialAmmount: Int = event.participants.size
         eventService.joinLeave(event, employee)
-        try{
+        try {
             eventService.updateEvent(event)
-        }catch (e: DataBaseNotModifiedException){
+        } catch (e: DataBaseNotModifiedException) {
             return ResponseEntity
                 .status(HttpStatus.NOT_MODIFIED)
                 .body(e.message)
         }
+        val notification: Notification = this.notificationService.save(
+            Notification().apply {
+                creator = employee
+                type = event::class.simpleName!!
+                listeners = mutableSetOf(event.creator)
+                title =
+                    if (event.participants.size > initialAmmount) "${employee.fullName()} se unio al evento" else "${employee.fullName()} abandono el evento"
+            }
+        )
+        notifyObserver.notifyLeaveOrJoined(
+            event = event,
+            notification = notification,
+            joined = event.participants.size > initialAmmount
+        )
         return ResponseEntity
             .status(HttpStatus.OK)
             .body("Actualizacion exitosa!")
     }
 
     @PutMapping()
-    fun modify(@RequestBody eventDTO: ShowEventDTO): ResponseEntity<String>{
+    fun modify(@RequestBody eventDTO: ShowEventDTO): ResponseEntity<String> {
         val event = eventService.getById(eventDTO.id!!)
-        try{
+        try {
             eventService.modify(event, eventDTO)
-        }catch (e: DataBaseNotModifiedException){
+        } catch (e: DataBaseNotModifiedException) {
             return ResponseEntity
                 .status(HttpStatus.NOT_MODIFIED)
                 .body(e.message)
@@ -114,13 +133,13 @@ class EventController(
     }
 
     @DeleteMapping()
-    fun delete(@RequestParam employeeId: Long, @RequestParam eventId: Long): ResponseEntity<String>{
+    fun delete(@RequestParam employeeId: Long, @RequestParam eventId: Long): ResponseEntity<String> {
         val employee = userService.getByID(employeeId)
-        eventService.checkPermission(employee=employee, permission = Permission.CREAR_EVENTO_DEPORTIVO)
+        eventService.checkPermission(employee = employee, permission = Permission.CREAR_EVENTO_DEPORTIVO)
         val event = eventService.getById(eventId)
-        try{
+        try {
             eventService.delete(event, employee)
-        }catch (error: DataBaseNotModifiedException){
+        } catch (error: DataBaseNotModifiedException) {
             return ResponseEntity
                 .status(HttpStatus.NOT_MODIFIED)
                 .body(error.message)
