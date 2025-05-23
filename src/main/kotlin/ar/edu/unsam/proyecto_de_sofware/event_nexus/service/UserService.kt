@@ -8,6 +8,7 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.NotFoundException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Notification
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permission
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.PermissionType
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.EventRepository
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.NotificationRepository
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.UserRepository
@@ -117,8 +118,8 @@ class UserService(
         repoUser.deleteById(employeeId)
     }
 
-    fun gerPermissions(id: Long): List<Permission> {
-        return repoUser.findById(id).get().permissions.toList()
+    fun gerPermissions(id: Long, permissionType: PermissionType): List<Permission> {
+        return repoUser.findById(id).get().permissions.filter { it.type == permissionType }
     }
 
     fun findBySearch(search: String): List<Employee> {

@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
-@CrossOrigin(origins = ["http://localhost:4200", "http://localhost:5173", "http://localhost:3001"])
+@CrossOrigin(origins = ["http://localhost:4200", "http://localhost:5173"])
 @RestController
 @RequestMapping("/event")
 class EventController(
@@ -63,7 +63,7 @@ class EventController(
     fun createEvent(@RequestBody newEventDTO: EventDTO): ResponseEntity<String> {
         val creatorEmployee = userService.getByID(newEventDTO.creatorId)
         this.eventService.checkPermission(employee=creatorEmployee, permission = Permission.CREAR_EVENTO_SOCIAL)
-        val participantsEmployees:List<Employee> = userService.findAllById(employeesIds = newEventDTO.participantsIds.toList())
+        val participantsEmployees = userService.findAllById(employeesIds = newEventDTO.participantsIds.toList())
         val newEvent = eventService.createEvent(event=fromEventDTOtoEvent(
             creatorEmployee = creatorEmployee,
             participantsEmployees = participantsEmployees,
@@ -84,9 +84,7 @@ class EventController(
     @PostMapping("/join-leave")
     fun joinLeave(@RequestParam employeeId: Long, @RequestParam eventId: Long): ResponseEntity<String> {
         val employee: Employee = userService.getByID(employeeId)
-        lateinit var event: Event
-        event = eventService.getById(eventId)
-        val initialAmmount: Int = event.participants.size
+        val event: Event = eventService.getById(eventId)
         eventService.joinLeave(event, employee)
         try{
             eventService.updateEvent(event)
@@ -95,19 +93,6 @@ class EventController(
                 .status(HttpStatus.NOT_MODIFIED)
                 .body(e.message)
         }
-        val notification:Notification = this.notificationService.save(
-            Notification().apply {
-                creator = employee
-                type = event::class.simpleName!!
-                listeners = mutableSetOf(event.creator)
-                title = if(event.participants.size>initialAmmount) "${employee.fullName()} se unio al evento" else "${employee.fullName()} abandono el evento"
-            }
-        )
-        notifyObserver.notifyLeaveOrJoined(
-            event = event,
-            notification=notification,
-            joined=event.participants.size>initialAmmount
-        )
         return ResponseEntity
             .status(HttpStatus.OK)
             .body("Actualizacion exitosa!")
@@ -144,22 +129,4 @@ class EventController(
             .status(HttpStatus.OK)
             .body("Evento eliminado")
     }
-
-//    @PostMapping("/directive")
-//    fun createDirectiveMock(@RequestBody employeeId: Long): ResponseEntity<String> {
-//        val employee: Employee = userService.getByID(employeeId)
-//        val newDirective: Directive = Directive().apply {
-//            creator = employee
-//        }
-//        val notification: Notification = this.notificationService.save(
-//            Notification(
-//                id = null,
-//                from = employee,
-//                type = newDirective::class.simpleName!!
-//            )
-//        )
-//        directiveObserver.notify(newDirective)
-//        return ResponseEntity.ok().body("Evento creado!")
-//    }
-
 }
