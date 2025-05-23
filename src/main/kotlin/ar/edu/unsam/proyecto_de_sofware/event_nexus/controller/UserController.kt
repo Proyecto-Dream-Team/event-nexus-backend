@@ -5,6 +5,7 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.BusinessException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.DataBaseNotModifiedException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permission
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.PermissionType
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.AuthService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.UserService
 import jakarta.websocket.server.PathParam
@@ -74,9 +75,9 @@ class UserController(private val userService: UserService) {
             .body("Actualizacion exitosa!")
     }
 
-    @GetMapping("/{id}/permissions")
-    fun getPermissions(@PathVariable id: Long): List<Permission>{
-        return userService.gerPermissions(id)
+    @GetMapping("/{id}/permissions/{permissionType}")
+    fun getPermissions(@PathVariable id: Long, @PathVariable permissionType: PermissionType): List<String>{
+        return userService.gerPermissions(id, permissionType).map { it.permissionName }
     }
 
     @GetMapping( )
