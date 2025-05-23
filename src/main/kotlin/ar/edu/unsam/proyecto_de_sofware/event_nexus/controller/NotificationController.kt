@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 import java.util.concurrent.TimeUnit
 
-@CrossOrigin(origins = ["http://localhost:4200", "http://localhost:5173"])
+@CrossOrigin(origins = ["http://localhost:4200", "http://localhost:5173", "http://localhost:3001"])
 @RestController
 @RequestMapping("/notification")
 class NotificationController(
@@ -31,9 +31,13 @@ class NotificationController(
 
     @GetMapping(produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
     fun subscribe(@RequestParam userId: String): SseEmitter {
-        val emitter = SseEmitter(TimeUnit.MINUTES.toMillis(5)) // Timeout de la conexión
-        createdEventObserver.subscribe(sseNotificationService)
-        sseNotificationService.agregarConexion(userId, emitter)
+        lateinit var emitter: SseEmitter
+        emitter = SseEmitter(TimeUnit.MINUTES.toMillis(5)) // Timeout de la conexión
+        if(!sseNotificationService.connected(userId)){
+            sseNotificationService.agregarConexion(userId, emitter)
+            return emitter
+        }
+        emitter = SseEmitter(TimeUnit.SECONDS.toMillis(1))
         return emitter
     }
     @GetMapping("/{employeeId}")

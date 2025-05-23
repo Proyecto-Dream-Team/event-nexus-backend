@@ -19,7 +19,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 
-@CrossOrigin(origins = ["http://localhost:4200", "http://localhost:5173"])
+@CrossOrigin(origins = ["http://localhost:4200", "http://localhost:5173", "http://localhost:3001"])
 @RestController
 @RequestMapping("/admin")
 class AdminController(

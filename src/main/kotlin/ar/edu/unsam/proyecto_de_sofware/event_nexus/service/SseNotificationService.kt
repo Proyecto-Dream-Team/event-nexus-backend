@@ -26,12 +26,14 @@ class SseNotificationService(
     val notificationRepository: NotificationRepository
 ) : CreatedEventListener {
 
-    private val emitters = ConcurrentHashMap<String, SseEmitter>()
-
+    private val emitters: MutableMap<String, SseEmitter> = mutableMapOf()
+    fun connected(key:String):Boolean{
+        return emitters[key] != null
+    }
     fun agregarConexion(userId: String, emitter: SseEmitter) {
-        if(emitters[userId] != null){
+//        if(emitters[userId] != null){
             emitters[userId] = emitter
-        }
+//        }
         emitter.onCompletion { emitters.remove(userId) }
         emitter.onTimeout { emitters.remove(userId) }
         emitter.onError { emitters.remove(userId) }
