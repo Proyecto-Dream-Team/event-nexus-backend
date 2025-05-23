@@ -104,7 +104,7 @@ class EventController(
                 type = event::class.simpleName!!
                 listeners = mutableSetOf(event.creator)
                 title =
-                    if (event.participants.size > initialAmmount) "${employee.fullName()} se unio al evento" else "${employee.fullName()} abandono el evento"
+                    if (event.participants.size > initialAmmount) "${employee.fullName()} se unio al evento ${event.title}" else "${employee.fullName()} abandono el evento ${event.title}"
             }
         )
         notifyObserver.notifyLeaveOrJoined(
