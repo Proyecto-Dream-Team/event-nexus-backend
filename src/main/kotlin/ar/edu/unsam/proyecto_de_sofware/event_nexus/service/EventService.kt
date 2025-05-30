@@ -3,6 +3,7 @@ package ar.edu.unsam.proyecto_de_sofware.event_nexus.service
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.ShowEventDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.BusinessException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.DataBaseNotModifiedException
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.ExistintEventTitleException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Event
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.EventModule
@@ -84,5 +85,12 @@ class EventService(
 
     fun checkPermission(employee: Employee, permission: Permission){
         this.eventModule.checkPermission(employeePermmission = employee.permissions, permissionToCheck = permission)
+    }
+
+
+    fun existTitle(eventTitle: String){
+        if(this.eventRepository.existsEventByTitle(eventTitle)){
+            throw ExistintEventTitleException()
+        }
     }
 }

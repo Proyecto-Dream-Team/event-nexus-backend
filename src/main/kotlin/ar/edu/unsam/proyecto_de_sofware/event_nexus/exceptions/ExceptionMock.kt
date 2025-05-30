@@ -16,3 +16,8 @@ class DataBaseNotModifiedException(override val message:String): RuntimeExceptio
 class CommandNotAllowedException(commandName:String): Exception("Permiso <$commandName> denegado")
 
 
+val existintEventTitleExceptionMessage:String = "Ya existe un evento con ese titulo. Prueba uno diferente"
+@ResponseStatus(HttpStatus.CONFLICT) //TODO aca no tendria que ser un NOT_FOUND
+class ExistintEventTitleException(override val message:String = existintEventTitleExceptionMessage): Exception(message)
+
+

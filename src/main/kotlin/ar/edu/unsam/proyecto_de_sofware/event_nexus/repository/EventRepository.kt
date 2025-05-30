@@ -13,4 +13,6 @@ interface EventRepository: CrudRepository<Event, Long> {
     fun findByParticipants(participant: Employee): List<Event>
 
     fun findAllByPublic(public: Boolean = true): List<Event>
+
+    fun existsEventByTitle(title: String): Boolean
 }

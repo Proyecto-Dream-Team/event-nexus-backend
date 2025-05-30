@@ -64,6 +64,7 @@ class EventController(
         val creatorEmployee = userService.getByID(newEventDTO.creatorId)
         this.eventService.checkPermission(employee = creatorEmployee, permission = Permission.CREAR_EVENTO_SOCIAL)
         val participantsEmployees = userService.findAllById(employeesIds = newEventDTO.participantsIds.toList())
+        this.eventService.existTitle(newEventDTO.name)
         val newEvent = eventService.createEvent(
             event = fromEventDTOtoEvent(
                 creatorEmployee = creatorEmployee,
@@ -84,7 +85,6 @@ class EventController(
     }
 
     @PostMapping("/join-leave")
-
     fun joinLeave(@RequestParam employeeId: Long, @RequestParam eventId: Long): ResponseEntity<String> {
         val employee: Employee = userService.getByID(employeeId)
         lateinit var event: Event
