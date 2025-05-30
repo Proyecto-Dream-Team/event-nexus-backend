@@ -22,5 +22,11 @@ class Directive: Notifiable {
     lateinit var creator: Employee
 
     @Column
+    lateinit var title: String
+
+    @Column
+    lateinit var descripcion: String
+
+    @Column
     var date: LocalDateTime = LocalDateTime.now()
 }
