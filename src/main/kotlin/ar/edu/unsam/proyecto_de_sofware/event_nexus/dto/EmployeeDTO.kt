@@ -72,3 +72,13 @@ data class EditEmployeeDTO(
     val permissions: List<Permission>,
 )
 
+
+data class Availa(
+    val id: Long,
+    val name: String,
+    val lastName: String,
+    val phone: String,
+    val email: String,
+    val address: String,
+    val permissions: List<Permission>,
+)

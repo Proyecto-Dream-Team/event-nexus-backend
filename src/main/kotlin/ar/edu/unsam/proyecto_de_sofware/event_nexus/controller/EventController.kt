@@ -16,6 +16,7 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.EventService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.NotificationService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.SseNotificationService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.UserService
+import jakarta.websocket.server.PathParam
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -43,6 +44,16 @@ class EventController(
     @GetMapping()
     fun events(): List<ShowEventDTO> {
         return eventService.findAllByPublic().map { it.showEventDTO() }
+    }
+
+    @GetMapping("/title")
+    fun eventsByTitle(@RequestParam eventTitle: String): List<ShowEventDTO> {
+        return eventService.findByTitle(eventTitle).map { it.showEventDTO() }
+    }
+
+    @GetMapping("/type/{eventType}")
+    fun eventsByEventType(@PathVariable eventType: EventType): List<ShowEventDTO> {
+        return eventService.findByEventType(eventType).map { it.showEventDTO() }
     }
 
     @GetMapping("/{id}")

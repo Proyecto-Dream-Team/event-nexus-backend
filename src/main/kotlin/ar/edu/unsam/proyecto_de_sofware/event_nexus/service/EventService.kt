@@ -7,6 +7,7 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.ExistintEventTitl
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Event
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.EventModule
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.EventType
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Notification
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permission
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.EventRepository
@@ -29,6 +30,14 @@ class EventService(
 
     fun findAllByPublic(): List<Event> {
         return eventRepository.findAllByPublic()
+    }
+
+    fun findByTitle(eventTitle: String): List<Event> {
+        return eventRepository.findEventsByTitleContaining(eventTitle)
+    }
+
+    fun findByEventType(eventType: EventType): List<Event> {
+        return eventRepository.findEventsByTypeIs(eventType)
     }
 
     fun employeeCreatedEvents(employee: Employee): List<Event> {
