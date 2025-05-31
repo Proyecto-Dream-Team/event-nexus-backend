@@ -16,6 +16,7 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.EventService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.NotificationService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.SseNotificationService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.UserService
+import jakarta.websocket.server.PathParam
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -45,6 +46,16 @@ class EventController(
         return eventService.findAllByPublic().map { it.showEventDTO() }
     }
 
+    @GetMapping("/title")
+    fun eventsByTitle(@RequestParam eventTitle: String): List<ShowEventDTO> {
+        return eventService.findByTitle(eventTitle).map { it.showEventDTO() }
+    }
+
+    @GetMapping("/type/{eventType}")
+    fun eventsByEventType(@PathVariable eventType: EventType): List<ShowEventDTO> {
+        return eventService.findByEventType(eventType).map { it.showEventDTO() }
+    }
+
     @GetMapping("/{id}")
     fun employeeEvents(@PathVariable id: Long): Map<String, List<ShowEventDTO>> {
         val employee: Employee = userService.getByID(id)
@@ -64,6 +75,7 @@ class EventController(
         val creatorEmployee = userService.getByID(newEventDTO.creatorId)
         this.eventService.checkPermission(employee = creatorEmployee, permission = Permission.CREAR_EVENTO_SOCIAL)
         val participantsEmployees = userService.findAllById(employeesIds = newEventDTO.participantsIds.toList())
+        this.eventService.existTitle(newEventDTO.name)
         val newEvent = eventService.createEvent(
             event = fromEventDTOtoEvent(
                 creatorEmployee = creatorEmployee,
@@ -84,7 +96,6 @@ class EventController(
     }
 
     @PostMapping("/join-leave")
-
     fun joinLeave(@RequestParam employeeId: Long, @RequestParam eventId: Long): ResponseEntity<String> {
         val employee: Employee = userService.getByID(employeeId)
         lateinit var event: Event

@@ -3,9 +3,11 @@ package ar.edu.unsam.proyecto_de_sofware.event_nexus.service
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.ShowEventDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.BusinessException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.DataBaseNotModifiedException
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.ExistintEventTitleException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Event
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.EventModule
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.EventType
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Notification
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permission
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.EventRepository
@@ -28,6 +30,14 @@ class EventService(
 
     fun findAllByPublic(): List<Event> {
         return eventRepository.findAllByPublic()
+    }
+
+    fun findByTitle(eventTitle: String): List<Event> {
+        return eventRepository.findEventsByTitleContaining(eventTitle)
+    }
+
+    fun findByEventType(eventType: EventType): List<Event> {
+        return eventRepository.findEventsByTypeIs(eventType)
     }
 
     fun employeeCreatedEvents(employee: Employee): List<Event> {
@@ -84,5 +94,12 @@ class EventService(
 
     fun checkPermission(employee: Employee, permission: Permission){
         this.eventModule.checkPermission(employeePermmission = employee.permissions, permissionToCheck = permission)
+    }
+
+
+    fun existTitle(eventTitle: String){
+        if(this.eventRepository.existsEventByTitle(eventTitle)){
+            throw ExistintEventTitleException()
+        }
     }
 }

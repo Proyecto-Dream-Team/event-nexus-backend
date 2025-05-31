@@ -12,8 +12,8 @@ data class EventDTO(
     val participantsIds: MutableSet<Long>,
     val date: LocalDateTime,
     val name: String,
-    val description: String
-//    val eventType: EventType
+    val description: String,
+    val eventType: EventType
 )
 
 fun fromEventDTOtoEvent(creatorEmployee: Employee, participantsEmployees: List<Employee>, eventDTO: EventDTO):Event{
@@ -24,7 +24,7 @@ fun fromEventDTOtoEvent(creatorEmployee: Employee, participantsEmployees: List<E
         date = LocalDateTime.now()
         description = eventDTO.description
         dateFinished = eventDTO.date
-//        type = eventDTO.eventType
+        type = eventDTO.eventType
     }
 }
 
