@@ -6,9 +6,11 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.BusinessException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.DataBaseNotModifiedException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.NotFoundException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Notification
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permission
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.PermissionType
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.EventRepository
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.NotificationRepository
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.UserRepository
 import org.springframework.dao.DataAccessException
 import org.springframework.http.HttpStatus
@@ -20,7 +22,9 @@ import org.springframework.web.client.HttpClientErrorException.NotFound
 @Service
 class UserService(
     val repoUser: UserRepository,
-    val repoEvent: EventRepository
+    val repoEvent: EventRepository,
+    val notificationRepository: NotificationRepository
+
 ) {
 
     fun getByID(id : Long): Employee {
@@ -30,6 +34,8 @@ class UserService(
     fun getByEmail(email : String): Employee {
         return repoUser.findByEmail(email)
     }
+
+
 
     @Transactional
     fun updateProfile(dataUpdateProfileDTO: DataUpdateProfileDTO) {

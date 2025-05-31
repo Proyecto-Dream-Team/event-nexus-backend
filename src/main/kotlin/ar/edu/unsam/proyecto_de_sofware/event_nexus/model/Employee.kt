@@ -4,6 +4,7 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.DataUpdateProfileDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.EditEmployeeDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.EmployeeDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.UserCreateDTO
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Notification
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permission
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
@@ -61,6 +62,7 @@ open class Employee() {
         address = data.address
     }
 
+    fun fullName():String = (this.name).plus(" ${this.lastname}")
     fun editFromAdmin(userCreateDTO: UserCreateDTO) {
         name = userCreateDTO.name
         lastname = userCreateDTO.lastName

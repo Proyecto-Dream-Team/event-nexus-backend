@@ -4,6 +4,7 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.*
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.BusinessException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.DataBaseNotModifiedException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Notification
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permission
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.PermissionType
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.AuthService
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.util.*
 
-@CrossOrigin(origins = ["http://localhost:4200", "http://localhost:5173"])
+@CrossOrigin(origins = ["http://localhost:4200", "http://localhost:5173", "http://localhost:3001"])
 @RestController
 @RequestMapping("/user")
 class UserController(private val userService: UserService) {
