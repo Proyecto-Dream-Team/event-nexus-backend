@@ -4,6 +4,7 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.DirectiveDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.ShowEventDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.fromEventDTOtoEvent
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.showEventDTO
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.toDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.directive.Directive
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Notification
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.notification.observer.CreatedEventObserver
@@ -37,8 +38,8 @@ class DirectiveController(
     val notificationService: NotificationService
 ) {
     @GetMapping()
-    fun directives(): List<Directive> {
-        return directiveService.getAll()
+    fun directives(): List<DirectiveDTO> {
+        return directiveService.getAll().map { it.toDTO() }
     }
 
     @PostMapping("/create")

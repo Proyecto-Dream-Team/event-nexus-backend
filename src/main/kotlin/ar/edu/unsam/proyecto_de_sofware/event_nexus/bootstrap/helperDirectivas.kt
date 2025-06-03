@@ -8,7 +8,7 @@ fun directive01(creatorEmployee: Employee, directivePriority: DirectivePriority)
     return Directive().apply {
         creator = creatorEmployee
         title = "Directiva de Adrian"
-        description = "Maniana hacemos daily"
+        description = "Maniana hacemos daily, Maniana hacemos daily, Maniana hacemos daily, Maniana hacemos daily, Maniana hacemos daily,Maniana hacemos daily"
         priority = directivePriority
 
     }
@@ -18,7 +18,7 @@ fun directive02(creatorEmployee: Employee, directivePriority: DirectivePriority)
     return Directive().apply {
         creator = creatorEmployee
         title = "Directiva de Adrian"
-        description = "Viernes cierre de sprint"
+        description = "Viernes cierre de sprint, Viernes cierre de sprint, Viernes cierre de sprint, Viernes cierre de sprint,Viernes cierre de sprint,Viernes cierre de sprint"
         priority = directivePriority
 
     }
@@ -28,7 +28,7 @@ fun directive03(creatorEmployee: Employee, directivePriority: DirectivePriority)
     return Directive().apply {
         creator = creatorEmployee
         title = "Directiva de Adrian"
-        description = "Reunion para determinar detalles "
+        description = "Reunion para determinar detalles, Reunion para determinar detalles, Reunion para determinar detalles,Reunion para determinar detalles,Reunion para determinar detalles"
         priority = directivePriority
 
     }
