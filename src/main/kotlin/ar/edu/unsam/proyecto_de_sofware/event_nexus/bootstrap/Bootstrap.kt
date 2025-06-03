@@ -3,6 +3,7 @@ package ar.edu.unsam.proyecto_de_sofware.event_nexus.bootstrap
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Authentication
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.directive.Directive
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.directive.DirectivePriority
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Event
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.AuthRepository
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.DirectiveRepository
@@ -85,10 +86,12 @@ class Bootstrap(
         var adrian: Employee = userRepo.findByEmail(email = "adrian@mail.com")
 
 
-        val directive01: Directive = directive01(creatorEmployee = adrian)
+        val directive01: Directive = directive01(creatorEmployee = adrian, directivePriority= DirectivePriority.HIGH)
+        val directive02: Directive = directive02(creatorEmployee = adrian, directivePriority= DirectivePriority.MEDIUM)
+        val directive03: Directive = directive03(creatorEmployee = adrian, directivePriority= DirectivePriority.LOW)
 
         directiveRepo.saveAll(listOf(
-            directive01
+            directive01, directive02, directive03
         ))
     }
 }
