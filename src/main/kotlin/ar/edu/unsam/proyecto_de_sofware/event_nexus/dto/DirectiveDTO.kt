@@ -8,15 +8,22 @@ import java.time.LocalDateTime
 
 data class DirectiveDTO(
     val creatorId: Long,
-    val creatorImage:String,
+    val creatorImage:String?,
     val title:String,
-    val date: LocalDateTime,
+    val date: LocalDateTime?,
     val description:String,
-    val priority: DirectivePriority
+    val priorityName: String
 ){
     fun toEntity(creatorEmployee: Employee): Directive{
-        return DirectiveFactory().newDirective(creatorEmployee, title, description)
+        return DirectiveFactory().newDirective(
+            creatorEmployee,
+            titleInput = title,
+            descriptionInput = description,
+            priorityInput = DirectivePriority.entries.find { it.priorityName == this.priorityName }!!
+        )
     }
+
+
 }
 
 
@@ -27,6 +34,6 @@ fun Directive.toDTO(): DirectiveDTO{
         title = this.title,
         date= this.date,
         description = this.description,
-        priority = this.priority
+        priorityName = this.priority.priorityName
     )
 }
