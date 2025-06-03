@@ -8,6 +8,6 @@ class AdminModule(
     override val image: String = "admin.svg"
 ) : AppModule(id, name, image){
 
-    override var description:String = "En este modulo podes crear eventos, unirte a los que te interesen o salir cuando lo desees. Gestiona tu participacion facilmente"
+    override var description:String = "En este módulo podés crear nuevos usuarios, editar su información, eliminarlos si es necesario y ver todos los usuarios registrados. Gestioná fácilmente el acceso y la organización del sistema desde un solo lugar."
 
 }
