@@ -4,6 +4,8 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Notifiable
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
@@ -27,6 +29,10 @@ class Directive: Notifiable {
 
     @Column
     lateinit var description: String
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    var priority: DirectivePriority = DirectivePriority.LOW
 
     @Column
     var date: LocalDateTime = LocalDateTime.now()

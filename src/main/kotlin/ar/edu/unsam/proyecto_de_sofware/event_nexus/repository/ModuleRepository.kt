@@ -8,7 +8,7 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.AppModu
 
 
 class ModuleRepository {
-    val modules:List<AppModule> = listOf(EventModule(), DirectiveModule(), RepportModule(),AdminModule())
+    val modules:List<AppModule> = listOf(EventModule(), DirectiveModule(), AdminModule())
 
     fun findAll():List<AppModule> = this.modules
 }

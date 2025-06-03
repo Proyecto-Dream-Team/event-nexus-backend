@@ -24,7 +24,7 @@ class ModuleController(val moduleService: ModuleService, val userService: UserSe
         val employee = userService.getByID(id)
 
         return if(employee.credentials.role == Role.ADMIN) moduleService.all() else listOf(EventModule(),
-            DirectiveModule(), RepportModule())
+            DirectiveModule())
     }
 
 }

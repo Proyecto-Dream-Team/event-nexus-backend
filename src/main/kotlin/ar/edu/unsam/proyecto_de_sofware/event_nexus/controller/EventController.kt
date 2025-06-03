@@ -41,6 +41,7 @@ class EventController(
     val serviceSSE: SseNotificationService,
     val notificationService: NotificationService
 ) {
+
     @GetMapping("/available/{employeeId}")
     fun events(@PathVariable employeeId:Long): List<ShowEventDTO> {
         return eventService.findAllByPublicAndNotFromEmployee(employeeId).map { it.showEventDTO() }
