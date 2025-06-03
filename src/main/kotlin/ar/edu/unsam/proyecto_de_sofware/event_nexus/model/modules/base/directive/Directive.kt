@@ -6,6 +6,7 @@ import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.Id
+import jakarta.persistence.ManyToOne
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
 import java.time.LocalDateTime
@@ -18,14 +19,14 @@ class Directive: Notifiable {
     @GeneratedValue
     var id: Long? = null
 
-    @OneToOne
+    @ManyToOne
     lateinit var creator: Employee
 
     @Column
     lateinit var title: String
 
     @Column
-    lateinit var descripcion: String
+    lateinit var description: String
 
     @Column
     var date: LocalDateTime = LocalDateTime.now()

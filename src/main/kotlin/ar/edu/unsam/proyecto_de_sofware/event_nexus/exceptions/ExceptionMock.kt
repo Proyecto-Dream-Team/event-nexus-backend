@@ -20,4 +20,6 @@ val existintEventTitleExceptionMessage:String = "Ya existe un evento con ese tit
 @ResponseStatus(HttpStatus.CONFLICT) //TODO aca no tendria que ser un NOT_FOUND
 class ExistintEventTitleException(override val message:String = existintEventTitleExceptionMessage): Exception(message)
 
-
+val entityPersistanceExceptionMessage:String = "No se puede persistir la entidad:"
+@ResponseStatus(HttpStatus.CONFLICT) //TODO aca no tendria que ser un NOT_FOUND
+class EntityPersistanceException(entityClassName:String): Exception(entityPersistanceExceptionMessage+ entityClassName)

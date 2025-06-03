@@ -2,8 +2,10 @@ package ar.edu.unsam.proyecto_de_sofware.event_nexus.bootstrap
 
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Authentication
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.directive.Directive
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Event
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.AuthRepository
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.DirectiveRepository
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.EventRepository
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,13 +16,14 @@ import org.springframework.stereotype.Component
 class Bootstrap(
     @Autowired val authRepo: AuthRepository,
     @Autowired val userRepo: UserRepository,
-    @Autowired val eventRepo: EventRepository
+    @Autowired val eventRepo: EventRepository,
+    @Autowired val directiveRepo: DirectiveRepository
 ) : CommandLineRunner {
 
     override fun run(vararg args: String?) {
         createUsers()
-//      createModules()
         createEvents()
+        createDirectives()
     }
 
     fun createUsers () {
@@ -78,5 +81,14 @@ class Bootstrap(
         ))
     }
 
+    fun createDirectives () {
+        var adrian: Employee = userRepo.findByEmail(email = "adrian@mail.com")
 
+
+        val directive01: Directive = directive01(creatorEmployee = adrian)
+
+        directiveRepo.saveAll(listOf(
+            directive01
+        ))
+    }
 }

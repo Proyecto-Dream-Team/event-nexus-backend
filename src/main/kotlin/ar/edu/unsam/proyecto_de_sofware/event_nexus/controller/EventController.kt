@@ -41,13 +41,13 @@ class EventController(
     val serviceSSE: SseNotificationService,
     val notificationService: NotificationService
 ) {
-    @GetMapping()
-    fun events(): List<ShowEventDTO> {
-        return eventService.findAllByPublic().map { it.showEventDTO() }
+    @GetMapping("/available/{employeeId}")
+    fun events(@PathVariable employeeId:Long): List<ShowEventDTO> {
+        return eventService.findAllByPublicAndNotFromEmployee(employeeId).map { it.showEventDTO() }
     }
 
     @GetMapping("/title")
-    fun eventsByTitle(@RequestParam eventTitle: String): List<ShowEventDTO> {
+    fun eventsByTitle(@RequestParam(required = false) eventTitle: String?): List<ShowEventDTO> {
         return eventService.findByTitle(eventTitle).map { it.showEventDTO() }
     }
 
@@ -67,6 +67,11 @@ class EventController(
 
     @GetMapping("/create")
     fun listEventTypes(): List<EventType> {
+        return EventType.entries.toList()
+    }
+
+    @GetMapping("/type/all")
+    fun getEventTypes(): List<EventType> {
         return EventType.entries.toList()
     }
 

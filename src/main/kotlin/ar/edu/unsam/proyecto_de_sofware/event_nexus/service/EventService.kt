@@ -8,7 +8,6 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Event
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.EventModule
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.EventType
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Notification
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permission
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.EventRepository
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.NotificationRepository
@@ -28,12 +27,19 @@ class EventService(
         return eventRepository.findById(eventId).orElseThrow{ BusinessException("No se encontro Evento")}
     }
 
-    fun findAllByPublic(): List<Event> {
-        return eventRepository.findAllByPublic()
+    fun findAllByPublicAndNotFromEmployee(employeeId:Long): List<Event> {
+        return eventRepository.findAllByPublicAndCreator_IdNot(public=true, employeeId=employeeId)
     }
+    fun findByTitle(eventTitle: String?): List<Event> {
+        try {
+            if(eventTitle ==  null){
+                return eventRepository.findAll().toList()
+            }
+            return eventRepository.findEventsByTitleContaining(eventTitle)
+        }catch (e:Exception){
+            throw e
+        }
 
-    fun findByTitle(eventTitle: String): List<Event> {
-        return eventRepository.findEventsByTitleContaining(eventTitle)
     }
 
     fun findByEventType(eventType: EventType): List<Event> {
