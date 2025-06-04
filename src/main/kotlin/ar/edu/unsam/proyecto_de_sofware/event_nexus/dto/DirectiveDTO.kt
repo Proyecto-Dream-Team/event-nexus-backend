@@ -17,7 +17,6 @@ data class DirectiveDTO(
     fun toEntity(creatorEmployee: Employee): Directive{
         return DirectiveFactory().newDirective(
             creatorEmployee,
-            titleInput = title,
             descriptionInput = description,
             priorityInput = DirectivePriority.entries.find { it.priorityName == this.priorityName }!!
         )

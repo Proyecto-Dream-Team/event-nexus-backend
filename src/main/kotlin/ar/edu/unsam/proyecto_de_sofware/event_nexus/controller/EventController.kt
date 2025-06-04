@@ -57,12 +57,18 @@ class EventController(
         return eventService.findByEventType(eventType).map { it.showEventDTO() }
     }
 
-    @GetMapping("/{id}")
-    fun employeeEvents(@PathVariable id: Long): Map<String, List<ShowEventDTO>> {
+    @GetMapping("/{id}/created")
+    fun employeeCreatedEvents(@PathVariable id: Long): List<ShowEventDTO> {
         val employee: Employee = userService.getByID(id)
-        val createdEvents = eventService.employeeCreatedEvents(employee).map { it.showEventDTO() }
-        val invitedEvents = eventService.employeeInvitedEvents(employee).map { it.showEventDTO() }
-        return mapOf("createdEvents" to createdEvents, "invitedEvents" to invitedEvents)
+        val createdEvents:List<ShowEventDTO> = eventService.employeeCreatedEvents(employee).map { it.showEventDTO() }
+        return createdEvents
+    }
+
+    @GetMapping("/{id}/invited")
+    fun employeeInvitedEvents(@PathVariable id: Long): List<ShowEventDTO> {
+        val employee: Employee = userService.getByID(id)
+        val invitedEvents:List<ShowEventDTO> = eventService.employeeInvitedEvents(employee).map { it.showEventDTO() }
+        return invitedEvents
     }
 
 
