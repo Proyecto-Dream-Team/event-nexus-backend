@@ -6,10 +6,10 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.directive
 
 class DirectiveFactory {
 
-    fun newDirective(creatorEmployee: Employee, descriptionInput:String, priorityInput: DirectivePriority):Directive{
+    fun newDirective(creatorEmployee: Employee,titleDirective : String, descriptionInput:String, priorityInput: DirectivePriority):Directive{
         return Directive().apply{
             creator = creatorEmployee
-            title = "Directiva de ${creatorEmployee.name}"
+            title = titleDirective
             description = descriptionInput
             priority = priorityInput
         }
