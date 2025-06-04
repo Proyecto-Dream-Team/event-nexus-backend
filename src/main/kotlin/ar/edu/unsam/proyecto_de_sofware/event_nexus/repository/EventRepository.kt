@@ -17,12 +17,13 @@ interface EventRepository: CrudRepository<Event, Long> {
 
     fun existsEventByTitle(title: String): Boolean
 
-    fun findEventsByTypeIs(eventType: EventType): List<Event>
+    fun findEventsByTypeIsAndCreator_IdNot(eventType: EventType,  employeeId: Long): List<Event>
+
     @Query(value="""
         SELECT
             e FROM Event e
         WHERE 
             LOWER(e.title) LIKE CONCAT('%', :eventTitle, '%')
     """)
-    fun findEventsByTitleContaining(@Param("eventTitle") eventTitle: String): List<Event>
+    fun findEventsByTitleContainingAndCreator_IdNot(@Param("eventTitle") eventTitle: String, employeeId: Long): List<Event>
 }

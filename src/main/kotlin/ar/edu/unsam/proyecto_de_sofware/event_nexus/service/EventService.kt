@@ -35,7 +35,7 @@ class EventService(
             if(eventTitle ==  null){
                 return eventRepository.findAll().toList()
             }
-            return eventRepository.findEventsByTitleContaining(eventTitle)
+            return eventRepository.findEventsByTitleContainingAndCreator_IdNot(eventTitle, 1)
         }catch (e:Exception){
             throw e
         }
@@ -43,7 +43,7 @@ class EventService(
     }
 
     fun findByEventType(eventType: EventType): List<Event> {
-        return eventRepository.findEventsByTypeIs(eventType)
+        return eventRepository.findEventsByTypeIsAndCreator_IdNot(eventType, 1)
     }
 
     fun employeeCreatedEvents(employee: Employee): List<Event> {
