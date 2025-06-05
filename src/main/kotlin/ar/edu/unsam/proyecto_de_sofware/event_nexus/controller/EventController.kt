@@ -1,9 +1,11 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.controller
 
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.EventDTO
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.NewEventDTO
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.ResponseEntityDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.ShowEventDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.fromEventDTOtoEvent
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.showEventDTO
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.toEventParticipantDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.DataBaseNotModifiedException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Event
@@ -16,7 +18,6 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.EventService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.NotificationService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.SseNotificationService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.UserService
-import jakarta.websocket.server.PathParam
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -83,16 +84,16 @@ class EventController(
     }
 
     @PostMapping("/create")
-    fun createEvent(@RequestBody newEventDTO: EventDTO): ResponseEntity<String> {
+    fun createEvent(@RequestBody newEventDTO: NewEventDTO): ResponseEntity<String> {
         val creatorEmployee = userService.getByID(newEventDTO.creatorId)
-        this.eventService.checkPermission(employee = creatorEmployee, permission = Permission.CREAR_EVENTO_SOCIAL)
+//        this.eventService.checkPermission(employee = creatorEmployee, permission = Permission.CREAR_EVENTO_SOCIAL)
         val participantsEmployees = userService.findAllById(employeesIds = newEventDTO.participantsIds.toList())
         this.eventService.existTitle(newEventDTO.name)
         val newEvent = eventService.createEvent(
             event = fromEventDTOtoEvent(
                 creatorEmployee = creatorEmployee,
                 participantsEmployees = participantsEmployees,
-                eventDTO = newEventDTO
+                newEventDTO = newEventDTO
             )
         )
         val notification: Notification = this.notificationService.save(
@@ -108,18 +109,21 @@ class EventController(
     }
 
     @PostMapping("/join-leave")
-    fun joinLeave(@RequestParam employeeId: Long, @RequestParam eventId: Long): ResponseEntity<String> {
+    fun joinLeave(@RequestParam employeeId: Long, @RequestParam eventId: Long): ResponseEntity<ResponseEntityDTO> {
         val employee: Employee = userService.getByID(employeeId)
         lateinit var event: Event
         event = eventService.getById(eventId)
         val initialAmmount: Int = event.participants.size
         eventService.joinLeave(event, employee)
         try {
-            eventService.updateEvent(event)
+            event = eventService.updateEvent(event)
         } catch (e: DataBaseNotModifiedException) {
             return ResponseEntity
                 .status(HttpStatus.NOT_MODIFIED)
-                .body(e.message)
+                .body(ResponseEntityDTO(
+                    responseMessage = "Error al actualizar!",
+                    responseBody = listOf()
+                ))
         }
         val notification: Notification = this.notificationService.save(
             Notification().apply {
@@ -137,7 +141,10 @@ class EventController(
         )
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body("Actualizacion exitosa!")
+            .body(ResponseEntityDTO(
+                responseMessage = if (event.participants.size > initialAmmount) "Te uniste al evento exitosamente!" else "Abandonaste el exitosamente!",
+                responseBody = event.participants.map { it.toEventParticipantDTO() }
+            ))
     }
 
     @PutMapping()

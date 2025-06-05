@@ -167,7 +167,7 @@ fun event01(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Eve
     return Event().apply {
         title = "Evento de Adrian"
         description = "Juntada de estudio. Copate"
-        date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
+        expirationDate = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
         creator = creatorEmployee
         participants = participantsEmployees.toMutableSet()
         public = false
@@ -179,7 +179,7 @@ fun event02(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Eve
     return Event().apply {
         title = "Evento de Adrian"
         description = "Fulbito salvaje"
-        date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
+        expirationDate = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
         creator = creatorEmployee
         participants = participantsEmployees.toMutableSet()
         public = true
@@ -191,7 +191,7 @@ fun event03(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Eve
     return Event().apply {
         title = "Evento de Adrian"
         description = "Free fire con los pibes"
-        date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
+        expirationDate = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
         creator = creatorEmployee
         participants = participantsEmployees.toMutableSet()
         public = true
@@ -203,7 +203,7 @@ fun event04(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Eve
     return Event().apply {
         title = "Evento de Diego"
         description = "Asado en casa"
-        date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
+        expirationDate = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
         creator = creatorEmployee
         participants = participantsEmployees.toMutableSet()
         public = false
@@ -215,7 +215,7 @@ fun event05(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Eve
     return Event().apply {
         title = "Evento de Diego"
         description = "Fulbito salvaje. Revancha contra los profes"
-        date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
+        expirationDate = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
         creator = creatorEmployee
         participants = participantsEmployees.toMutableSet()
         public = true
@@ -227,7 +227,7 @@ fun event06(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Eve
     return Event().apply {
         title = "Evento de Diego"
         description = "Trote picante"
-        date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
+        expirationDate = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
         creator = creatorEmployee
         participants = participantsEmployees.toMutableSet()
         public = true
@@ -239,7 +239,7 @@ fun event07(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Eve
     return Event().apply {
         title = "Evento de Pica"
         description = "Salida de Skate. A la tarde"
-        date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
+        expirationDate = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
         creator = creatorEmployee
         participants = participantsEmployees.toMutableSet()
         public = false
@@ -251,7 +251,7 @@ fun event08(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Eve
     return Event().apply {
         title = "Evento de Pica"
         description = "Salida de Skate. A la noche"
-        date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
+        expirationDate = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
         creator = creatorEmployee
         participants = participantsEmployees.toMutableSet()
         public = true
@@ -263,7 +263,7 @@ fun event09(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Eve
     return Event().apply {
         title = "Evento de Pica"
         description = "Salida de Skate. Forever"
-        date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
+        expirationDate = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
         creator = creatorEmployee
         participants = participantsEmployees.toMutableSet()
         public = true
@@ -275,7 +275,7 @@ fun event10(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Eve
     return Event().apply {
         title = "Evento de Valen"
         description = "Proyecto .NET. Solo devs"
-        date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
+        expirationDate = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
         creator = creatorEmployee
         participants = participantsEmployees.toMutableSet()
         public = false
@@ -287,7 +287,11 @@ fun event11(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Eve
     return Event().apply {
         title = "Evento de Valen"
         description = "Juntada de estudio. Haskell"
-        date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
+        expirationDate = LocalDateTime.now()
+            .plus(1, ChronoUnit.DAYS)
+            .plus(4, ChronoUnit.HOURS)
+            .plus(27, ChronoUnit.MINUTES)
+
         creator = creatorEmployee
         participants = participantsEmployees.toMutableSet()
         public = true
@@ -299,7 +303,7 @@ fun event12(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Eve
     return Event().apply {
         title = "Evento de Valen"
         description = "Lore ipsum"
-        date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
+        expirationDate = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
         creator = creatorEmployee
         participants = participantsEmployees.toMutableSet()
         public = true
@@ -311,7 +315,7 @@ fun event13(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Eve
     return Event().apply {
         title = "Evento de Mati"
         description = "Curso de Spring Security"
-        date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
+        expirationDate = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
         creator = creatorEmployee
         participants = participantsEmployees.toMutableSet()
         public = false
@@ -323,7 +327,7 @@ fun event14(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Eve
     return Event().apply {
         title = "Evento de Mati"
         description = "Capacitacion Spring Boot REST"
-        date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
+        expirationDate = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
         creator = creatorEmployee
         participants = participantsEmployees.toMutableSet()
         public = true
@@ -335,7 +339,7 @@ fun event15(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Eve
     return Event().apply {
         title = "Evento de Mati"
         description = "Age of Empires 3. Solo valientes"
-        date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
+        expirationDate = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
         creator = creatorEmployee
         participants = participantsEmployees.toMutableSet()
         public = true
@@ -347,7 +351,7 @@ fun event16(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Eve
     return Event().apply {
         title = "Evento de Theo"
         description = "Salida a bosques de Palermo"
-        date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
+        expirationDate = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
         creator = creatorEmployee
         participants = participantsEmployees.toMutableSet()
         public = false
@@ -359,7 +363,7 @@ fun event17(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Eve
     return Event().apply {
         title = "Evento de Theo"
         description = "Juntada de estudio. PHM"
-        date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
+        expirationDate = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
         creator = creatorEmployee
         participants = participantsEmployees.toMutableSet()
         public = true
@@ -372,7 +376,7 @@ fun event18(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Eve
     return Event().apply {
         title = "Evento de Theo"
         description = "Lore ipsum"
-        date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
+        expirationDate = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
         creator = creatorEmployee
         participants = participantsEmployees.toMutableSet()
         public = true

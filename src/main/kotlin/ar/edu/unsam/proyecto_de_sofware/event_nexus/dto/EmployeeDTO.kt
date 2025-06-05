@@ -20,6 +20,11 @@ fun Employee.toEmployeeDTO() = EmployeeDTO(
     image = image,
     rol = job
 )
+fun Employee.toEventParticipantDTO() = EventParticipantDTO(
+    id = id!!,
+    name = name +" "+ lastname,
+    image = image,
+)
 
 data class UserCreateDTO(
     val id: Long? = null,

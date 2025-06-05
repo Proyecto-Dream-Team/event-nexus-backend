@@ -1,6 +1,5 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events
 
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.EventDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.ShowEventDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.BusinessException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
@@ -23,10 +22,7 @@ class Event(): Notifiable{
     var creationDate: LocalDateTime = LocalDateTime.now()
 
     @Column
-    lateinit var date: LocalDateTime
-
-    @Column
-    var dateFinished: LocalDateTime = LocalDateTime.now()
+    lateinit var expirationDate: LocalDateTime
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(referencedColumnName = "id")
@@ -77,13 +73,13 @@ class Event(): Notifiable{
         return  participants.contains(participant)
     }
 
-    fun isPending() : Boolean = date > LocalDateTime.now()
+    fun isPending() : Boolean = expirationDate > LocalDateTime.now()
 
     fun fromDTO(eventDTO: ShowEventDTO){
         if(!isCreator(eventDTO.creatorId!!)){
             throw BusinessException("No puede modificar este evento")
         }
-        date = eventDTO.dateFinished
+        creationDate = eventDTO.dateFinished
         description = eventDTO.description
         title = eventDTO.title
     }

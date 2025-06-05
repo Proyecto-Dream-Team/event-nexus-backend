@@ -6,7 +6,7 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Ev
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Notification
 import java.time.LocalDateTime
 
-data class EventDTO(
+data class NewEventDTO(
     val id: Long,
     val creatorId: Long,
     val participantsIds: MutableSet<Long>,
@@ -16,18 +16,21 @@ data class EventDTO(
     val eventType: EventType
 )
 
-fun fromEventDTOtoEvent(creatorEmployee: Employee, participantsEmployees: List<Employee>, eventDTO: EventDTO):Event{
+fun fromEventDTOtoEvent(creatorEmployee: Employee, participantsEmployees: List<Employee>, newEventDTO: NewEventDTO):Event{
     return Event().apply {
         creator = creatorEmployee
         participants = participantsEmployees.toMutableSet()
-        title = eventDTO.name
-        date = LocalDateTime.now()
-        description = eventDTO.description
-        dateFinished = eventDTO.date
-        type = eventDTO.eventType
+        title = newEventDTO.name
+        description = newEventDTO.description
+        expirationDate = newEventDTO.date
+        type = newEventDTO.eventType
     }
 }
-
+data class EventParticipantDTO(
+    val id:Long,
+    val name:String,
+    val image:String
+)
 data class ShowEventDTO(
     val id: Long?,
     val creatorName: String,
@@ -37,8 +40,7 @@ data class ShowEventDTO(
     val title: String,
     val description: String,
     val isActive: Boolean,
-    val numberOfParticipants: Int,
-    val participantsIds: List<Long?>,
+    val participants: List<EventParticipantDTO>,
     val type: EventType
 )
 
@@ -48,12 +50,11 @@ fun Event.showEventDTO(): ShowEventDTO {
         creatorName = creator.name + " " + creator.lastname,
         creatorImage = creator.image,
         creatorId = creator.id,
-        dateFinished = dateFinished,
+        dateFinished = expirationDate,
         title = title,
         description = description,
         isActive = isPending(),
-        numberOfParticipants = participants.size + 1,
-        participantsIds = participants.map { it.id },
+        participants = participants.map { it.toEventParticipantDTO() },
         type = type
     )
 }
@@ -71,7 +72,7 @@ fun toEventNotification(event:Event, notification: Notification): EventNotificat
         id = notification.id!!,
         eventId = event.id!!,
         from = event.creator.fullName(),
-        date = event.date,
+        date = event.creationDate,
         shortText = event.title
     )
 }
@@ -85,7 +86,13 @@ fun toEventCreatorNofitication(event:Event, notification: Notification, joined:B
         id = notification.id!!,
         eventId = event.id!!,
         from = notification.creator.fullName(),
-        date = event.date,
+        date = event.creationDate,
         shortText = text
     )
 }
+
+
+data class ResponseEntityDTO(
+    val responseMessage:String,
+    val responseBody:List<EventParticipantDTO>,
+)
