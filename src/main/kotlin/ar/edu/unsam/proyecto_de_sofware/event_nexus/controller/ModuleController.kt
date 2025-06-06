@@ -3,7 +3,6 @@ package ar.edu.unsam.proyecto_de_sofware.event_nexus.controller
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Role
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.directive.DirectiveModule
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.EventModule
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.repports.RepportModule
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.AppModule
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.ModuleService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.UserService
