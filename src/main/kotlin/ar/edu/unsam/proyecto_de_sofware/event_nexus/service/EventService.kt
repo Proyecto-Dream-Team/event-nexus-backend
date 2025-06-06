@@ -64,16 +64,16 @@ class EventService(
     }
 
     @Transactional
-    fun updateEvent(event: Event) {
+    fun updateEvent(event: Event):Event {
         try {
-            eventRepository.save(event)
+            return eventRepository.save(event)
         } catch (e: DataAccessException) {
             throw DataBaseNotModifiedException("No se pudo actualizar eventos")
         }
     }
 
     @Transactional
-    fun modify(event: Event, eventDTO: ShowEventDTO) {
+    fun modify(event: Event, eventDTO: ShowEventDTO):Event {
         event.fromDTO(eventDTO)
         return updateEvent(event)
     }

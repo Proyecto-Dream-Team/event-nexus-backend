@@ -4,7 +4,7 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.AppModu
 
 class EventModule(
     override val id: Int = 1,
-    override val name: String = "Events",
+    override val name: String = "Eventos",
     override val image: String = "events.svg"
 ) : AppModule(id, name, image){
 
