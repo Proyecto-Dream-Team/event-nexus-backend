@@ -87,7 +87,7 @@ class AdminController(
     fun setPass(@RequestBody registerDTO: RegisterDTO, request: HttpServletRequest): ResponseEntity<String>{
         val credential = userService.getCredentialsByEmail(registerDTO.email)
         if(!credential.validateRegister() && credential.validateUsername(registerDTO.username)){
-            credential.setNewCredentials(registerDTO.username, registerDTO.password)
+            credential.setNewCredentials(registerDTO.username, authService.encode(registerDTO.password))
             authService.update(credential)
         }else{
             throw NotFoundException("Credenciales invalidadas")

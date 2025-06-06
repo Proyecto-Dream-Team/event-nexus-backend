@@ -53,7 +53,8 @@ class ApplicationSecutityConfiguration(
                 authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/module").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HR")
 
                 // NOTIFICATION
-                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/notification").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HR")
+                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/notification").permitAll()
+//                    .hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HR")
                 authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/notification/employee").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HR")
 
 

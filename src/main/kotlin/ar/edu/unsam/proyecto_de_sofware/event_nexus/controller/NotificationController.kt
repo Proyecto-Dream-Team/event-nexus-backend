@@ -11,6 +11,7 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.NotificationService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.SseNotificationService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.UserService
 import jakarta.servlet.http.HttpServletRequest
+import jakarta.websocket.server.PathParam
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
@@ -33,15 +34,14 @@ class NotificationController(
 ) {
 
     @GetMapping(produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
-    fun subscribe(request: HttpServletRequest): SseEmitter {
-        val idToken = jwtUtil.getId(request)
+    fun subscribe(@RequestParam employeeId:Long, request: HttpServletRequest): SseEmitter {
         var emitter: SseEmitter = SseEmitter(TimeUnit.MINUTES.toMillis(5))
-        if(!sseNotificationService.connected(idToken.toString())){
-            sseNotificationService.agregarConexion(idToken.toString(), emitter)
+        if(!sseNotificationService.connected(employeeId.toString())){
+            sseNotificationService.agregarConexion(employeeId.toString(), emitter)
             return emitter
         }
-        sseNotificationService.removeConnection(idToken.toString())
-        sseNotificationService.agregarConexion(idToken.toString(), emitter)
+        sseNotificationService.removeConnection(employeeId.toString())
+        sseNotificationService.agregarConexion(employeeId.toString(), emitter)
         return emitter
     }
 
