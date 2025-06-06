@@ -176,7 +176,7 @@ class EventController(
     fun delete(@RequestParam eventId: Long, request: HttpServletRequest): ResponseEntity<String> {
         val idToken = jwtUtil.getId(request)
         val employee = userService.getByID(idToken)
-        eventService.checkPermission(employee = employee, permission = Permission.CREAR_EVENTO_DEPORTIVO)
+//        eventService.checkPermission(employee = employee, permission = Permission.CREAR_EVENTO_DEPORTIVO)
         val event = eventService.getById(eventId)
         try {
             eventService.delete(event, employee)
