@@ -1,10 +1,7 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.model
 
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.DataUpdateProfileDTO
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.EditEmployeeDTO
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.EmployeeDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.UserCreateDTO
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Notification
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permission
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
@@ -26,7 +23,7 @@ open class Employee() {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinColumn(referencedColumnName = "id")
-    lateinit var credentials: Authentication
+    lateinit var credentials: Credentials
 
     @Column
     lateinit var name: String

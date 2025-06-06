@@ -5,6 +5,8 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.ImgDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.BusinessException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.DataBaseNotModifiedException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.NotFoundException
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Admin
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Credentials
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Notification
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permission
@@ -23,9 +25,13 @@ import org.springframework.web.client.HttpClientErrorException.NotFound
 class UserService(
     val repoUser: UserRepository,
     val repoEvent: EventRepository,
-    val notificationRepository: NotificationRepository
+    val userRepository: UserRepository
 
 ) {
+
+    fun getByCredentialsId(credentialsId : Long): Employee {
+        return repoUser.findByCredentials_Id(credentialsId)
+    }
 
     fun getByID(id : Long): Employee {
         return repoUser.findById(id).orElseThrow{throw BusinessException("Usuario no encontrado")}
@@ -35,6 +41,13 @@ class UserService(
         return repoUser.findByEmail(email)
     }
 
+    fun getCredentialsByEmail(email: String): Credentials {
+        return userRepository.findAuthenticationByEmail(email) ?: throw NotFoundException("Error de credenciales")
+    }
+
+    fun uniqueEmail(email: String): Boolean{
+        return userRepository.findAuthenticationByEmail(email) == null
+    }
 
 
     @Transactional
@@ -126,4 +139,11 @@ class UserService(
         return repoUser.findBySearch(search.lowercase())
     }
 
+    fun getAdminById(adminId:Long):Admin{
+        val user = userRepository.findById(adminId).get()
+        if(user !is Admin){
+            throw BusinessException("El usuario no es administrador")
+        }
+        return user
+    }
 }

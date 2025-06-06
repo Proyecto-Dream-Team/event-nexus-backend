@@ -1,71 +1,70 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.bootstrap
 
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Admin
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Authentication
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Credentials
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Role
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Event
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.EventType
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
-
 // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // AUTH CREDENTIALS
 // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-fun credentialsAdrian(): Authentication{
-    return Authentication().apply {
+fun credentialsAdrian(encodedPassword:String): Credentials{
+    return Credentials().apply {
         username = "adrian"
-        password = "adrian"
+        password = encodedPassword
         //email = "adrian@mail.com"
         role = Role.ADMIN
     }
 }
-fun credentialsDiego(): Authentication{
-    return Authentication().apply {
+fun credentialsDiego(encodedPassword:String): Credentials{
+    return Credentials().apply {
         username = "diego"
-        password = "diego"
+        password = encodedPassword
         //email = "diego@mail.com"
         role = Role.SUPERVISOR
     }
 }
-fun credentialsMatias(): Authentication{
-    return Authentication().apply {
+fun credentialsMatias(encodedPassword:String): Credentials{
+    return Credentials().apply {
         username = "mati"
-        password = "mati"
+        password = encodedPassword
         //email = "mati@mail.com"
         role = Role.DEV
     }
 }
-fun credentialsPica(): Authentication{
-    return Authentication().apply {
+fun credentialsPica(encodedPassword:String): Credentials{
+    return Credentials().apply {
         username = "pica"
-        password = "pica"
+        password = encodedPassword
         //email = "pica@mail.com"
         role = Role.HR
     }
 }
-fun credentialsValen(): Authentication{
-    return Authentication().apply {
+fun credentialsValen(encodedPassword:String): Credentials{
+    return Credentials().apply {
         username = "valen"
-        password = "valen"
+        password = encodedPassword
 //        email = "valen@mail.com"
         role = Role.DEV
     }
 }
 
-fun credentialsTheo(): Authentication{
-    return Authentication().apply {
+fun credentialsTheo(encodedPassword:String): Credentials{
+    return Credentials().apply {
         username = "theo"
-        password = "theo"
+        password = encodedPassword
 //        email = "theo@mail.com"
         role = Role.SUPERVISOR
     }
 }
 
-fun credentialsMock(): Authentication{
-    return Authentication().apply {
+fun credentialsMock(encodedPassword:String): Credentials{
+    return Credentials().apply {
         username = "mock"
-        password = "mock"
+        password = encodedPassword
 //        email = "mock@mail.com"
         role = Role.ADMIN
     }
@@ -74,7 +73,7 @@ fun credentialsMock(): Authentication{
 // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // EMPLOYEE ACCOUNTS
 // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-fun employeeAccountAdrian(credential: Authentication): Admin{
+fun employeeAccountAdrian(credential: Credentials): Admin{
     return Admin().apply {
         name = "Adrian"
         lastname = "Perez"
@@ -86,7 +85,7 @@ fun employeeAccountAdrian(credential: Authentication): Admin{
         permissions = credential.role.defaultPermissions.toMutableSet()
     }
 }
-fun employeeAccountDiego(credential: Authentication): Employee{
+fun employeeAccountDiego(credential: Credentials): Employee{
     return Employee().apply {
         name = "Diego"
         lastname = "Lentz"
@@ -98,7 +97,7 @@ fun employeeAccountDiego(credential: Authentication): Employee{
         permissions = credential.role.defaultPermissions.toMutableSet()
     }
 }
-fun employeeAccountPica(credential: Authentication): Employee{
+fun employeeAccountPica(credential: Credentials): Employee{
     return Employee().apply {
         name = "Pedro"
         lastname = "McGeraghty"
@@ -110,7 +109,7 @@ fun employeeAccountPica(credential: Authentication): Employee{
         permissions = credential.role.defaultPermissions.toMutableSet()
     }
 }
-fun employeeAccountMati(credential: Authentication): Employee{
+fun employeeAccountMati(credential: Credentials): Employee{
     return Employee().apply {
         name = "Matias"
         lastname = "Diaz"
@@ -123,7 +122,7 @@ fun employeeAccountMati(credential: Authentication): Employee{
     }
 }
 
-fun employeeAccountValen(credential: Authentication): Employee{
+fun employeeAccountValen(credential: Credentials): Employee{
     return Employee().apply {
         name = "Valen"
         lastname = "Pugliese"
@@ -135,7 +134,7 @@ fun employeeAccountValen(credential: Authentication): Employee{
         permissions = credential.role.defaultPermissions.toMutableSet()
     }
 }
-fun employeeAccountTheo(credential: Authentication): Employee{
+fun employeeAccountTheo(credential: Credentials): Employee{
     return Employee().apply {
         name = "Theo"
         lastname = "Narmontas"
@@ -147,7 +146,7 @@ fun employeeAccountTheo(credential: Authentication): Employee{
         permissions = credential.role.defaultPermissions.toMutableSet()
     }
 }
-fun employeeAccountMockParaJugar(credential: Authentication): Employee{
+fun employeeAccountMockParaJugar(credential: Credentials): Employee{
     return Employee().apply {
         name = "MOck"
         lastname = "MOck Mock"

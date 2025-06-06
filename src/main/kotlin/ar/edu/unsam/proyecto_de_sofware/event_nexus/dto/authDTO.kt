@@ -4,4 +4,4 @@ data class NewAccountRequest(val username:String, val password:String, val email
 
 data class LoginRequest(val username:String, val password:String)
 
-data class LoginResponse(val id:Long, val role:String, val img: String)
+data class LoginResponse(val id:Long, val role:String, val img: String, val token:String)

@@ -1,7 +1,8 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.bootstrap
 
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Authentication
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Credentials
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Role
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.directive.Directive
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.directive.DirectivePriority
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Event
@@ -11,6 +12,7 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.EventRepository
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.CommandLineRunner
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 
 @Component
@@ -18,7 +20,8 @@ class Bootstrap(
     @Autowired val authRepo: AuthRepository,
     @Autowired val userRepo: UserRepository,
     @Autowired val eventRepo: EventRepository,
-    @Autowired val directiveRepo: DirectiveRepository
+    @Autowired val directiveRepo: DirectiveRepository,
+    @Autowired val passwordEncoder: PasswordEncoder,
 ) : CommandLineRunner {
 
     override fun run(vararg args: String?) {
@@ -28,13 +31,13 @@ class Bootstrap(
     }
 
     fun createUsers () {
-        val adrian = employeeAccountAdrian(credentialsAdrian())
-        val diego = employeeAccountDiego(credentialsDiego())
-        val pica = employeeAccountPica(credentialsMatias())
-        val mati = employeeAccountMati(credentialsPica())
-        val valen = employeeAccountValen(credentialsValen())
-        val theo = employeeAccountTheo(credentialsTheo())
-        val mock = employeeAccountMockParaJugar(credentialsMock())
+        val adrian = employeeAccountAdrian(credentialsAdrian(passwordEncoder.encode("adrian")))
+        val diego = employeeAccountDiego(credentialsDiego(passwordEncoder.encode("diego")))
+        val pica = employeeAccountPica(credentialsMatias(passwordEncoder.encode("pica")))
+        val mati = employeeAccountMati(credentialsPica(passwordEncoder.encode("mati")))
+        val valen = employeeAccountValen(credentialsValen(passwordEncoder.encode("valen")))
+        val theo = employeeAccountTheo(credentialsTheo(passwordEncoder.encode("theo")))
+        val mock = employeeAccountMockParaJugar(credentialsMock(passwordEncoder.encode("mock")))
         val users : List<Employee> = listOf(adrian, diego, pica, mati, valen, theo, mock)
         userRepo.saveAll(users)
     }
@@ -94,4 +97,6 @@ class Bootstrap(
             directive01, directive02, directive03
         ))
     }
+
+
 }

@@ -5,33 +5,37 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.LoginResponse
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.NewAccountRequest
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.BusinessException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Admin
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Authentication
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Credentials
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.security.JwtUtil
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.AuthService
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.UserService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
-@CrossOrigin(origins = ["http://localhost:4200", "http://localhost:5173", "http://localhost:3001"])
+@CrossOrigin(origins = ["http://localhost:8080", "http://localhost:5173", "http://localhost:3001"])
 @RestController
 @RequestMapping("/auth")
-class AuthController(val authService: AuthService) {
+class AuthController(
+    val authService: AuthService,
+    val userService: UserService,
+    val jwtUtil: JwtUtil
+) {
 
     @PostMapping("/create")
     fun createAccount(@RequestBody newAccountRequest: NewAccountRequest, @RequestParam adminId:Long):ResponseEntity<String>{
         authService.checkExistintUsername(newAccountRequest.username)
-        val admin: Admin = authService.getAdminById(adminId)
+        val admin: Admin = userService.getAdminById(adminId)
         authService.createAccount(newAccountRequest, admin)
         return ResponseEntity.ok().body("Account succesfully created!")
     }
 
     @PostMapping("/login")
-    fun login(@RequestBody loginRequest: LoginRequest):ResponseEntity<LoginResponse>{
-        lateinit var loginResponse:LoginResponse
-        if(!authService.checkCredentialsBack(loginRequest.username, loginRequest.password)){
-            loginResponse = authService.login(loginRequest)
-        }else{
-            throw BusinessException("Credenciales invalidas")
-        }
-        return ResponseEntity.ok().body(loginResponse)
+    fun login(@RequestBody loginRequest: LoginRequest):LoginResponse{
+        val user = authService.loadUserByUsername(loginRequest.username) as Credentials
+        authService.validPassword(loginRequest.password, user)
+        val employee: Employee = userService.getByCredentialsId(user.id!!)
+        return LoginResponse(id=user.id!!, role = user.role.toString(), img=employee.image, token=jwtUtil.generate(user, employee.id!!))
     }
 
 }

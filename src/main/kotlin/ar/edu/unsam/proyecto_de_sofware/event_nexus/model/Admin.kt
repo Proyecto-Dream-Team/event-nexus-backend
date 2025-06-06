@@ -6,8 +6,8 @@ import jakarta.persistence.Entity
 
 @Entity
 class Admin():Employee() {
-    fun createAccount(username:String, password:String, email:String,  role:Role): Authentication{
-        val account = Authentication()
+    fun createAccount(username:String, password:String, email:String,  role:Role): Credentials{
+        val account = Credentials()
         account.username = username
         account.password = password
 //        account.email = email

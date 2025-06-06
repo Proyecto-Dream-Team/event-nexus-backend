@@ -1,6 +1,6 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.dto
 
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Authentication
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Credentials
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Role
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permission
@@ -46,7 +46,7 @@ data class UserCreateDTO(
             phone = this@UserCreateDTO.phone
             email = this@UserCreateDTO.email
             permissions = domainPermissions.toMutableSet()
-            credentials = Authentication().apply {
+            credentials = Credentials().apply {
                 email = this@UserCreateDTO.email
                 username = "back"
                 password = "back"

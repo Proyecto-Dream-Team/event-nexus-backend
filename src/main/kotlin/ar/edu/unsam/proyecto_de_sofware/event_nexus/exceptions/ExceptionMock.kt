@@ -23,3 +23,6 @@ class ExistintEventTitleException(override val message:String = existintEventTit
 val entityPersistanceExceptionMessage:String = "No se puede persistir la entidad:"
 @ResponseStatus(HttpStatus.CONFLICT) //TODO aca no tendria que ser un NOT_FOUND
 class EntityPersistanceException(entityClassName:String): Exception(entityPersistanceExceptionMessage+ entityClassName)
+
+@ResponseStatus(HttpStatus.NOT_FOUND)
+class InvalidCredentialsException(msg: String) : RuntimeException(msg)

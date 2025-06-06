@@ -14,10 +14,12 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Notific
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permission
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.notification.observer.CreatedEventObserver
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.notification.observer.NewDirectiveObserver
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.security.JwtUtil
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.EventService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.NotificationService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.SseNotificationService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.UserService
+import jakarta.servlet.http.HttpServletRequest
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -31,7 +33,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
-@CrossOrigin(origins = ["http://localhost:4200", "http://localhost:5173", "http://localhost:3001"])
+@CrossOrigin(origins = ["http://localhost:8080", "http://localhost:5173", "http://localhost:3001"])
 @RestController
 @RequestMapping("/event")
 class EventController(
@@ -40,52 +42,58 @@ class EventController(
     private val notifyObserver: CreatedEventObserver,
     private val directiveObserver: NewDirectiveObserver,
     val serviceSSE: SseNotificationService,
-    val notificationService: NotificationService
+    val notificationService: NotificationService,
+    val jwtUtil: JwtUtil
 ) {
 
-    @GetMapping("/available/{employeeId}")
-    fun events(@PathVariable employeeId:Long): List<ShowEventDTO> {
-        return eventService.findAllByPublicAndNotFromEmployee(employeeId).map { it.showEventDTO() }
+    @GetMapping("/available")
+    fun events(request: HttpServletRequest): List<ShowEventDTO> {
+        val idToken = jwtUtil.getId(request)
+        return eventService.findAllByPublicAndNotFromEmployee(idToken).map { it.showEventDTO() }
     }
 
     @GetMapping("/title")
-    fun eventsByTitle(@RequestParam(required = false) eventTitle: String?): List<ShowEventDTO> {
-        return eventService.findByTitle(eventTitle).map { it.showEventDTO() }
+    fun eventsByTitle(@RequestParam(required = false, ) eventTitle: String?, request: HttpServletRequest): List<ShowEventDTO> {
+        val idToken = jwtUtil.getId(request)
+        return eventService.findByTitle(eventTitle,idToken).map { it.showEventDTO() }
     }
 
     @GetMapping("/type/{eventType}")
-    fun eventsByEventType(@PathVariable eventType: EventType): List<ShowEventDTO> {
-        return eventService.findByEventType(eventType).map { it.showEventDTO() }
+    fun eventsByEventType(@PathVariable eventType: EventType, request: HttpServletRequest): List<ShowEventDTO> {
+        val idToken = jwtUtil.getId(request)
+        return eventService.findByEventType(eventType, idToken).map { it.showEventDTO() }
     }
 
-    @GetMapping("/{id}/created")
-    fun employeeCreatedEvents(@PathVariable id: Long): List<ShowEventDTO> {
-        val employee: Employee = userService.getByID(id)
+    @GetMapping("/created")
+    fun employeeCreatedEvents(request: HttpServletRequest): List<ShowEventDTO> {
+        val idToken = jwtUtil.getId(request)
+        val employee: Employee = userService.getByID(idToken)
         val createdEvents:List<ShowEventDTO> = eventService.employeeCreatedEvents(employee).map { it.showEventDTO() }
         return createdEvents
     }
 
-    @GetMapping("/{id}/invited")
-    fun employeeInvitedEvents(@PathVariable id: Long): List<ShowEventDTO> {
-        val employee: Employee = userService.getByID(id)
+    @GetMapping("/invited")
+    fun employeeInvitedEvents(request: HttpServletRequest): List<ShowEventDTO> {
+        val idToken = jwtUtil.getId(request)
+        val employee: Employee = userService.getByID(idToken)
         val invitedEvents:List<ShowEventDTO> = eventService.employeeInvitedEvents(employee).map { it.showEventDTO() }
         return invitedEvents
     }
 
-
     @GetMapping("/create")
-    fun listEventTypes(): List<EventType> {
+    fun listEventTypes(request: HttpServletRequest): List<EventType> {
         return EventType.entries.toList()
     }
 
     @GetMapping("/type/all")
-    fun getEventTypes(): List<EventType> {
+    fun getEventTypes(request: HttpServletRequest): List<EventType> {
         return EventType.entries.toList()
     }
 
     @PostMapping("/create")
-    fun createEvent(@RequestBody newEventDTO: NewEventDTO): ResponseEntity<String> {
-        val creatorEmployee = userService.getByID(newEventDTO.creatorId)
+    fun createEvent(@RequestBody newEventDTO: NewEventDTO, request: HttpServletRequest): ResponseEntity<String> {
+        val idToken = jwtUtil.getId(request)
+        val creatorEmployee = userService.getByID(idToken)
 //        this.eventService.checkPermission(employee = creatorEmployee, permission = Permission.CREAR_EVENTO_SOCIAL)
         val participantsEmployees = userService.findAllById(employeesIds = newEventDTO.participantsIds.toList())
         this.eventService.existTitle(newEventDTO.name)
@@ -109,8 +117,9 @@ class EventController(
     }
 
     @PostMapping("/join-leave")
-    fun joinLeave(@RequestParam employeeId: Long, @RequestParam eventId: Long): ResponseEntity<ResponseEntityDTO> {
-        val employee: Employee = userService.getByID(employeeId)
+    fun joinLeave(@RequestParam eventId: Long, request: HttpServletRequest): ResponseEntity<ResponseEntityDTO> {
+        val idToken = jwtUtil.getId(request)
+        val employee: Employee = userService.getByID(idToken)
         lateinit var event: Event
         event = eventService.getById(eventId)
         val initialAmmount: Int = event.participants.size
@@ -148,7 +157,8 @@ class EventController(
     }
 
     @PutMapping()
-    fun modify(@RequestBody eventDTO: ShowEventDTO): ResponseEntity<String> {
+    fun modify(@RequestBody eventDTO: ShowEventDTO,request: HttpServletRequest): ResponseEntity<String> {
+
         val event = eventService.getById(eventDTO.id!!)
         try {
             eventService.modify(event, eventDTO)
@@ -163,8 +173,9 @@ class EventController(
     }
 
     @DeleteMapping()
-    fun delete(@RequestParam employeeId: Long, @RequestParam eventId: Long): ResponseEntity<String> {
-        val employee = userService.getByID(employeeId)
+    fun delete(@RequestParam eventId: Long, request: HttpServletRequest): ResponseEntity<String> {
+        val idToken = jwtUtil.getId(request)
+        val employee = userService.getByID(idToken)
         eventService.checkPermission(employee = employee, permission = Permission.CREAR_EVENTO_DEPORTIVO)
         val event = eventService.getById(eventId)
         try {

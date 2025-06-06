@@ -30,20 +30,20 @@ class EventService(
     fun findAllByPublicAndNotFromEmployee(employeeId:Long): List<Event> {
         return eventRepository.findAllByPublicAndCreator_IdNot(public=true, employeeId=employeeId)
     }
-    fun findByTitle(eventTitle: String?): List<Event> {
+    fun findByTitle(eventTitle: String?, creatorId:Long): List<Event> {
         try {
             if(eventTitle ==  null){
                 return eventRepository.findAll().toList()
             }
-            return eventRepository.findEventsByTitleContainingAndCreator_IdNot(eventTitle, 1)
+            return eventRepository.findEventsByTitleContainingAndCreator_IdNot(eventTitle, creatorId)
         }catch (e:Exception){
             throw e
         }
 
     }
 
-    fun findByEventType(eventType: EventType): List<Event> {
-        return eventRepository.findEventsByTypeIsAndCreator_IdNot(eventType, 1)
+    fun findByEventType(eventType: EventType, creatorId:Long): List<Event> {
+        return eventRepository.findEventsByTypeIsAndCreator_IdNot(eventType, creatorId)
     }
 
     fun employeeCreatedEvents(employee: Employee): List<Event> {
