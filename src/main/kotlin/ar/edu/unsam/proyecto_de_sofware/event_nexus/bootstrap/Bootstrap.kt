@@ -37,8 +37,7 @@ class Bootstrap(
         val mati = employeeAccountMati(credentialsPica(passwordEncoder.encode("mati")))
         val valen = employeeAccountValen(credentialsValen(passwordEncoder.encode("valen")))
         val theo = employeeAccountTheo(credentialsTheo(passwordEncoder.encode("theo")))
-        val mock = employeeAccountMockParaJugar(credentialsMock(passwordEncoder.encode("mock")))
-        val users : List<Employee> = listOf(adrian, diego, pica, mati, valen, theo, mock)
+        val users : List<Employee> = listOf(adrian, diego, pica, mati, valen, theo)
         userRepo.saveAll(users)
     }
 
