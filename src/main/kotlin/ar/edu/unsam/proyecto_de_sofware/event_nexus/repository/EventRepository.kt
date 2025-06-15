@@ -3,11 +3,13 @@ package ar.edu.unsam.proyecto_de_sofware.event_nexus.repository
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Event
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.EventType
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository
+import org.springframework.data.repository.PagingAndSortingRepository
 import org.springframework.data.repository.query.Param
 
-interface EventRepository: CrudRepository<Event, Long> {
+interface EventRepository: PagingAndSortingRepository<Event, Long>, CrudRepository<Event, Long> {
 
     fun findByCreator(creator: Employee): List<Event>
 
@@ -26,4 +28,6 @@ interface EventRepository: CrudRepository<Event, Long> {
             LOWER(e.title) LIKE CONCAT('%', :eventTitle, '%')
     """)
     fun findEventsByTitleContainingAndCreator_IdNot(@Param("eventTitle") eventTitle: String, employeeId: Long): List<Event>
+
+    fun deleteAllByCreator_Id(creatorId: Long)
 }

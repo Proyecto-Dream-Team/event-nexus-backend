@@ -80,6 +80,7 @@ class ApplicationSecutityConfiguration(
                 authorizeHttpRequests.requestMatchers(HttpMethod.DELETE, "/admin/delete/user/*").hasRole(Role.ADMIN.toString())
 
                 //EVENT
+                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/event/all").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HR")
                 authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/event/available").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HR")
                 authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/event/title").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HR")
                 authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/event/type/*").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HR")

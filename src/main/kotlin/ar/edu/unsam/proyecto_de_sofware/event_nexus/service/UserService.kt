@@ -124,8 +124,9 @@ class UserService(
         }
 
         // Obtener y eliminar todos los eventos donde el empleado es creator
-        val eventsAsCreator = repoEvent.findByCreator(employee)
-        repoEvent.deleteAll(eventsAsCreator)
+//        val eventsAsCreator = repoEvent.findByCreator(employee)
+        repoEvent.deleteAllByCreator_Id(employeeId)
+//        repoEvent.deleteAll(eventsAsCreator)
 
         // Finalmente eliminar el empleado
         repoUser.deleteById(employeeId)

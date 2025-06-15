@@ -11,8 +11,11 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Ev
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permission
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.EventRepository
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.NotificationRepository
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.utils.PageResponse
 import jakarta.transaction.Transactional
 import org.springframework.dao.DataAccessException
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 
 
@@ -25,6 +28,10 @@ class EventService(
 
     fun getById(eventId: Long): Event {
         return eventRepository.findById(eventId).orElseThrow{ BusinessException("No se encontro Evento")}
+    }
+
+    fun findALl(pageRequest: PageRequest): Page<Event> {
+        return eventRepository.findAll(pageRequest)
     }
 
     fun findAllByPublicAndNotFromEmployee(employeeId:Long): List<Event> {

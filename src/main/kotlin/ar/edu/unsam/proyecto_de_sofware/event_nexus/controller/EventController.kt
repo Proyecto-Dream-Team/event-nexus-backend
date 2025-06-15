@@ -20,6 +20,8 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.NotificationService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.SseNotificationService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.UserService
 import jakarta.servlet.http.HttpServletRequest
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -46,6 +48,17 @@ class EventController(
     val jwtUtil: JwtUtil
 ) {
 
+    @GetMapping("/all")
+    fun eventsAll(
+        request: HttpServletRequest,
+        @RequestParam(defaultValue = "1") page: Int,
+        @RequestParam(defaultValue = "5") size: Int
+    ): List<ShowEventDTO> {
+        val idToken = jwtUtil.getId(request)
+        val page: PageRequest = PageRequest.of(page-1, size, Sort.by("id"))
+        return eventService.findALl(page).map { it.showEventDTO() }.toList()
+    }
+
     @GetMapping("/available")
     fun events(request: HttpServletRequest): List<ShowEventDTO> {
         val idToken = jwtUtil.getId(request)
@@ -65,7 +78,9 @@ class EventController(
     }
 
     @GetMapping("/created")
-    fun employeeCreatedEvents(request: HttpServletRequest): List<ShowEventDTO> {
+    fun employeeCreatedEvents(
+        request: HttpServletRequest
+    ): List<ShowEventDTO> {
         val idToken = jwtUtil.getId(request)
         val employee: Employee = userService.getByID(idToken)
         val createdEvents:List<ShowEventDTO> = eventService.employeeCreatedEvents(employee).map { it.showEventDTO() }

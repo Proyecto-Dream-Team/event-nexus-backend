@@ -33,3 +33,62 @@ fun directive03(creatorEmployee: Employee, directivePriority: DirectivePriority)
 
     }
 }
+
+fun directive04(creatorEmployee: Employee, directivePriority: DirectivePriority): Directive {
+    return Directive().apply {
+        creator = creatorEmployee
+        title = "Parcial de Paradigmas"
+        description = "Recuerden estudiar paradigmas logico y funcional"
+        priority = directivePriority
+
+    }
+}
+
+fun directive05(creatorEmployee: Employee, directivePriority: DirectivePriority): Directive {
+    return Directive().apply {
+        creator = creatorEmployee
+        title = "Coloquio de PHM"
+        description = "Acuerdense que el coloquio es tranqui, los dijo NICO!!!!"
+        priority = directivePriority
+
+    }
+}
+
+fun directive06(creatorEmployee: Employee, directivePriority: DirectivePriority): Directive {
+    return Directive().apply {
+        creator = creatorEmployee
+        title = "Repartir presentacion + demo"
+        description = "El miercoles es la presentacion de la app. Recuerden practicar la demo"
+        priority = directivePriority
+
+    }
+}
+
+fun directive07(creatorEmployee: Employee, directivePriority: DirectivePriority): Directive {
+    return Directive().apply {
+        creator = creatorEmployee
+        title = "Coche con la luz prendida"
+        description = "Vehiculo de matricula AAA-BBB-CCC con las luces prendidas en el parking 12"
+        priority = directivePriority
+
+    }
+}
+fun directive08(creatorEmployee: Employee, directivePriority: DirectivePriority): Directive {
+    return Directive().apply {
+        creator = creatorEmployee
+        title = "Reparacion de oficina"
+        description = "Durante las fechas de 17/06/2025 al 27/06/2025 la sala comun esta clausurada debido a reparaciones."
+        priority = directivePriority
+
+    }
+}
+
+fun directive09(creatorEmployee: Employee, directivePriority: DirectivePriority): Directive {
+    return Directive().apply {
+        creator = creatorEmployee
+        title = "Billetera perdida"
+        description = "Se perdio una billetera, acercarse a bedelia."
+        priority = directivePriority
+
+    }
+}

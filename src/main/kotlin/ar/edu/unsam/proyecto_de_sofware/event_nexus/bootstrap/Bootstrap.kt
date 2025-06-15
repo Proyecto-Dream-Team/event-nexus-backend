@@ -86,14 +86,24 @@ class Bootstrap(
 
     fun createDirectives () {
         var adrian: Employee = userRepo.findByEmail(email = "adrian@mail.com")
-
+        var diego: Employee = userRepo.findByEmail(email = "diego@mail.com")
 
         val directive01: Directive = directive01(creatorEmployee = adrian, directivePriority= DirectivePriority.HIGH)
         val directive02: Directive = directive02(creatorEmployee = adrian, directivePriority= DirectivePriority.MEDIUM)
         val directive03: Directive = directive03(creatorEmployee = adrian, directivePriority= DirectivePriority.LOW)
 
+        val directive04: Directive = directive04(creatorEmployee = adrian, directivePriority= DirectivePriority.HIGH)
+        val directive05: Directive = directive05(creatorEmployee = diego, directivePriority= DirectivePriority.HIGH)
+        val directive06: Directive = directive06(creatorEmployee = diego, directivePriority= DirectivePriority.HIGH)
+
+        val directive07: Directive = directive07(creatorEmployee = diego, directivePriority= DirectivePriority.MEDIUM)
+        val directive08: Directive = directive08(creatorEmployee = diego, directivePriority= DirectivePriority.LOW)
+        val directive09: Directive = directive09(creatorEmployee = diego, directivePriority= DirectivePriority.LOW)
+
         directiveRepo.saveAll(listOf(
-            directive01, directive02, directive03
+            directive01, directive02, directive03,
+            directive04, directive05, directive06,
+            directive07, directive08, directive09
         ))
     }
 
