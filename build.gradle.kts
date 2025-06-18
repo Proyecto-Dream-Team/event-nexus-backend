@@ -1,6 +1,7 @@
 plugins {
 	kotlin("jvm") version "1.9.25"
 	kotlin("plugin.spring") version "1.9.25"
+	kotlin("plugin.jpa") version "1.9.25"
 	kotlin("plugin.serialization") version "1.6.0"
 	id("org.springframework.boot") version "3.4.4"
 	id("io.spring.dependency-management") version "1.1.7"
@@ -51,6 +52,9 @@ dependencies {
 	testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
 	testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+//.env
+	implementation("me.paulschwarz:spring-dotenv:4.0.0")
+
 
 	//mail
 	implementation("org.springframework.boot:spring-boot-starter-mail")
