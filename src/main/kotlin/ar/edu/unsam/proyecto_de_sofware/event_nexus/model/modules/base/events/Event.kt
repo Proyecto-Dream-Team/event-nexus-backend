@@ -1,27 +1,19 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events
 
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.ShowEventDTO
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.exceptions.BusinessException
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.FetchType
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.JoinTable
-import jakarta.persistence.ManyToMany
-import jakarta.persistence.ManyToOne
-import jakarta.persistence.Table
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Notifiable
+import jakarta.persistence.*
+import org.hibernate.annotations.OnDelete
+import org.hibernate.annotations.OnDeleteAction
 import java.time.LocalDateTime
 
 @Entity
 @Table(name = "event")
-class Event(){
+class Event(): Notifiable{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    var module: EventModule? = null
 
     @Column
     var title: String = ""
@@ -30,25 +22,42 @@ class Event(){
     var creationDate: LocalDateTime = LocalDateTime.now()
 
     @Column
-    lateinit var date: LocalDateTime
-
-    @Column
-    var dateFinished: LocalDateTime = LocalDateTime.now()
+    lateinit var expirationDate: LocalDateTime
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(referencedColumnName = "id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     lateinit var creator: Employee
 
     @Column
     var description: String = ""
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @Column
+    var public: Boolean = true
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    var type: EventType = EventType.SOCIAL
+
+    @ManyToMany(
+        fetch = FetchType.EAGER,
+//        cascade = [CascadeType.REMOVE],
+
+    )
     @JoinTable(
         name="employee_event",
         joinColumns=
-            [JoinColumn(name="employee_id", referencedColumnName="id")],
-        inverseJoinColumns=
-            [JoinColumn(name="event_id", referencedColumnName="id")]
+            [JoinColumn(name="event_id", referencedColumnName="id")],
+        inverseJoinColumns = [
+            JoinColumn(
+                name = "employee_id",
+                referencedColumnName = "id",
+                foreignKey = ForeignKey(
+                    foreignKeyDefinition = "FOREIGN KEY (employee_id) REFERENCES employee(id) ON DELETE CASCADE"
+                )
+            )
+        ]
+
     )
     lateinit var participants: MutableSet<Employee>
 
@@ -60,5 +69,22 @@ class Event(){
         this.participants.remove(participant)
     }
 
-    fun isPending() : Boolean = date > LocalDateTime.now()
+    fun employeeParticipates(participant: Employee): Boolean{
+        return  participants.contains(participant)
+    }
+
+    fun isPending() : Boolean = expirationDate > LocalDateTime.now()
+
+    fun fromDTO(eventDTO: ShowEventDTO){
+        if(!isCreator(eventDTO.creatorId!!)){
+            throw BusinessException("No puede modificar este evento")
+        }
+        creationDate = eventDTO.dateFinished
+        description = eventDTO.description
+        title = eventDTO.title
+    }
+
+    fun isCreator(employeeId: Long): Boolean{
+        return employeeId == creator.id
+    }
 }

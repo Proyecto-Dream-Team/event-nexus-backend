@@ -1,160 +1,140 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.bootstrap
 
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Admin
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Authentication
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Credentials
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Role
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Event
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.EventType
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
-
 // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // AUTH CREDENTIALS
 // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-fun credentialsAdrian(): Authentication{
-    return Authentication().apply {
+fun credentialsAdrian(encodedPassword:String): Credentials{
+    return Credentials().apply {
         username = "adrian"
-        password = "adrian"
-        email = "adrian@mail.com"
+        password = encodedPassword
         role = Role.ADMIN
     }
 }
-fun credentialsDiego(): Authentication{
-    return Authentication().apply {
+fun credentialsDiego(encodedPassword:String): Credentials{
+    return Credentials().apply {
         username = "diego"
-        password = "diego"
-        email = "diego@mail.com"
-        role = Role.EMPLOYEE_FULL
+        password = encodedPassword
+        role = Role.SUPERVISOR
     }
 }
-fun credentialsMatias(): Authentication{
-    return Authentication().apply {
+fun credentialsMatias(encodedPassword:String): Credentials{
+    return Credentials().apply {
         username = "mati"
-        password = "mati"
-        email = "mati@mail.com"
-        role = Role.ADMIN
+        password = encodedPassword
+        role = Role.DEV
     }
 }
-fun credentialsPica(): Authentication{
-    return Authentication().apply {
+fun credentialsPica(encodedPassword:String): Credentials{
+    return Credentials().apply {
         username = "pica"
-        password = "pica"
-        email = "pica@mail.com"
-        role = Role.ADMIN
+        password = encodedPassword
+        role = Role.HR
     }
 }
-fun credentialsValen(): Authentication{
-    return Authentication().apply {
+fun credentialsValen(encodedPassword:String): Credentials{
+    return Credentials().apply {
         username = "valen"
-        password = "valen"
-        email = "valen@mail.com"
-        role = Role.ADMIN
+        password = encodedPassword
+        role = Role.DEV
     }
 }
 
-fun credentialsTheo(): Authentication{
-    return Authentication().apply {
+fun credentialsTheo(encodedPassword:String): Credentials{
+    return Credentials().apply {
         username = "theo"
-        password = "theo"
-        email = "theo@mail.com"
-        role = Role.ADMIN
+        password = encodedPassword
+        role = Role.SUPERVISOR
     }
 }
+
 
 // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // EMPLOYEE ACCOUNTS
 // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-fun employeeAccountAdrian(credential: Authentication): Admin{
+fun employeeAccountAdrian(credential: Credentials): Admin{
     return Admin().apply {
         name = "Adrian"
         lastname = "Perez"
+        job = credential.role.name
         phone = "12341234"
-        email = credential.email
+        email = "adrian@mail.com"
         address = "calle posta 123"
         credentials = credential
+        permissions = credential.role.defaultPermissions.toMutableSet()
     }
 }
-fun employeeAccountDiego(credential: Authentication): Employee{
+fun employeeAccountDiego(credential: Credentials): Employee{
     return Employee().apply {
         name = "Diego"
         lastname = "Lentz"
+        job = credential.role.name
         phone = "12341234"
-        email = credential.email
+        email = "diego@mail.com"
         address = "calle falsa 123"
         credentials = credential
+        permissions = credential.role.defaultPermissions.toMutableSet()
     }
 }
-fun employeeAccountPica(credential: Authentication): Employee{
+fun employeeAccountPica(credential: Credentials): Employee{
     return Employee().apply {
         name = "Pedro"
         lastname = "McGeraghty"
+        job = credential.role.name
         phone = "12341234"
-        email = credential.email
+        email = "pica@mail.com"
         address = "Tambien calle falsa 123"
         credentials = credential
+        permissions = credential.role.defaultPermissions.toMutableSet()
     }
 }
-fun employeeAccountMati(credential: Authentication): Employee{
+fun employeeAccountMati(credential: Credentials): Employee{
     return Employee().apply {
         name = "Matias"
         lastname = "Diaz"
+        job = credential.role.name
         phone = "12341234"
-        email = credential.email
+        email = "mati@mail.com"
         address = "Tambien calle falsa 123"
         credentials = credential
+        permissions = credential.role.defaultPermissions.toMutableSet()
     }
 }
 
-fun employeeAccountValen(credential: Authentication): Employee{
+fun employeeAccountValen(credential: Credentials): Employee{
     return Employee().apply {
         name = "Valen"
         lastname = "Pugliese"
+        job = credential.role.name
         phone = "12341234"
-        email = credential.email
+        email = "valen@mail.com"
         address = "Tambien calle falsa 123"
         credentials = credential
+        permissions = credential.role.defaultPermissions.toMutableSet()
     }
 }
-fun employeeAccountTheo(credential: Authentication): Employee{
+fun employeeAccountTheo(credential: Credentials): Employee{
     return Employee().apply {
         name = "Theo"
         lastname = "Narmontas"
+        job = credential.role.name
         phone = "12341234"
-        email = credential.email
+        email = "theo@mail.com"
         address = "Tambien calle falsa 123"
         credentials = credential
+        permissions = credential.role.defaultPermissions.toMutableSet()
     }
 }
+
+
+
 // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// EVENTS
+// Directives
 // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-fun eventAdrian(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Event{
-    return Event().apply {
-        title = "Evento de Adrian"
-        description = "Juntada de estudio. Copate"
-        date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
-        creator = creatorEmployee
-        participants = participantsEmployees.toMutableSet()
-    }
-}
-
-fun eventDiego(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Event{
-    return Event().apply {
-        title = "Evento de Diego"
-        description = "Fulbito salvaje"
-        date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
-        creator = creatorEmployee
-        participants = participantsEmployees.toMutableSet()
-    }
-}
-
-fun eventPica(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Event{
-    return Event().apply {
-        title = "Evento de Pica"
-        description = "Free fire con los pibes"
-        date = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
-        creator = creatorEmployee
-        participants = participantsEmployees.toMutableSet()
-    }
-}
