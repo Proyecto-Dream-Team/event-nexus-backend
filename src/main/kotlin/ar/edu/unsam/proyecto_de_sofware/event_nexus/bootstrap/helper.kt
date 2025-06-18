@@ -94,6 +94,7 @@ fun employeeAccountPica(credential: Credentials): Employee{
         email = "pica@mail.com"
         address = "Tambien calle falsa 123"
         credentials = credential
+        image = "https://a.storyblok.com/f/178900/940x664/5e32bc09ff/kagurabachi-key.jpg/m/filters:quality(95)format(webp)"
         permissions = credential.role.defaultPermissions.toMutableSet()
     }
 }
@@ -120,6 +121,7 @@ fun employeeAccountValen(credential: Credentials): Employee{
         email = "valen@mail.com"
         address = "Tambien calle falsa 123"
         credentials = credential
+        image = "https://static1.moviewebimages.com/wordpress/wp-content/uploads/2022/05/Izuku-Midoriya.jpg?q=50&fit=crop&w=1140&h=&dpr=1.5"
         permissions = credential.role.defaultPermissions.toMutableSet()
     }
 }
@@ -132,6 +134,7 @@ fun employeeAccountTheo(credential: Credentials): Employee{
         email = "theo@mail.com"
         address = "Tambien calle falsa 123"
         credentials = credential
+        image = "https://static1.moviewebimages.com/wordpress/wp-content/uploads/2022/05/Yusuke-Urameshi---Yu-Yu-Hakusho.png?q=50&fit=crop&w=825&dpr=1.5"
         permissions = credential.role.defaultPermissions.toMutableSet()
     }
 }
