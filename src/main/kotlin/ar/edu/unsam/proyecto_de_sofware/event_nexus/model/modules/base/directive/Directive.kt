@@ -11,6 +11,8 @@ import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
+import org.hibernate.annotations.OnDelete
+import org.hibernate.annotations.OnDeleteAction
 import java.time.LocalDateTime
 
 @Entity
@@ -22,6 +24,7 @@ class Directive: Notifiable {
     var id: Long? = null
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     lateinit var creator: Employee
 
     @Column

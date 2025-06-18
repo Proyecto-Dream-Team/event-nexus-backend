@@ -33,8 +33,8 @@ class Bootstrap(
     fun createUsers () {
         val adrian = employeeAccountAdrian(credentialsAdrian(passwordEncoder.encode("adrian")))
         val diego = employeeAccountDiego(credentialsDiego(passwordEncoder.encode("diego")))
-        val pica = employeeAccountPica(credentialsMatias(passwordEncoder.encode("pica")))
-        val mati = employeeAccountMati(credentialsPica(passwordEncoder.encode("mati")))
+        val mati = employeeAccountMati(credentialsMatias(passwordEncoder.encode("mati")))
+        val pica = employeeAccountPica(credentialsPica(passwordEncoder.encode("pica")))
         val valen = employeeAccountValen(credentialsValen(passwordEncoder.encode("valen")))
         val theo = employeeAccountTheo(credentialsTheo(passwordEncoder.encode("theo")))
         val users : List<Employee> = listOf(adrian, diego, pica, mati, valen, theo)

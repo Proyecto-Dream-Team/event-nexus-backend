@@ -31,7 +31,7 @@ open class Employee() {
     @Column
     lateinit var lastname: String
 
-    @Column
+    @Column(length = 1000)
     var image: String = "https://res.cloudinary.com/dumcjdzxo/image/upload/imgDefault_t0achq"
 
     @Column
