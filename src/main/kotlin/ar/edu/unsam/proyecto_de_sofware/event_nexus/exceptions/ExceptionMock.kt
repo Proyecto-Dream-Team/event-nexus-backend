@@ -24,5 +24,6 @@ val entityPersistanceExceptionMessage:String = "No se puede persistir la entidad
 @ResponseStatus(HttpStatus.CONFLICT) //TODO aca no tendria que ser un NOT_FOUND
 class EntityPersistanceException(entityClassName:String): Exception(entityPersistanceExceptionMessage+ entityClassName)
 
+val invalidCredentialsExceptionMessage:String = "No se puede persistir la entidad:"
 @ResponseStatus(HttpStatus.NOT_FOUND)
-class InvalidCredentialsException(msg: String) : RuntimeException(msg)
+class InvalidCredentialsException(msg: String = invalidCredentialsExceptionMessage) : RuntimeException(msg)
