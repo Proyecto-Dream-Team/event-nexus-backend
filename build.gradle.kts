@@ -36,6 +36,7 @@ dependencies {
 //	DB CONNECTION
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	runtimeOnly("org.postgresql:postgresql")
+
 //	SECURITY
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.bouncycastle:bcprov-jdk15on:1.70")
@@ -51,6 +52,7 @@ dependencies {
 	testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
 	testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+	testImplementation("com.h2database:h2:2.3.232")
 
 	//mail
 	implementation("org.springframework.boot:spring-boot-starter-mail")
