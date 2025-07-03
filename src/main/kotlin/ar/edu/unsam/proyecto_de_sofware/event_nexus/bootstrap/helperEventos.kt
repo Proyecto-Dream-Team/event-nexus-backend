@@ -227,3 +227,123 @@ fun event18(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Eve
         public = true
     }
 }
+
+fun event19(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Event {
+    return Event().apply {
+        title = "Concierto Beneficio: Rock por la Causa"
+        description = "Noche de música en vivo con bandas locales para apoyar a una ONG. Disfruta del mejor rock mientras contribuyes a una buena causa. Habrá food trucks y stands de merchandising. ¡Tu entrada ayuda a quienes más lo necesitan!"
+        expirationDate = LocalDateTime.now().plus(2, ChronoUnit.WEEKS).plus(1, ChronoUnit.DAYS).plus(20, ChronoUnit.HOURS)
+        type = EventType.BENEFICO
+        creator = creatorEmployee
+        participants = participantsEmployees.toMutableSet()
+        public = true
+    }
+}
+
+fun event20(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Event {
+    return Event().apply {
+        title = "Hackathon: Soluciones para la Ciudad Inteligente"
+        description = "Desafío de programación de 48 horas para crear aplicaciones innovadoras que mejoren la vida urbana. Colabora con talentos, aprende de mentores y compite por premios. ¡Trae tus ideas y hazlas realidad!"
+        expirationDate = LocalDateTime.now().plus(3, ChronoUnit.WEEKS).plus(2, ChronoUnit.DAYS).plus(15, ChronoUnit.HOURS)
+        type = EventType.CAPACITACION
+        creator = creatorEmployee
+        participants = participantsEmployees.toMutableSet()
+        public = true
+    }
+}
+
+fun event21(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Event {
+    return Event().apply {
+        title = "Exposición de Fotografía 'Miradas Urbanas'"
+        description = "Recorrido por la ciudad a través de la lente de fotógrafos emergentes. Obras que capturan la esencia de la vida cotidiana. Una ventana al alma de la metrópolis. Entrada libre y gratuita."
+        expirationDate = LocalDateTime.now().plus(1, ChronoUnit.MONTHS).plus(4, ChronoUnit.DAYS).plus(10, ChronoUnit.HOURS)
+        type = EventType.CULTURAL
+        creator = creatorEmployee
+        participants = participantsEmployees.toMutableSet()
+        public = true
+    }
+}
+
+fun event22(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Event {
+    return Event().apply {
+        title = "Taller de Manejo de Estrés y Productividad"
+        description = "Aprende técnicas efectivas para gestionar el estrés y optimizar tu rendimiento. Sesiones prácticas y herramientas para el bienestar en el trabajo y la vida personal. Invierte en tu salud mental."
+        expirationDate = LocalDateTime.now().plus(10, ChronoUnit.DAYS).plus(14, ChronoUnit.HOURS)
+        type = EventType.SALUD
+        creator = creatorEmployee
+        participants = participantsEmployees.toMutableSet()
+        public = true
+    }
+}
+
+fun event23(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Event {
+    return Event().apply {
+        title = "Copa Inter-áreas de Baloncesto 3x3"
+        description = "Un torneo rápido y divertido para que los equipos de diferentes áreas compitan en baloncesto 3x3. Fomenta el trabajo en equipo y la sana competencia. Habrá premios y un ambiente animado."
+        expirationDate = LocalDateTime.now().plus(2, ChronoUnit.WEEKS).plus(6, ChronoUnit.HOURS)
+        type = EventType.DEPORTIVO
+        creator = creatorEmployee
+        participants = participantsEmployees.toMutableSet()
+        public = true
+    }
+}
+
+fun event24(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Event {
+    return Event().apply {
+        title = "Brindis de Fin de Mes: Reconocimiento al Esfuerzo"
+        description = "Un momento para agradecer el trabajo y la dedicación del equipo durante el mes. Disfruta de un brindis, snacks y buena compañía. Fortalecemos el compañerismo y celebramos los logros juntos."
+        expirationDate = LocalDateTime.now().plus(4, ChronoUnit.DAYS).plus(17, ChronoUnit.HOURS)
+        type = EventType.EQUIPO
+        creator = creatorEmployee
+        participants = participantsEmployees.toMutableSet()
+        public = true
+    }
+}
+
+fun event25(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Event {
+    return Event().apply {
+        title = "Seminario: 'Innovación en Inteligencia Artificial Generativa'"
+        description = "Explora las últimas novedades y aplicaciones de la IA generativa, desde la creación de contenido hasta la automatización. Con expertos y casos de estudio. ¡Prepárate para el futuro!"
+        expirationDate = LocalDateTime.now().plus(3, ChronoUnit.WEEKS).plus(5, ChronoUnit.DAYS).plus(12, ChronoUnit.HOURS)
+        type = EventType.CAPACITACION
+        creator = creatorEmployee
+        participants = participantsEmployees.toMutableSet()
+        public = true
+    }
+}
+
+fun event26(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Event {
+    return Event().apply {
+        title = "Ciclo de Cine Independiente: 'Voces Globales'"
+        description = "Proyecciones semanales de películas independientes de diversas partes del mundo. Debates post-película con críticos y directores. Una experiencia cinematográfica única y enriquecedora."
+        expirationDate = LocalDateTime.now().plus(1, ChronoUnit.MONTHS).plus(1, ChronoUnit.DAYS).plus(21, ChronoUnit.HOURS)
+        type = EventType.CULTURAL
+        creator = creatorEmployee
+        participants = participantsEmployees.toMutableSet()
+        public = true
+    }
+}
+
+fun event27(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Event {
+    return Event().apply {
+        title = "Carrera de Obstáculos: Desafío Extremo"
+        description = "Pon a prueba tu resistencia y habilidades en una emocionante carrera con obstáculos diseñada para superar tus límites. Inscríbete solo o en equipo. ¡La adrenalina está garantizada!"
+        expirationDate = LocalDateTime.now().plus(4, ChronoUnit.WEEKS).plus(3, ChronoUnit.DAYS).plus(9, ChronoUnit.HOURS)
+        type = EventType.DEPORTIVO
+        creator = creatorEmployee
+        participants = participantsEmployees.toMutableSet()
+        public = true
+    }
+}
+
+fun event28(creatorEmployee: Employee, participantsEmployees:Set<Employee>): Event {
+    return Event().apply {
+        title = "Jornada de Voluntariado Ambiental: Limpieza de Parque"
+        description = "Únete a nosotros para una jornada dedicada a limpiar y embellecer nuestro parque local. Una forma de retribuir a la comunidad y disfrutar del aire libre. Se proporcionarán guantes y bolsas. ¡Tu ayuda hace la diferencia!"
+        expirationDate = LocalDateTime.now().plus(2, ChronoUnit.WEEKS).plus(4, ChronoUnit.DAYS).plus(16, ChronoUnit.HOURS)
+        type = EventType.BENEFICO
+        creator = creatorEmployee
+        participants = participantsEmployees.toMutableSet()
+        public = true
+    }
+}

@@ -50,24 +50,24 @@ class ApplicationSecutityConfiguration(
                 authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/error").permitAll()
 
                 // ASD
-                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/module").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HR")
+                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/module").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HHRR", "QA", "MARKETING", "FINANCE", "DESIGNER", "ANALYST")
 
                 // NOTIFICATION
                 authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/notification").permitAll()
 //                    .hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HR")
-                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/notification/employee").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HR")
+                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/notification/employee").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HHRR", "QA", "MARKETING", "FINANCE", "DESIGNER", "ANALYST")
 
 
                 // USER
-                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/user/home").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HR")
-                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/user/header").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HR")
-                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/user/profile").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HR")
-                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/user/detail").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HR")
-                authorizeHttpRequests.requestMatchers(HttpMethod.PUT, "/user/profile").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HR")
-                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/user/available").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HR")
-                authorizeHttpRequests.requestMatchers(HttpMethod.PUT, "/user/img").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HR")
-                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/user/permissions/*").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HR")
-                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/user").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HR")
+                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/user/home").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HHRR", "QA", "MARKETING", "FINANCE", "DESIGNER", "ANALYST")
+                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/user/header").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HHRR", "QA", "MARKETING", "FINANCE", "DESIGNER", "ANALYST")
+                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/user/profile").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HHRR", "QA", "MARKETING", "FINANCE", "DESIGNER", "ANALYST")
+                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/user/detail").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HHRR", "QA", "MARKETING", "FINANCE", "DESIGNER", "ANALYST")
+                authorizeHttpRequests.requestMatchers(HttpMethod.PUT, "/user/profile").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HHRR", "QA", "MARKETING", "FINANCE", "DESIGNER", "ANALYST")
+                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/user/available").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HHRR", "QA", "MARKETING", "FINANCE", "DESIGNER", "ANALYST")
+                authorizeHttpRequests.requestMatchers(HttpMethod.PUT, "/user/img").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HHRR", "QA", "MARKETING", "FINANCE", "DESIGNER", "ANALYST")
+                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/user/permissions/*").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HHRR", "QA", "MARKETING", "FINANCE", "DESIGNER", "ANALYST")
+                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/user").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HHRR", "QA", "MARKETING", "FINANCE", "DESIGNER", "ANALYST")
 
 
                 //ADMIN
@@ -80,22 +80,22 @@ class ApplicationSecutityConfiguration(
                 authorizeHttpRequests.requestMatchers(HttpMethod.DELETE, "/admin/delete/user/*").hasRole(Role.ADMIN.toString())
 
                 //EVENT
-                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/event/all").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HR")
-                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/event/available").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HR")
-                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/event/title").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HR")
-                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/event/type/*").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HR")
-                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/event/created").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HR")
-                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/event/invited").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HR")
-                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/event/create").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HR")
-                authorizeHttpRequests.requestMatchers(HttpMethod.POST, "/event/create").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HR")
-                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/event/type/all").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HR")
-                authorizeHttpRequests.requestMatchers(HttpMethod.POST, "/event/join-leave").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HR")
-                authorizeHttpRequests.requestMatchers(HttpMethod.PUT, "/event").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HR")
-                authorizeHttpRequests.requestMatchers(HttpMethod.DELETE, "/event").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HR")
+                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/event/all").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HHRR", "QA", "MARKETING", "FINANCE", "DESIGNER", "ANALYST")
+                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/event/available").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HHRR", "QA", "MARKETING", "FINANCE", "DESIGNER", "ANALYST")
+                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/event/title").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HHRR", "QA", "MARKETING", "FINANCE", "DESIGNER", "ANALYST")
+                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/event/type/*").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HHRR", "QA", "MARKETING", "FINANCE", "DESIGNER", "ANALYST")
+                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/event/created").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HHRR", "QA", "MARKETING", "FINANCE", "DESIGNER", "ANALYST")
+                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/event/invited").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HHRR", "QA", "MARKETING", "FINANCE", "DESIGNER", "ANALYST")
+                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/event/create").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HHRR", "QA", "MARKETING", "FINANCE", "DESIGNER", "ANALYST")
+                authorizeHttpRequests.requestMatchers(HttpMethod.POST, "/event/create").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HHRR", "QA", "MARKETING", "FINANCE", "DESIGNER", "ANALYST")
+                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/event/type/all").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HHRR", "QA", "MARKETING", "FINANCE", "DESIGNER", "ANALYST")
+                authorizeHttpRequests.requestMatchers(HttpMethod.POST, "/event/join-leave").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HHRR", "QA", "MARKETING", "FINANCE", "DESIGNER", "ANALYST")
+                authorizeHttpRequests.requestMatchers(HttpMethod.PUT, "/event").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HHRR", "QA", "MARKETING", "FINANCE", "DESIGNER", "ANALYST")
+                authorizeHttpRequests.requestMatchers(HttpMethod.DELETE, "/event").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HHRR", "QA", "MARKETING", "FINANCE", "DESIGNER", "ANALYST")
 
                 //DIRECTIVE
-                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/directive").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HR")
-                authorizeHttpRequests.requestMatchers(HttpMethod.POST, "/directive/create").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HR")
+                authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/directive").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HHRR", "QA", "MARKETING", "FINANCE", "DESIGNER", "ANALYST")
+                authorizeHttpRequests.requestMatchers(HttpMethod.POST, "/directive/create").hasAnyRole("ADMIN", "SUPERVISOR", "DEV" , "HHRR", "QA", "MARKETING", "FINANCE", "DESIGNER", "ANALYST")
 
 
                 //Analytics controller
