@@ -92,3 +92,57 @@ fun directive09(creatorEmployee: Employee, directivePriority: DirectivePriority)
 
     }
 }
+
+fun directive10(creatorEmployee: Employee, directivePriority: DirectivePriority): Directive {
+    return Directive().apply {
+        creator = creatorEmployee
+        title = "Revisión de Seguridad de Datos"
+        description = "Es crucial realizar una auditoría completa de los sistemas para identificar vulnerabilidades y asegurar la integridad de los datos de la empresa. Prioridad máxima para evitar brechas."
+        priority = directivePriority
+    }
+}
+
+fun directive11(creatorEmployee: Employee, directivePriority: DirectivePriority): Directive {
+    return Directive().apply {
+        creator = creatorEmployee
+        title = "Capacitación en Nuevas Tecnologías"
+        description = "Se organizará un ciclo de talleres sobre las últimas tendencias en desarrollo de software, incluyendo Inteligencia Artificial y Machine Learning. Todos los desarrolladores deberán asistir."
+        priority = directivePriority
+    }
+}
+
+fun directive12(creatorEmployee: Employee, directivePriority: DirectivePriority): Directive {
+    return Directive().apply {
+        creator = creatorEmployee
+        title = "Mantenimiento Preventivo de Servidores"
+        description = "Programar y ejecutar el mantenimiento preventivo de todos los servidores de producción durante el fin de semana para minimizar el impacto en las operaciones diarias. Se enviará un cronograma detallado."
+        priority = directivePriority
+    }
+}
+
+fun directive13(creatorEmployee: Employee, directivePriority: DirectivePriority): Directive {
+    return Directive().apply {
+        creator = creatorEmployee
+        title = "Evaluación de Clima Laboral Anual"
+        description = "Realizar la encuesta de clima laboral para recolectar feedback de los empleados y detectar áreas de mejora en el ambiente de trabajo. La participación es anónima y muy importante."
+        priority = directivePriority
+    }
+}
+
+fun directive14(creatorEmployee: Employee, directivePriority: DirectivePriority): Directive {
+    return Directive().apply {
+        creator = creatorEmployee
+        title = "Actualización de Políticas de Contratación"
+        description = "Revisar y actualizar las políticas de contratación para adaptarlas a las nuevas leyes laborales y asegurar la inclusión y diversidad en el proceso de selección de personal."
+        priority = directivePriority
+    }
+}
+
+fun directive15(creatorEmployee: Employee, directivePriority: DirectivePriority): Directive {
+    return Directive().apply {
+        creator = creatorEmployee
+        title = "Desarrollo de un Nuevo Sistema de Reportes"
+        description = "Iniciar el proyecto para la creación de un sistema de reportes unificado y más intuitivo para el departamento de finanzas. Se formará un equipo multidisciplinario."
+        priority = directivePriority
+    }
+}

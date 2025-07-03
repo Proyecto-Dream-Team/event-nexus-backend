@@ -4,7 +4,7 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permiss
 
 
 enum class Role(val jobName: String, val defaultPermissions:Set<Permission>){
-    HR(
+    HHRR(
         jobName = "Human Resources",
         defaultPermissions = setOf(
             Permission.CREAR_EVENTO_SOCIAL, Permission.CREAR_EVENTO_CAPACITACION)
@@ -24,5 +24,25 @@ enum class Role(val jobName: String, val defaultPermissions:Set<Permission>){
     ADMIN(
         jobName = "Admin",
         defaultPermissions = Permission.values().toSet()
+    ),
+    QA(
+        jobName = "Quality Assurance",
+        defaultPermissions = setOf(Permission.CREAR_EVENTO_SOCIAL, Permission.CREAR_EVENTO_DEPORTIVO)
+    ),
+    DESIGNER(
+        jobName = "Product Designer",
+        defaultPermissions = setOf(Permission.CREAR_EVENTO_SOCIAL, Permission.CREAR_EVENTO_DEPORTIVO)
+    ),
+    MARKETING(
+        jobName = "Marketing Specialist",
+        defaultPermissions = setOf(Permission.CREAR_EVENTO_SOCIAL, Permission.CREAR_EVENTO_DEPORTIVO)
+    ),
+    FINANCE(
+        jobName = "Finance Analyst",
+        defaultPermissions = setOf(Permission.CREAR_EVENTO_SOCIAL, Permission.CREAR_EVENTO_DEPORTIVO)
+    ),
+    ANALYST(
+        jobName = "Data Analyst",
+        defaultPermissions = setOf(Permission.CREAR_EVENTO_SOCIAL, Permission.CREAR_EVENTO_DEPORTIVO)
     )
 }
