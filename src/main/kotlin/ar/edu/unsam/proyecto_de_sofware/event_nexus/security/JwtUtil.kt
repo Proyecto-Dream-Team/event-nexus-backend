@@ -25,7 +25,7 @@ class JwtUtil {
     @Value("\${jwt.secret.key}")
     lateinit var secretKey: String
 
-    @Value("\${jwt.time.expiration}")
+    @Value("\${jwt.time.expiration}0")
     var accessTokenMinutes: Int = 30
 
     @Value("\${jwt.user.generator}")
