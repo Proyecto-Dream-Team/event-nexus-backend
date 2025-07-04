@@ -4,7 +4,7 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.AppModu
 
 class AdminModule(
     override val id: Int = 3,
-    override val name: String = "Comunicarse con administrador",
+    override val name: String = "Administración de Sistema",
     override val image: String = "admin.svg"
 ) : AppModule(id, name, image){
 
