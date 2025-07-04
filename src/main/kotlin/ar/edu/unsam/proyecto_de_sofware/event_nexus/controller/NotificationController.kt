@@ -3,19 +3,15 @@ package ar.edu.unsam.proyecto_de_sofware.event_nexus.controller
 
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.NotificationDTO
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.toNotificationDTO
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Notification
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.notification.observer.CreatedEventObserver
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.notification.observer.JoinLeaveObserver
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.security.JwtUtil
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.NotificationService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.SseNotificationService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.UserService
 import jakarta.servlet.http.HttpServletRequest
-import jakarta.websocket.server.PathParam
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
@@ -27,9 +23,7 @@ import java.util.concurrent.TimeUnit
 @RequestMapping("/notification")
 class NotificationController(
     private val sseNotificationService: SseNotificationService,
-    private val createdEventObserver: CreatedEventObserver,
     val notificationService: NotificationService,
-    val userService: UserService,
     val jwtUtil: JwtUtil
 ) {
 
