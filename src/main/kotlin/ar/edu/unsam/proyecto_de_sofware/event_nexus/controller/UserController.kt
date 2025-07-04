@@ -41,7 +41,10 @@ class UserController(
     @GetMapping("/profile")
     fun dataProfile(request: HttpServletRequest): ProfileDTO {
         val idToken = jwtUtil.getId(request)
-        return userService.getByID(idToken).toProfileDTO()
+        var uss = userService.getByID(idToken)
+        var permision = uss.permissions.map { it.permissionName }.toList()
+
+        return uss.toProfileDTO(permision)
     }
 
     @GetMapping("/detail")

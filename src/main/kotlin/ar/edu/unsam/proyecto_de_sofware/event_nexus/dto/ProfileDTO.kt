@@ -1,6 +1,7 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.dto
 
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permission
 
 data class ProfileDTO(
     val id: Long,
@@ -8,7 +9,9 @@ data class ProfileDTO(
     val lastName: String,
     val phone: String,
     val email: String,
-    val address: String
+    val address: String,
+    val job: String,
+    val permissons: List<String>
 ){
 
     fun toEmployee(): Employee{
@@ -25,7 +28,7 @@ data class ProfileDTO(
 
 
 
-fun Employee.toProfileDTO():ProfileDTO{
+fun Employee.toProfileDTO(permisos : List<String>):ProfileDTO{
 
     val notNullId = requireNotNull(id)
 
@@ -35,6 +38,8 @@ fun Employee.toProfileDTO():ProfileDTO{
         lastName = lastname,
         phone = phone,
         email = email,
-        address = address
+        address = address,
+        job = job,
+        permissons = permisos.toList()
     )
 }
