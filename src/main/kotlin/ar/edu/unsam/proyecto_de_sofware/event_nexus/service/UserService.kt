@@ -136,6 +136,8 @@ class UserService(
         return repoUser.findById(id).get().permissions.filter { it.type == permissionType }
     }
 
+
+
     fun findBySearch(search: String): List<Employee> {
         return repoUser.findBySearch(search.lowercase())
     }
