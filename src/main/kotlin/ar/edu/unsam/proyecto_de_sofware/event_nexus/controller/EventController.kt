@@ -11,9 +11,9 @@ import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.Employee
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Event
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.EventType
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Notification
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Permission
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.notification.observer.CreatedEventObserver
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.notification.observer.JoinLeaveObserver
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.notification.observer.NewDirectiveObserver
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.notification.observer.NewEventObserver
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.security.JwtUtil
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.EventService
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.service.NotificationService
@@ -41,9 +41,8 @@ import org.springframework.web.bind.annotation.RestController
 class EventController(
     val eventService: EventService,
     val userService: UserService,
-    private val notifyObserver: CreatedEventObserver,
-    private val directiveObserver: NewDirectiveObserver,
-    val serviceSSE: SseNotificationService,
+    private val joinLeaveObserver: JoinLeaveObserver,
+    private val newEventObserver: NewEventObserver,
     val notificationService: NotificationService,
     val jwtUtil: JwtUtil
 ) {
@@ -127,7 +126,7 @@ class EventController(
                 title = "Te invitaron al evento ${newEvent.title}"
             }
         )
-        notifyObserver.notify(newEvent, notification)
+        newEventObserver.notifyNewEvent(newEvent, notification)
         return ResponseEntity.ok().body("Evento creado!")
     }
 
@@ -158,7 +157,7 @@ class EventController(
                     if (event.participants.size > initialAmmount) "${employee.fullName()} se unio al evento ${event.title}" else "${employee.fullName()} abandono el evento ${event.title}"
             }
         )
-        notifyObserver.notifyLeaveOrJoined(
+        joinLeaveObserver.notifyLeaveOrJoined(
             event = event,
             notification = notification,
             joined = event.participants.size > initialAmmount

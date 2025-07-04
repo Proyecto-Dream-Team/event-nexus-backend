@@ -1,30 +1,25 @@
 package ar.edu.unsam.proyecto_de_sofware.event_nexus.service
 
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.EventNotification
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.toEventCreatorNofitication
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.toEventNotification
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.dto.toNotificationDTO
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.directive.Directive
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.base.events.Event
 import ar.edu.unsam.proyecto_de_sofware.event_nexus.model.modules.common.Notification
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.notification.listener.CreatedEventListener
-import ar.edu.unsam.proyecto_de_sofware.event_nexus.repository.NotificationRepository
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.notification.listener.JoinLeaveEventListener
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.notification.listener.NewDirectiveListener
+import ar.edu.unsam.proyecto_de_sofware.event_nexus.notification.listener.NewEventListener
 import com.fasterxml.jackson.databind.ObjectMapper
-import jakarta.transaction.Transactional
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
-import org.springframework.stereotype.Service
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 import java.time.LocalDateTime
-import java.util.concurrent.ConcurrentHashMap
 import kotlin.collections.component1
 import kotlin.collections.component2
 import kotlin.collections.set
 
 @Component
 class SseNotificationService(
-    private val objectMapper: ObjectMapper,
-    val notificationRepository: NotificationRepository
-) : CreatedEventListener {
+    private val objectMapper: ObjectMapper
+) : JoinLeaveEventListener, NewEventListener, NewDirectiveListener{
 
     private val emitters: MutableMap<String, SseEmitter> = mutableMapOf()
     fun connected(key:String):Boolean{
@@ -35,15 +30,13 @@ class SseNotificationService(
     }
 
     fun agregarConexion(userId: String, emitter: SseEmitter) {
-//        if(emitters[userId] != null){
-            emitters[userId] = emitter
-//        }
+        emitters[userId] = emitter
         emitter.onCompletion { emitters.remove(userId) }
         emitter.onTimeout { emitters.remove(userId) }
         emitter.onError { emitters.remove(userId) }
     }
 
-    override fun onCreated(event: Event, notification:Notification) {
+    override fun notifyCreatedEvent(event: Event, notification:Notification) {
         emitters.forEach { (userId, emitter) ->
             try {
                 val data2 = mapOf("type" to "new-notification", "payload" to toNotificationDTO(notification))
@@ -87,7 +80,16 @@ class SseNotificationService(
             }
         }
     }
-
-
+    override fun notifyDirective(directive: Directive, notification: Notification) {
+        emitters.forEach { (userId, emitter) ->
+            try {
+                val data2 = mapOf("type" to "new-notification", "payload" to toNotificationDTO(notification))
+                emitter.send(SseEmitter.event().data(objectMapper.writeValueAsString(data2)))
+            } catch (e: Exception) {
+                emitters.remove(userId)
+                println("Error al enviar SSE a $userId: ${e.message}")
+            }
+        }
+    }
 
 }
