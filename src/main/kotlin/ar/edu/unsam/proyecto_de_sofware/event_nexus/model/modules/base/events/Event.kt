@@ -24,7 +24,7 @@ class Event(): Notifiable{
     @Column
     lateinit var expirationDate: LocalDateTime
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(referencedColumnName = "id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     lateinit var creator: Employee

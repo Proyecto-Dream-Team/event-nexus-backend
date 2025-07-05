@@ -31,11 +31,12 @@ class EventService(
     }
 
     fun findALl(pageRequest: PageRequest): Page<Event> {
-        return eventRepository.findAll(pageRequest)
+            return eventRepository.findAll(pageRequest)
     }
 
     fun findAllByPublicAndNotFromEmployee(employeeId:Long): List<Event> {
-        return eventRepository.findAllByPublicAndCreator_IdNot(public=true, employeeId=employeeId)
+        val eventos = eventRepository.findAllByPublicAndCreator_IdNot(public=true, employeeId=employeeId)
+        return eventos
     }
     fun findByTitle(eventTitle: String?, creatorId:Long): List<Event> {
         try {
