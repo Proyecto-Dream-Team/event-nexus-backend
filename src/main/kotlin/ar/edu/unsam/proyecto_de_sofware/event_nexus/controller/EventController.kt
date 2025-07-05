@@ -123,7 +123,7 @@ class EventController(
                 creator = creatorEmployee
                 type = newEvent::class.simpleName!!
                 listeners = participantsEmployees.toMutableSet()
-                title = "Te invitaron al evento ${newEvent.title}"
+                title = "Te invitaron al Evento ${newEvent.title}"
             }
         )
         newEventObserver.notifyNewEvent(newEvent, notification)

@@ -41,7 +41,7 @@ class DirectiveController(
                 creator = creatorEmployee
                 type = newDirective::class.simpleName!!
                 listeners = allEmployeesIds
-                title = "Informacion directiva recibida.< ${newDirective.title} >"
+                title = "Informacion Directiva Recibida ${newDirective.title}"
             }
         )
         directiveObserver.notifyNewDirective(newDirective, notification)
