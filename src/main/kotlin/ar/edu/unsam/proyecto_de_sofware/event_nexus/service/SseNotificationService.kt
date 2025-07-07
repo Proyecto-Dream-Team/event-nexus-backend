@@ -39,8 +39,10 @@ class SseNotificationService(
     override fun notifyCreatedEvent(event: Event, notification:Notification) {
         emitters.forEach { (userId, emitter) ->
             try {
-                val data2 = mapOf("type" to "new-notification", "payload" to toNotificationDTO(notification))
-                emitter.send(SseEmitter.event().data(objectMapper.writeValueAsString(data2)))
+                if(notification.listeners.map { it.id }.contains(userId.toLong())) {
+                    val data2 = mapOf("type" to "new-notification", "payload" to toNotificationDTO(notification))
+                    emitter.send(SseEmitter.event().data(objectMapper.writeValueAsString(data2)))
+                }
             } catch (e: Exception) {
                 emitters.remove(userId)
                 println("Error al enviar SSE a $userId: ${e.message}")

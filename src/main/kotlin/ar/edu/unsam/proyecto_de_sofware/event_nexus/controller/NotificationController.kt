@@ -29,7 +29,7 @@ class NotificationController(
 
     @GetMapping(produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
     fun subscribe(@RequestParam employeeId:Long, request: HttpServletRequest): SseEmitter {
-        var emitter: SseEmitter = SseEmitter(TimeUnit.MINUTES.toMillis(5))
+        var emitter: SseEmitter = SseEmitter(TimeUnit.HOURS.toMillis(5))
         if(!sseNotificationService.connected(employeeId.toString())){
             sseNotificationService.agregarConexion(employeeId.toString(), emitter)
             return emitter
